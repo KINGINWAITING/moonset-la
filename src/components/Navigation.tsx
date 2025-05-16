@@ -3,13 +3,16 @@ import { useState, useEffect } from "react";
 import { Command, Menu } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import AuthModal from "./AuthModal";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const { session } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +22,15 @@ const Navigation = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleDashboardClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (session.isLoggedIn) {
+      navigate("/dashboard");
+    } else {
+      setIsAuthModalOpen(true);
+    }
+  };
 
   const scrollToSection = (sectionId: string) => {
     if (sectionId === 'testimonials') {
@@ -82,30 +94,22 @@ const Navigation = () => {
               </a>
             ))}
             
-            {session.isLoggedIn ? (
-              <>
-                <Link to="/dashboard">
-                  <Button size="sm" variant="outline" className="mr-2">
-                    Dashboard
-                  </Button>
-                </Link>
-                <Button 
-                  onClick={() => scrollToSection('cta')}
-                  size="sm"
-                  className="button-gradient"
-                >
-                  Start Trading
-                </Button>
-              </>
-            ) : (
-              <Button 
-                onClick={() => scrollToSection('cta')}
-                size="sm"
-                className="button-gradient"
-              >
-                Start Trading
-              </Button>
-            )}
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="mr-2" 
+              onClick={handleDashboardClick}
+            >
+              Dashboard
+            </Button>
+            
+            <Button 
+              onClick={() => scrollToSection('cta')}
+              size="sm"
+              className="button-gradient"
+            >
+              Start Trading
+            </Button>
           </div>
 
           {/* Mobile Navigation */}
@@ -135,15 +139,17 @@ const Navigation = () => {
                     </a>
                   ))}
                   
-                  {session.isLoggedIn && (
-                    <Link 
-                      to="/dashboard" 
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="text-lg text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      Dashboard
-                    </Link>
-                  )}
+                  <a 
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsMobileMenuOpen(false);
+                      handleDashboardClick(e);
+                    }}
+                    className="text-lg text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Dashboard
+                  </a>
                   
                   <Button 
                     onClick={() => {
@@ -160,6 +166,11 @@ const Navigation = () => {
           </div>
         </nav>
       </div>
+      
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)} 
+      />
     </header>
   );
 };
