@@ -1,11 +1,15 @@
+
 import { useState, useEffect } from "react";
 import { Command, Menu } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { session } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -77,13 +81,31 @@ const Navigation = () => {
                 {item.name}
               </a>
             ))}
-            <Button 
-              onClick={() => scrollToSection('cta')}
-              size="sm"
-              className="button-gradient"
-            >
-              Start Trading
-            </Button>
+            
+            {session.isLoggedIn ? (
+              <>
+                <Link to="/dashboard">
+                  <Button size="sm" variant="outline" className="mr-2">
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button 
+                  onClick={() => scrollToSection('cta')}
+                  size="sm"
+                  className="button-gradient"
+                >
+                  Start Trading
+                </Button>
+              </>
+            ) : (
+              <Button 
+                onClick={() => scrollToSection('cta')}
+                size="sm"
+                className="button-gradient"
+              >
+                Start Trading
+              </Button>
+            )}
           </div>
 
           {/* Mobile Navigation */}
@@ -112,6 +134,17 @@ const Navigation = () => {
                       {item.name}
                     </a>
                   ))}
+                  
+                  {session.isLoggedIn && (
+                    <Link 
+                      to="/dashboard" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="text-lg text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      Dashboard
+                    </Link>
+                  )}
+                  
                   <Button 
                     onClick={() => {
                       setIsMobileMenuOpen(false);
