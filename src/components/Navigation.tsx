@@ -11,7 +11,7 @@ const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const { session } = useAuth();
+  const { session, signOut } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,6 +30,12 @@ const Navigation = () => {
     } else {
       setIsAuthModalOpen(true);
     }
+  };
+
+  const handleSignOut = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    await signOut();
+    navigate("/");
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -103,13 +109,23 @@ const Navigation = () => {
               Dashboard
             </Button>
             
-            <Button 
-              onClick={() => scrollToSection('cta')}
-              size="sm"
-              className="button-gradient"
-            >
-              Start Trading
-            </Button>
+            {session.isLoggedIn ? (
+              <Button 
+                onClick={handleSignOut}
+                size="sm"
+                variant="destructive"
+              >
+                Sign Out
+              </Button>
+            ) : (
+              <Button 
+                onClick={() => scrollToSection('cta')}
+                size="sm"
+                className="button-gradient"
+              >
+                Start Trading
+              </Button>
+            )}
           </div>
 
           {/* Mobile Navigation */}
@@ -151,15 +167,28 @@ const Navigation = () => {
                     Dashboard
                   </a>
                   
-                  <Button 
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                      scrollToSection('cta');
-                    }}
-                    className="button-gradient mt-4"
-                  >
-                    Start Trading
-                  </Button>
+                  {session.isLoggedIn ? (
+                    <Button 
+                      onClick={(e) => {
+                        setIsMobileMenuOpen(false);
+                        handleSignOut(e);
+                      }}
+                      className="mt-4"
+                      variant="destructive"
+                    >
+                      Sign Out
+                    </Button>
+                  ) : (
+                    <Button 
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        scrollToSection('cta');
+                      }}
+                      className="button-gradient mt-4"
+                    >
+                      Start Trading
+                    </Button>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>
