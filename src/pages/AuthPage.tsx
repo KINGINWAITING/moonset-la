@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -17,7 +17,11 @@ export const AuthPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { signIn, signUp, session } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
+
+  // Get default tab from URL if available
+  const defaultTab = new URLSearchParams(location.search).get("tab") === "signup" ? "signup" : "login";
 
   // Redirect if already logged in
   if (session.isLoggedIn) {
@@ -42,7 +46,20 @@ export const AuthPage = () => {
         navigate("/dashboard");
       } else {
         await signUp(email, password);
-        // Don't navigate after signup as user might need to verify email
+        // For Supabase with email confirmation disabled, we can sign in immediately after signup
+        try {
+          await signIn(email, password);
+          toast({
+            title: "Account created successfully",
+            description: "Welcome to CryptoTrade!",
+          });
+          navigate("/dashboard");
+        } catch (error) {
+          toast({
+            title: "Sign in after signup failed",
+            description: "Please check your email for verification instructions or try signing in manually.",
+          });
+        }
       }
     } catch (error) {
       // Error is already handled in the auth context
@@ -70,7 +87,7 @@ export const AuthPage = () => {
             <CardTitle>Welcome</CardTitle>
             <CardDescription>Sign in to your account or create a new one</CardDescription>
           </CardHeader>
-          <Tabs defaultValue="login">
+          <Tabs defaultValue={defaultTab}>
             <TabsList className="grid grid-cols-2 mb-4">
               <TabsTrigger value="login">Login</TabsTrigger>
               <TabsTrigger value="signup">Sign up</TabsTrigger>
