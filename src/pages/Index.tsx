@@ -71,13 +71,17 @@ const Index = () => {
             className="flex flex-col sm:flex-row gap-4 items-start"
           >
             {session.isLoggedIn ? (
-              <Button size="lg" className="button-gradient" as={Link} to="/dashboard">
-                Go to Dashboard
-              </Button>
+              <Link to="/dashboard">
+                <Button size="lg" className="button-gradient">
+                  Go to Dashboard
+                </Button>
+              </Link>
             ) : (
-              <Button size="lg" className="button-gradient" as={Link} to="/auth">
-                Start Trading Now
-              </Button>
+              <Link to="/auth">
+                <Button size="lg" className="button-gradient">
+                  Start Trading Now
+                </Button>
+              </Link>
             )}
             <Button size="lg" variant="link" className="text-white">
               View Markets <ArrowRight className="ml-2 w-4 h-4" />
