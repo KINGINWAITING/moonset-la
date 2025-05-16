@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { ArrowRight, Command } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,8 +9,12 @@ import LogoCarousel from "@/components/LogoCarousel";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import Footer from "@/components/Footer";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 const Index = () => {
+  const { session } = useAuth();
+  
   return (
     <div className="min-h-screen bg-black text-foreground">
       <Navigation />
@@ -65,9 +70,15 @@ const Index = () => {
             transition={{ delay: 0.5 }}
             className="flex flex-col sm:flex-row gap-4 items-start"
           >
-            <Button size="lg" className="button-gradient">
-              Start Trading Now
-            </Button>
+            {session.isLoggedIn ? (
+              <Button size="lg" className="button-gradient" as={Link} to="/dashboard">
+                Go to Dashboard
+              </Button>
+            ) : (
+              <Button size="lg" className="button-gradient" as={Link} to="/auth">
+                Start Trading Now
+              </Button>
+            )}
             <Button size="lg" variant="link" className="text-white">
               View Markets <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
@@ -130,10 +141,12 @@ const Index = () => {
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             Join thousands of traders who have already discovered the power of our platform.
           </p>
-          <Button size="lg" className="button-gradient">
-            Create Account
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Button>
+          <Link to={session.isLoggedIn ? "/dashboard" : "/auth"}>
+            <Button size="lg" className="button-gradient">
+              {session.isLoggedIn ? "Go to Dashboard" : "Create Account"}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </Link>
         </motion.div>
       </section>
 
