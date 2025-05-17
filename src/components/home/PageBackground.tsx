@@ -7,16 +7,15 @@ export const PageBackground = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   
-  // Create animated shapes for the background with persistent animations
-  // Increase both the number and size of shapes for more visibility
+  // Create animated shapes with higher opacity and more pronounced animations
   const shapes = Array.from({ length: 20 }).map((_, i) => ({
     id: i,
-    size: Math.random() * 300 + 200, // Even larger size for more visibility
+    size: Math.random() * 300 + 200, // Larger shapes
     x: Math.random() * 100,
     y: Math.random() * 100,
-    duration: Math.random() * 20 + 30, // Slower movement for more subtle effect
+    duration: Math.random() * 20 + 30,
     delay: Math.random() * 2,
-    opacity: Math.random() * 0.06 + 0.06, // Higher base opacity
+    opacity: Math.random() * 0.08 + 0.08, // Higher opacity
   }));
 
   return (
@@ -33,10 +32,11 @@ export const PageBackground = () => {
         }`}
       />
       
-      {/* Animated gradient backdrop with higher opacity and theme-specific colors */}
+      {/* Animated gradient backdrop with higher opacity */}
       <div className="absolute inset-0">
         <div
-          className={`absolute -inset-[300px] ${isDark ? "opacity-50" : "opacity-40"} blur-[150px]`}
+          className={`absolute -inset-[300px] ${isDark ? "opacity-60" : "opacity-50"} blur-[150px]`}
+          data-framer-motion="true"
         >
           {/* Primary blob with theme-specific colors */}
           <motion.div
@@ -46,7 +46,7 @@ export const PageBackground = () => {
               y: ["0%", "50%", "20%", "0%"],
             }}
             transition={{
-              duration: 60, // Much slower for subtle movement
+              duration: 60,
               ease: "easeInOut",
               repeat: Infinity,
               repeatType: "mirror",
@@ -55,7 +55,7 @@ export const PageBackground = () => {
               isDark 
                 ? "bg-gradient-to-br from-primary to-[#45b06c]" 
                 : "bg-gradient-to-br from-primary to-[#22c55e]"
-            }`}
+            } animated`}
           />
           
           {/* Secondary blob with theme-specific colors */}
@@ -75,10 +75,10 @@ export const PageBackground = () => {
               isDark 
                 ? "bg-gradient-to-bl from-[#1e293b] to-[#334155] opacity-70" 
                 : "bg-gradient-to-bl from-[#cbd5e1] to-[#94a3b8] opacity-50"
-            }`}
+            } animated`}
           />
           
-          {/* Third blob for more visual interest with theme-specific colors */}
+          {/* Third blob for more visual interest */}
           <motion.div
             initial={{ x: "0%", y: "0%" }}
             animate={{
@@ -95,10 +95,10 @@ export const PageBackground = () => {
               isDark 
                 ? "bg-gradient-to-tr from-[#3b82f6] to-[#8b5cf6] opacity-40" 
                 : "bg-gradient-to-tr from-[#60a5fa] to-[#a78bfa] opacity-30"
-            }`}
+            } animated`}
           />
 
-          {/* Fourth blob for fuller coverage with theme-specific colors */}
+          {/* Fourth blob for fuller coverage */}
           <motion.div
             initial={{ x: "0%", y: "0%" }}
             animate={{
@@ -115,12 +115,12 @@ export const PageBackground = () => {
               isDark 
                 ? "bg-gradient-to-tl from-[#10b981] to-[#4ade80] opacity-35" 
                 : "bg-gradient-to-tl from-[#34d399] to-[#86efac] opacity-25"
-            }`}
+            } animated`}
           />
         </div>
       </div>
       
-      {/* Floating shapes with higher opacity - ensure they're always visible */}
+      {/* Floating shapes with higher opacity */}
       {shapes.map((shape) => (
         <motion.div
           key={shape.id}
@@ -139,9 +139,8 @@ export const PageBackground = () => {
             delay: shape.delay,
             repeat: Infinity,
             repeatType: "loop",
-            repeatDelay: 0, // No delay between repetitions
           }}
-          className={`absolute ${isDark ? "bg-white" : "bg-black"} rounded-full blur-md`}
+          className={`absolute ${isDark ? "bg-white" : "bg-black"} rounded-full blur-md animated`}
           style={{
             width: shape.size,
             height: shape.size,

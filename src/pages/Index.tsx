@@ -14,10 +14,35 @@ import { ApolloMissionSection } from "@/components/home/ApolloMissionSection";
 import { FrameworkSection } from "@/components/home/FrameworkSection";
 import { CTASection } from "@/components/home/CTASection";
 import { PageBackground } from "@/components/home/PageBackground";
+import { useEffect } from "react";
 
 const Index = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  
+  // Force animation rendering on initial load
+  useEffect(() => {
+    // Add animation trigger class to body
+    document.body.classList.add('animate-trigger');
+    
+    // Force reflow
+    void document.body.offsetWidth;
+    
+    // Small timeout to ensure animations have time to initialize
+    const timeout = setTimeout(() => {
+      // Ensure any Framer Motion animations get refreshed
+      const animations = document.querySelectorAll('.animated');
+      animations.forEach(animation => {
+        if (animation instanceof HTMLElement) {
+          animation.style.opacity = '0';
+          void animation.offsetWidth;
+          animation.style.removeProperty('opacity');
+        }
+      });
+    }, 100);
+    
+    return () => clearTimeout(timeout);
+  }, []);
   
   return (
     <div className={`min-h-screen ${isDark ? "bg-transparent" : "bg-transparent"} text-foreground relative`}>

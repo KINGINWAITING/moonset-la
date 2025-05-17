@@ -9,21 +9,51 @@ export const ThemeToggle = () => {
   
   // Force animation re-render when theme changes
   useEffect(() => {
-    // Instead of trying to select all animations with a complex selector,
-    // we'll use a simpler approach to trigger a global style recalculation
-    document.body.classList.add('theme-transition');
-    void document.body.offsetWidth; // Trigger reflow
-    document.body.classList.remove('theme-transition');
+    // Apply a subtle transition to the entire document
+    document.documentElement.classList.add('theme-transition');
     
-    // For framer-motion animations specifically
-    const motionElements = document.querySelectorAll('[style*="animation"]');
-    motionElements.forEach(element => {
-      // Brief pause and restart of animations by manipulating style
-      const originalStyle = (element as HTMLElement).style.cssText;
-      (element as HTMLElement).style.animation = 'none';
-      void (element as HTMLElement).offsetWidth; // Trigger reflow
-      (element as HTMLElement).style.cssText = originalStyle;
-    });
+    // Brief pause to ensure animations reset
+    setTimeout(() => {
+      document.documentElement.classList.remove('theme-transition');
+      
+      // Target motion elements specifically without complex selectors
+      const animatedElements = document.querySelectorAll('[style*="animation"], .animated');
+      
+      if (animatedElements.length > 0) {
+        animatedElements.forEach(element => {
+          if (element instanceof HTMLElement) {
+            // Store original style
+            const originalStyle = element.style.cssText;
+            
+            // Pause animation
+            element.style.animationPlayState = 'paused';
+            
+            // Force reflow
+            void element.offsetWidth;
+            
+            // Resume with original style
+            element.style.animationPlayState = 'running';
+          }
+        });
+      }
+      
+      // Refresh framer motion animations
+      const framerElements = document.querySelectorAll('[data-framer-motion]');
+      framerElements.forEach(el => {
+        if (el.parentNode) {
+          const parent = el.parentNode;
+          const nextSibling = el.nextSibling;
+          parent.removeChild(el);
+          setTimeout(() => {
+            if (nextSibling) {
+              parent.insertBefore(el, nextSibling);
+            } else {
+              parent.appendChild(el);
+            }
+          }, 10);
+        }
+      });
+    }, 50);
   }, [theme]);
   
   return (
