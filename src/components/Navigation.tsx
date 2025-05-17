@@ -1,28 +1,19 @@
 
-import { useState, useEffect } from "react";
-import { Command, Menu } from "lucide-react";
-import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import AuthModal from "./AuthModal";
-import { ThemeToggle } from "./ThemeToggle";
+import { useNavigationScroll } from "@/hooks/useNavigationScroll";
+import { NavigationLogo } from "./navigation/NavigationLogo";
+import { DesktopMenu } from "./navigation/DesktopMenu";
+import { MobileMenu } from "./navigation/MobileMenu";
 
 const Navigation = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const { session, signOut } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const { isScrolled, scrollToSection } = useNavigationScroll();
 
   const handleDashboardClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -39,35 +30,6 @@ const Navigation = () => {
     navigate("/");
   };
 
-  const scrollToSection = (sectionId: string) => {
-    if (sectionId === 'testimonials') {
-      const testimonialSection = document.querySelector('.animate-marquee');
-      if (testimonialSection) {
-        const yOffset = -100; // Offset to account for the fixed header
-        const y = testimonialSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
-    } else if (sectionId === 'cta') {
-      const ctaSection = document.querySelector('.button-gradient');
-      if (ctaSection) {
-        const yOffset = -100;
-        const y = ctaSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
-    } else {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
-
-  const navItems = [
-    { name: "Features", href: "#features", onClick: () => scrollToSection('features') },
-    { name: "Prices", href: "#pricing", onClick: () => scrollToSection('pricing') },
-    { name: "Testimonials", href: "#testimonials", onClick: () => scrollToSection('testimonials') },
-  ];
-
   return (
     <header
       className={`fixed top-3.5 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 rounded-full ${
@@ -78,125 +40,25 @@ const Navigation = () => {
     >
       <div className="mx-auto h-full px-6">
         <nav className="flex items-center justify-between h-full">
-          <Link to="/" className="flex items-center gap-2">
-            <Command className="w-5 h-5 text-primary" />
-            <span className="font-bold text-base">MOONSET</span>
-          </Link>
+          <NavigationLogo />
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6">
-            {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (item.onClick) {
-                    item.onClick();
-                  }
-                }}
-                className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300"
-              >
-                {item.name}
-              </a>
-            ))}
-            
-            <ThemeToggle />
-            
-            <Button 
-              size="sm" 
-              variant="outline" 
-              className="mr-2" 
-              onClick={handleDashboardClick}
-            >
-              Dashboard
-            </Button>
-            
-            {session.isLoggedIn ? (
-              <Button 
-                onClick={handleSignOut}
-                size="sm"
-                variant="destructive"
-              >
-                Sign Out
-              </Button>
-            ) : (
-              <Button 
-                onClick={() => scrollToSection('cta')}
-                size="sm"
-                className="button-gradient"
-              >
-                Start Trading
-              </Button>
-            )}
-          </div>
+          <DesktopMenu 
+            handleDashboardClick={handleDashboardClick}
+            handleSignOut={handleSignOut}
+            scrollToSection={scrollToSection}
+            isLoggedIn={session.isLoggedIn}
+          />
 
           {/* Mobile Navigation */}
-          <div className="md:hidden flex items-center gap-2">
-            <ThemeToggle />
-            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="glass">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent className="bg-[#1B1B1B]">
-                <div className="flex flex-col gap-4 mt-8">
-                  {navItems.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="text-lg text-muted-foreground hover:text-foreground transition-colors"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setIsMobileMenuOpen(false);
-                        if (item.onClick) {
-                          item.onClick();
-                        }
-                      }}
-                    >
-                      {item.name}
-                    </a>
-                  ))}
-                  
-                  <a 
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setIsMobileMenuOpen(false);
-                      handleDashboardClick(e);
-                    }}
-                    className="text-lg text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Dashboard
-                  </a>
-                  
-                  {session.isLoggedIn ? (
-                    <Button 
-                      onClick={(e) => {
-                        setIsMobileMenuOpen(false);
-                        handleSignOut(e);
-                      }}
-                      className="mt-4"
-                      variant="destructive"
-                    >
-                      Sign Out
-                    </Button>
-                  ) : (
-                    <Button 
-                      onClick={() => {
-                        setIsMobileMenuOpen(false);
-                        scrollToSection('cta');
-                      }}
-                      className="button-gradient mt-4"
-                    >
-                      Start Trading
-                    </Button>
-                  )}
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
+          <MobileMenu 
+            isMobileMenuOpen={isMobileMenuOpen}
+            setIsMobileMenuOpen={setIsMobileMenuOpen}
+            handleDashboardClick={handleDashboardClick}
+            handleSignOut={handleSignOut}
+            scrollToSection={scrollToSection}
+            isLoggedIn={session.isLoggedIn}
+          />
         </nav>
       </div>
       
