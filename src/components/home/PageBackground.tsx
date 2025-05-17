@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useTheme } from "@/context/ThemeContext";
 import { motion } from "framer-motion";
 
@@ -7,19 +7,34 @@ export const PageBackground = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   
-  // Create animated shapes with higher opacity and more pronounced animations
-  const shapes = Array.from({ length: 20 }).map((_, i) => ({
+  // Force animation to run on component mount
+  useEffect(() => {
+    console.log("PageBackground mounted - animations should start");
+    
+    // Add animation class to background wrapper
+    const bgWrapper = document.querySelector('.bg-animation-wrapper');
+    if (bgWrapper) {
+      bgWrapper.classList.add('animate-trigger');
+    }
+    
+    // Log all animation elements to help debug
+    const animationElements = document.querySelectorAll('.framer-animation');
+    console.log(`Found ${animationElements.length} animation elements`);
+  }, []);
+
+  // Create animated shapes with very high opacity for maximum visibility
+  const shapes = Array.from({ length: 10 }).map((_, i) => ({
     id: i,
-    size: Math.random() * 300 + 200, // Larger shapes
+    size: Math.random() * 400 + 300, // Much larger shapes
     x: Math.random() * 100,
     y: Math.random() * 100,
-    duration: Math.random() * 20 + 30,
-    delay: Math.random() * 2,
-    opacity: Math.random() * 0.08 + 0.08, // Higher opacity
+    duration: Math.random() * 20 + 20,
+    delay: Math.random() * 1, // Shorter delays
+    opacity: Math.random() * 0.15 + 0.15, // Much higher opacity
   }));
 
   return (
-    <div className="fixed inset-0 overflow-hidden -z-10">
+    <div className="fixed inset-0 overflow-hidden -z-10 bg-animation-wrapper">
       {/* Base background */}
       <div 
         className={`absolute inset-0 ${isDark ? "bg-[#060606]" : "bg-[#f8f8f8]"}`}
@@ -32,95 +47,104 @@ export const PageBackground = () => {
         }`}
       />
       
-      {/* Animated gradient backdrop with higher opacity */}
+      {/* Animated gradient backdrop with much higher opacity */}
       <div className="absolute inset-0">
         <div
-          className={`absolute -inset-[300px] ${isDark ? "opacity-60" : "opacity-50"} blur-[150px]`}
-          data-framer-motion="true"
+          className={`absolute -inset-[300px] ${isDark ? "opacity-80" : "opacity-70"} blur-[120px]`}
         >
-          {/* Primary blob with theme-specific colors */}
+          {/* Primary blob with theme-specific colors - using inline styles for guaranteed visibility */}
           <motion.div
-            initial={{ x: "0%", y: "0%" }}
+            initial={{ x: "0%", y: "0%", opacity: 1 }}
             animate={{
               x: ["0%", "100%", "50%", "0%"],
               y: ["0%", "50%", "20%", "0%"],
+              opacity: [1, 0.8, 0.9, 1],
             }}
             transition={{
-              duration: 60,
+              duration: 40, // Shorter duration
               ease: "easeInOut",
               repeat: Infinity,
               repeatType: "mirror",
             }}
-            className={`absolute top-0 left-0 w-[800px] h-[800px] rounded-full ${
-              isDark 
-                ? "bg-gradient-to-br from-primary to-[#45b06c]" 
-                : "bg-gradient-to-br from-primary to-[#22c55e]"
-            } animated`}
+            style={{
+              position: "absolute",
+              top: "0",
+              left: "0",
+              width: "800px",
+              height: "800px",
+              borderRadius: "50%",
+              background: isDark 
+                ? "linear-gradient(to bottom right, #4ADE80, #45b06c)" 
+                : "linear-gradient(to bottom right, #4ADE80, #22c55e)",
+              opacity: 0.8,
+              willChange: "transform, opacity",
+            }}
+            className="framer-animation"
           />
           
           {/* Secondary blob with theme-specific colors */}
           <motion.div
-            initial={{ x: "0%", y: "0%" }}
+            initial={{ x: "0%", y: "0%", opacity: 1 }}
             animate={{
               x: ["0%", "-50%", "-20%", "0%"],
               y: ["0%", "30%", "10%", "0%"],
+              opacity: [1, 0.7, 0.9, 1],
             }}
             transition={{
-              duration: 50,
+              duration: 35,
               ease: "easeInOut",
               repeat: Infinity,
               repeatType: "mirror",
             }}
-            className={`absolute top-10 right-0 w-[700px] h-[700px] rounded-full ${
-              isDark 
-                ? "bg-gradient-to-bl from-[#1e293b] to-[#334155] opacity-70" 
-                : "bg-gradient-to-bl from-[#cbd5e1] to-[#94a3b8] opacity-50"
-            } animated`}
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "0",
+              width: "700px",
+              height: "700px",
+              borderRadius: "50%",
+              background: isDark 
+                ? "linear-gradient(to bottom left, #1e293b, #334155)" 
+                : "linear-gradient(to bottom left, #cbd5e1, #94a3b8)",
+              opacity: isDark ? 0.8 : 0.6,
+              willChange: "transform, opacity",
+            }}
+            className="framer-animation"
           />
           
           {/* Third blob for more visual interest */}
           <motion.div
-            initial={{ x: "0%", y: "0%" }}
+            initial={{ x: "0%", y: "0%", opacity: 1 }}
             animate={{
               x: ["0%", "30%", "10%", "0%"],
               y: ["0%", "-20%", "-5%", "0%"],
+              opacity: [1, 0.8, 0.9, 1],
             }}
             transition={{
-              duration: 55,
+              duration: 45,
               ease: "easeInOut",
               repeat: Infinity,
               repeatType: "mirror",
             }}
-            className={`absolute bottom-0 left-[30%] w-[600px] h-[600px] rounded-full ${
-              isDark 
-                ? "bg-gradient-to-tr from-[#3b82f6] to-[#8b5cf6] opacity-40" 
-                : "bg-gradient-to-tr from-[#60a5fa] to-[#a78bfa] opacity-30"
-            } animated`}
-          />
-
-          {/* Fourth blob for fuller coverage */}
-          <motion.div
-            initial={{ x: "0%", y: "0%" }}
-            animate={{
-              x: ["0%", "15%", "5%", "0%"],
-              y: ["0%", "10%", "20%", "0%"],
+            style={{
+              position: "absolute",
+              bottom: "0",
+              left: "30%",
+              width: "600px",
+              height: "600px",
+              borderRadius: "50%",
+              background: isDark 
+                ? "linear-gradient(to top right, #3b82f6, #8b5cf6)" 
+                : "linear-gradient(to top right, #60a5fa, #a78bfa)",
+              opacity: isDark ? 0.5 : 0.4,
+              willChange: "transform, opacity",
             }}
-            transition={{
-              duration: 58,
-              ease: "easeInOut",
-              repeat: Infinity,
-              repeatType: "mirror",
-            }}
-            className={`absolute bottom-20 right-[20%] w-[500px] h-[500px] rounded-full ${
-              isDark 
-                ? "bg-gradient-to-tl from-[#10b981] to-[#4ade80] opacity-35" 
-                : "bg-gradient-to-tl from-[#34d399] to-[#86efac] opacity-25"
-            } animated`}
+            className="framer-animation"
           />
         </div>
       </div>
       
-      {/* Floating shapes with higher opacity */}
+      {/* Floating shapes with much higher opacity and direct style props */}
       {shapes.map((shape) => (
         <motion.div
           key={shape.id}
@@ -130,7 +154,7 @@ export const PageBackground = () => {
             y: `${shape.y}%` 
           }}
           animate={{ 
-            opacity: [shape.opacity, shape.opacity + 0.03, shape.opacity - 0.02, shape.opacity],
+            opacity: [shape.opacity, shape.opacity + 0.05, shape.opacity - 0.03, shape.opacity],
             x: [`${shape.x}%`, `${shape.x + 10}%`, `${shape.x - 5}%`, `${shape.x}%`],
             y: [`${shape.y}%`, `${shape.y - 15}%`, `${shape.y + 8}%`, `${shape.y}%`],
           }}
@@ -140,11 +164,16 @@ export const PageBackground = () => {
             repeat: Infinity,
             repeatType: "loop",
           }}
-          className={`absolute ${isDark ? "bg-white" : "bg-black"} rounded-full blur-md animated`}
           style={{
-            width: shape.size,
-            height: shape.size,
+            position: "absolute",
+            width: `${shape.size}px`,
+            height: `${shape.size}px`,
+            borderRadius: "50%",
+            background: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.05)",
+            filter: "blur(20px)",
+            willChange: "transform, opacity",
           }}
+          className="framer-animation"
         />
       ))}
       
@@ -154,7 +183,7 @@ export const PageBackground = () => {
           isDark 
             ? "bg-gradient-to-b from-black via-transparent to-transparent" 
             : "bg-gradient-to-b from-white via-transparent to-transparent"
-        } opacity-60`}
+        } opacity-70`}
       />
     </div>
   );

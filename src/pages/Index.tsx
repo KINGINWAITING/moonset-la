@@ -20,26 +20,38 @@ const Index = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   
-  // Force animation rendering on initial load
+  // Enhanced animation initialization
   useEffect(() => {
-    // Add animation trigger class to body
-    document.body.classList.add('animate-trigger');
+    console.log("Index component mounted - initializing animations");
     
-    // Force reflow
-    void document.body.offsetWidth;
-    
-    // Small timeout to ensure animations have time to initialize
-    const timeout = setTimeout(() => {
-      // Ensure any Framer Motion animations get refreshed
-      const animations = document.querySelectorAll('.animated');
-      animations.forEach(animation => {
-        if (animation instanceof HTMLElement) {
-          animation.style.opacity = '0';
-          void animation.offsetWidth;
-          animation.style.removeProperty('opacity');
-        }
+    // Force all framer-motion animations to reset
+    const resetAnimations = () => {
+      // Add animation trigger class to body
+      document.body.classList.add('animation-ready');
+      
+      // Force reflow to ensure animations reset
+      void document.body.offsetHeight;
+      
+      console.log("Animation reset triggered");
+      
+      // Force a document repaint to ensure animations restart
+      requestAnimationFrame(() => {
+        document.body.style.opacity = '0.99';
+        
+        requestAnimationFrame(() => {
+          document.body.style.opacity = '1';
+          console.log("Animation repaint complete");
+        });
       });
-    }, 100);
+    };
+    
+    // Initial reset
+    resetAnimations();
+    
+    // Secondary reset after a short delay for late-loaded components
+    const timeout = setTimeout(() => {
+      resetAnimations();
+    }, 300);
     
     return () => clearTimeout(timeout);
   }, []);
@@ -49,6 +61,7 @@ const Index = () => {
       {/* Full page animated background */}
       <PageBackground />
       
+      {/* Navigation - extended width */}
       <Navigation />
       
       {/* Hero Section */}

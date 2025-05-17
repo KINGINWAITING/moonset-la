@@ -62,30 +62,35 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
-  /* Ensure animations run always */
-  .animated {
-    will-change: transform, opacity;
+  /* Framer Motion performance optimizations */
+  .framer-animation {
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     transform: translateZ(0);
-    perspective: 1000px;
+    will-change: transform, opacity;
+    transform-style: preserve-3d;
+  }
+  
+  /* Animation ready state */
+  .animation-ready * {
+    transition: none !important;
   }
 }
 
 @layer utilities {
   /* Updated grid patterns with better visibility for both themes */
   .bg-grid-dark {
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
-                       linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+                       linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
     background-size: 24px 24px;
-    opacity: 0.4;
+    opacity: 0.5;
   }
   
   .bg-grid-light {
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
-                       linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.15) 1px, transparent 1px),
+                       linear-gradient(to bottom, rgba(0, 0, 0, 0.15) 1px, transparent 1px);
     background-size: 24px 24px;
-    opacity: 0.5;
+    opacity: 0.6;
   }
   
   /* Add a helper class for theme transitions */

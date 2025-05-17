@@ -7,7 +7,7 @@ import { useEffect } from "react";
 export const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
   
-  // Force animation re-render when theme changes
+  // Simplified animation refresh for theme changes
   useEffect(() => {
     // Apply a subtle transition to the entire document
     document.documentElement.classList.add('theme-transition');
@@ -16,43 +16,12 @@ export const ThemeToggle = () => {
     setTimeout(() => {
       document.documentElement.classList.remove('theme-transition');
       
-      // Target motion elements specifically without complex selectors
-      const animatedElements = document.querySelectorAll('[style*="animation"], .animated');
+      // Force repaint of the entire page
+      document.body.style.display = 'none';
+      void document.body.offsetHeight;
+      document.body.style.display = '';
       
-      if (animatedElements.length > 0) {
-        animatedElements.forEach(element => {
-          if (element instanceof HTMLElement) {
-            // Store original style
-            const originalStyle = element.style.cssText;
-            
-            // Pause animation
-            element.style.animationPlayState = 'paused';
-            
-            // Force reflow
-            void element.offsetWidth;
-            
-            // Resume with original style
-            element.style.animationPlayState = 'running';
-          }
-        });
-      }
-      
-      // Refresh framer motion animations
-      const framerElements = document.querySelectorAll('[data-framer-motion]');
-      framerElements.forEach(el => {
-        if (el.parentNode) {
-          const parent = el.parentNode;
-          const nextSibling = el.nextSibling;
-          parent.removeChild(el);
-          setTimeout(() => {
-            if (nextSibling) {
-              parent.insertBefore(el, nextSibling);
-            } else {
-              parent.appendChild(el);
-            }
-          }, 10);
-        }
-      });
+      console.log("Theme toggle animation refresh triggered");
     }, 50);
   }, [theme]);
   
