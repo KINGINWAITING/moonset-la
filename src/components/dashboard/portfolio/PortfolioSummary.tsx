@@ -1,14 +1,17 @@
 
-import { motion } from "framer-motion";
-import { WalletMinimal } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { useState } from "react";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { cn } from "@/lib/utils";
+import { ArrowUp, ArrowDown, Download } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { formatCurrency } from "@/lib/format-utils";
+import { CustomTooltip } from "../moonset-token/CustomTooltip";
 import { CryptoPortfolio } from "@/types/supabase";
 
 interface PortfolioSummaryProps {
   totalValue: number;
-  chartData: Array<{ name: string; value: number }>;
+  chartData: { name: string; value: number }[];
   walletPortfolio: CryptoPortfolio[];
   connected: boolean;
   account: string | null;
@@ -21,80 +24,174 @@ export const PortfolioSummary = ({
   walletPortfolio,
   connected,
   account,
-  COLORS
+  COLORS,
 }: PortfolioSummaryProps) => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  
+  // Sample percentage change
+  const percentChange = 2.34;
+  const isPositive = percentChange >= 0;
+  
   return (
-    <Card className="bg-[#0A0A0A] border border-gray-800 col-span-full">
-      <CardHeader>
-        <CardTitle>Portfolio Summary</CardTitle>
-        <CardDescription>
-          {connected 
-            ? `Wallet: ${account?.substring(0, 6)}...${account?.substring(account!.length - 4)}`
-            : "Connect your wallet to view your assets"
-          }
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-col md:flex-row">
-          <div className="flex-1">
-            <div className="mb-6">
-              <p className="text-gray-400 mb-1">Total Value</p>
-              <h2 className="text-3xl font-bold text-white">${totalValue.toFixed(2)}</h2>
+    <div className="md:col-span-2 space-y-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {/* Total Value Card */}
+        <Card className="glass">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">SPENT THIS MONTH</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-semibold">{formatCurrency(totalValue)}</div>
+            <div className="mt-4 space-y-2">
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-400">24HR CHANGE</span>
+                <span className={cn(
+                  "font-medium",
+                  isPositive ? "text-green-500" : "text-red-500"
+                )}>
+                  {isPositive ? "+" : ""}{percentChange}%
+                </span>
+              </div>
+              
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-400">VOLUME (24H)</span>
+                <span className="font-medium">$84.42B</span>
+              </div>
+              
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-400">MARKET CAP</span>
+                <span className="font-medium">$804.42B</span>
+              </div>
+              
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-400">AVG MONTHLY GROWING</span>
+                <span className="font-medium">$804.42B</span>
+              </div>
             </div>
             
-            <div className="bg-gray-800/30 rounded-lg p-4">
-              <div className="flex items-center mb-2">
-                <WalletMinimal className="h-5 w-5 text-blue-500 mr-2" />
-                <h3 className="font-medium">Assets</h3>
-              </div>
-              <p className="text-xl font-bold">
-                {connected ? walletPortfolio.length : 0}
-              </p>
-              <p className="text-sm text-gray-400">Different cryptocurrencies</p>
+            <Button className="mt-6 w-full rounded-full bg-black text-white hover:bg-black/90 flex items-center gap-2" variant="outline" size="sm">
+              <Download className="h-4 w-4" />
+              Download Report
+            </Button>
+          </CardContent>
+        </Card>
+        
+        {/* Chart Card */}
+        <Card className="glass">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Active credit</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[250px] relative">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={chartData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    paddingAngle={2}
+                    dataKey="value"
+                    onMouseEnter={(_, index) => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                  >
+                    {chartData.map((entry, index) => (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={COLORS[index % COLORS.length]} 
+                        opacity={hoveredIndex === null || hoveredIndex === index ? 1 : 0.5}
+                        stroke="transparent"
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip content={<CustomTooltip />} />
+                </PieChart>
+              </ResponsiveContainer>
+              
+              {connected && account && (
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                  <div className="font-medium text-sm">Total</div>
+                  <div className="font-bold text-xl">{formatCurrency(totalValue)}</div>
+                </div>
+              )}
+            </div>
+            
+            <div className="mt-4 space-y-2">
+              {walletPortfolio.slice(0, 2).map((crypto, index) => (
+                <div key={crypto.id} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div 
+                      className="w-2 h-2 rounded-full" 
+                      style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                    ></div>
+                    <span className="text-xs font-medium">{crypto.cryptocurrency}</span>
+                  </div>
+                  <span className="text-xs font-medium">
+                    ${Number(crypto.amount * Number(crypto.purchase_price)).toFixed(2)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+      
+      <Card className="glass">
+        <CardHeader>
+          <CardTitle className="text-lg font-medium">Your credit score</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col md:flex-row items-center justify-between">
+          <div>
+            <div className="text-6xl font-semibold">
+              660
+            </div>
+            <div className="text-sm text-gray-400 mt-2">
+              Your credit score is average
             </div>
           </div>
           
-          <div className="flex-1 mt-6 md:mt-0">
-            {walletPortfolio.length > 0 ? (
-              <ChartContainer 
-                config={{
-                  bitcoin: { color: COLORS[0] },
-                  ethereum: { color: COLORS[1] },
-                  ripple: { color: COLORS[2] },
-                  litecoin: { color: COLORS[3] },
-                  cardano: { color: COLORS[4] },
-                }}
-                className="h-56"
+          <div className="relative w-32 h-32 mt-4 md:mt-0">
+            <svg className="w-full h-full" viewBox="0 0 100 100">
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                fill="none"
+                stroke="#333"
+                strokeWidth="10"
+              />
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                fill="none"
+                stroke="#4ADE80"
+                strokeWidth="10"
+                strokeDasharray="282.7"
+                strokeDashoffset="56.54" // 20% of circumference
+                strokeLinecap="round"
+                transform="rotate(-90 50 50)"
+              />
+              <text
+                x="50"
+                y="50"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="white"
+                fontSize="18"
+                fontWeight="bold"
               >
-                <ResponsiveContainer>
-                  <PieChart>
-                    <Pie
-                      data={chartData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={60}
-                      outerRadius={80}
-                      paddingAngle={5}
-                      dataKey="value"
-                    >
-                      {chartData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <ChartTooltip content={<ChartTooltipContent />} />
-                  </PieChart>
-                </ResponsiveContainer>
-              </ChartContainer>
-            ) : (
-              <div className="h-56 flex items-center justify-center">
-                <p className="text-gray-400">
-                  {connected ? "No wallet assets to display" : "Connect your wallet to see your assets"}
-                </p>
-              </div>
-            )}
+                80%
+              </text>
+            </svg>
+            <div className="mt-1 text-center text-sm text-green-500 font-medium">
+              +2.34%
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
   );
 };

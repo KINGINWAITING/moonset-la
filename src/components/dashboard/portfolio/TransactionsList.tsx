@@ -1,8 +1,8 @@
 
-import { PlusCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CryptoPortfolio } from "@/types/supabase";
+import { formatCurrency } from "@/lib/format-utils";
+import { cn } from "@/lib/utils";
 
 interface TransactionsListProps {
   recentTransactions: CryptoPortfolio[];
@@ -10,59 +10,86 @@ interface TransactionsListProps {
 }
 
 export const TransactionsList = ({ recentTransactions, connected }: TransactionsListProps) => {
+  // Sample transaction statuses
+  const statuses = ["Success", "Pending", "Failed"];
+  
   return (
-    <Card className="bg-[#0A0A0A] border border-gray-800 col-span-full">
-      <CardHeader>
-        <CardTitle>Recent Transactions</CardTitle>
-        <CardDescription>Your latest cryptocurrency transactions</CardDescription>
-      </CardHeader>
-      <CardContent>
-        {recentTransactions.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="text-left text-gray-400 border-b border-gray-800">
-                  <th className="pb-2 font-medium">Asset</th>
-                  <th className="pb-2 font-medium">Amount</th>
-                  <th className="pb-2 font-medium">Price</th>
-                  <th className="pb-2 font-medium">Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recentTransactions.map((tx, index) => (
-                  <tr key={String(tx.id || `wallet-tx-${index}`)} className="border-b border-gray-800">
-                    <td className="py-4 flex items-center">
-                      <div className="w-8 h-8 bg-gray-800 rounded-full mr-2"></div>
-                      <div>
-                        <p className="font-medium">{tx.cryptocurrency}</p>
-                        <p className="text-sm text-gray-400">
-                          {tx.cryptocurrency === "ETH" && connected ? "Wallet" : "Buy"}
-                        </p>
+    <div className="col-span-1">
+      <Card className="glass h-full">
+        <CardHeader>
+          <CardTitle className="text-lg font-medium">Payment History</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {connected ? (
+            <div className="space-y-4">
+              <div className="grid grid-cols-4 text-xs text-gray-400 mb-2">
+                <div>NAME</div>
+                <div>DATE</div>
+                <div>PRICE</div>
+                <div>STATUS</div>
+              </div>
+              
+              {recentTransactions.map((transaction, index) => {
+                const percentChange = index % 2 === 0 ? 2.34 : -8.43;
+                const isPositive = percentChange >= 0;
+                const statusIndex = index % 3;
+                const date = new Date().toLocaleDateString('en-US', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric'
+                });
+                
+                return (
+                  <div key={transaction.id} className="grid grid-cols-4 items-center py-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className={cn(
+                        "w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium",
+                        index % 3 === 0 ? "bg-purple-500" : index % 3 === 1 ? "bg-blue-500" : "bg-green-500"
+                      )}>
+                        {transaction.cryptocurrency.charAt(0)}
                       </div>
-                    </td>
-                    <td className="py-4">
-                      {Number(tx.amount).toFixed(4)} {tx.cryptocurrency}
-                    </td>
-                    <td className="py-4">${Number(tx.purchase_price).toFixed(2)}</td>
-                    <td className="py-4 text-gray-400">
-                      {new Date(tx.purchase_date || '').toLocaleDateString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="text-center py-8">
-            <p className="text-gray-400">
-              {connected ? "No wallet transactions" : "Connect your wallet to view transactions"}
-            </p>
-            <Button className="mt-4 button-gradient">
-              <PlusCircle className="mr-2 h-4 w-4" /> Add Transaction
-            </Button>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+                      <div>
+                        <div className="font-medium">{transaction.cryptocurrency}</div>
+                        <div className={cn(
+                          "text-xs",
+                          isPositive ? "text-green-500" : "text-red-500"
+                        )}>
+                          {isPositive ? "+" : ""}{percentChange}%
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="text-sm text-gray-400">
+                      {date}
+                    </div>
+                    
+                    <div className="font-medium">
+                      {formatCurrency(Number(transaction.amount) * Number(transaction.purchase_price))}
+                    </div>
+                    
+                    <div className={cn(
+                      "flex items-center",
+                      statusIndex === 0 ? "text-green-500" : 
+                      statusIndex === 1 ? "text-yellow-500" : "text-red-500"
+                    )}>
+                      <div className={cn(
+                        "w-1.5 h-1.5 rounded-full mr-2",
+                        statusIndex === 0 ? "bg-green-500" : 
+                        statusIndex === 1 ? "bg-yellow-500" : "bg-red-500"
+                      )}></div>
+                      {statuses[statusIndex]}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-6 text-gray-400">
+              Connect your wallet to view transactions
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 };

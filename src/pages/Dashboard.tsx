@@ -19,7 +19,7 @@ export const Dashboard = () => {
         setIsMobileOpen={setIsMobileSidebarOpen} 
       />
       
-      <div className="flex-1">
+      <div className="flex-1 overflow-auto">
         <Routes>
           <Route path="/" element={<PortfolioView />} />
           <Route path="/portfolio" element={<PortfolioView />} />
