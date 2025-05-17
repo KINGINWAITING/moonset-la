@@ -8,34 +8,37 @@ export const PageBackground = () => {
   const isDark = theme === "dark";
   
   // Create animated shapes for the background with persistent animations
-  const shapes = Array.from({ length: 15 }).map((_, i) => ({
+  // Increase both the number and size of shapes for more visibility
+  const shapes = Array.from({ length: 20 }).map((_, i) => ({
     id: i,
-    size: Math.random() * 200 + 150, // Even larger size
+    size: Math.random() * 300 + 200, // Even larger size for more visibility
     x: Math.random() * 100,
     y: Math.random() * 100,
-    duration: Math.random() * 30 + 20, // Slower movement for more subtle effect
+    duration: Math.random() * 20 + 30, // Slower movement for more subtle effect
     delay: Math.random() * 2,
+    opacity: Math.random() * 0.06 + 0.06, // Higher base opacity
   }));
 
   return (
     <div className="fixed inset-0 overflow-hidden -z-10">
       {/* Base background */}
       <div 
-        className={`absolute inset-0 ${isDark ? "bg-[#0A0A0A]" : "bg-white"}`}
+        className={`absolute inset-0 ${isDark ? "bg-[#060606]" : "bg-[#f8f8f8]"}`}
       />
       
       {/* Grid pattern with higher contrast */}
       <div 
-        className={`absolute inset-0 opacity-20 bg-grid-pattern 
-          ${isDark ? "bg-[#555] bg-opacity-20" : "bg-[#000] bg-opacity-10"}`}
+        className={`absolute inset-0 ${
+          isDark ? "bg-grid-dark" : "bg-grid-light"
+        }`}
       />
       
-      {/* Animated gradient backdrop with higher opacity */}
+      {/* Animated gradient backdrop with higher opacity and theme-specific colors */}
       <div className="absolute inset-0">
         <div
-          className={`absolute -inset-[200px] ${isDark ? "opacity-40" : "opacity-30"} blur-[150px]`}
+          className={`absolute -inset-[300px] ${isDark ? "opacity-50" : "opacity-40"} blur-[150px]`}
         >
-          {/* Primary blob with more vibrant colors */}
+          {/* Primary blob with theme-specific colors */}
           <motion.div
             initial={{ x: "0%", y: "0%" }}
             animate={{
@@ -46,12 +49,16 @@ export const PageBackground = () => {
               duration: 60, // Much slower for subtle movement
               ease: "easeInOut",
               repeat: Infinity,
-              repeatType: "reverse",
+              repeatType: "mirror",
             }}
-            className="absolute top-0 left-0 w-[800px] h-[800px] rounded-full bg-gradient-to-br from-primary to-[#45b06c]"
+            className={`absolute top-0 left-0 w-[800px] h-[800px] rounded-full ${
+              isDark 
+                ? "bg-gradient-to-br from-primary to-[#45b06c]" 
+                : "bg-gradient-to-br from-primary to-[#22c55e]"
+            }`}
           />
           
-          {/* Secondary blob with higher opacity */}
+          {/* Secondary blob with theme-specific colors */}
           <motion.div
             initial={{ x: "0%", y: "0%" }}
             animate={{
@@ -62,12 +69,16 @@ export const PageBackground = () => {
               duration: 50,
               ease: "easeInOut",
               repeat: Infinity,
-              repeatType: "reverse",
+              repeatType: "mirror",
             }}
-            className="absolute top-10 right-0 w-[700px] h-[700px] rounded-full bg-gradient-to-bl from-[#1e293b] to-[#334155] opacity-70"
+            className={`absolute top-10 right-0 w-[700px] h-[700px] rounded-full ${
+              isDark 
+                ? "bg-gradient-to-bl from-[#1e293b] to-[#334155] opacity-70" 
+                : "bg-gradient-to-bl from-[#cbd5e1] to-[#94a3b8] opacity-50"
+            }`}
           />
           
-          {/* Third blob for more visual interest */}
+          {/* Third blob for more visual interest with theme-specific colors */}
           <motion.div
             initial={{ x: "0%", y: "0%" }}
             animate={{
@@ -78,12 +89,16 @@ export const PageBackground = () => {
               duration: 55,
               ease: "easeInOut",
               repeat: Infinity,
-              repeatType: "reverse",
+              repeatType: "mirror",
             }}
-            className="absolute bottom-0 left-[30%] w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-[#3b82f6] to-[#8b5cf6] opacity-40"
+            className={`absolute bottom-0 left-[30%] w-[600px] h-[600px] rounded-full ${
+              isDark 
+                ? "bg-gradient-to-tr from-[#3b82f6] to-[#8b5cf6] opacity-40" 
+                : "bg-gradient-to-tr from-[#60a5fa] to-[#a78bfa] opacity-30"
+            }`}
           />
 
-          {/* Fourth blob for fuller coverage */}
+          {/* Fourth blob for fuller coverage with theme-specific colors */}
           <motion.div
             initial={{ x: "0%", y: "0%" }}
             animate={{
@@ -94,9 +109,13 @@ export const PageBackground = () => {
               duration: 58,
               ease: "easeInOut",
               repeat: Infinity,
-              repeatType: "reverse",
+              repeatType: "mirror",
             }}
-            className="absolute bottom-20 right-[20%] w-[500px] h-[500px] rounded-full bg-gradient-to-tl from-[#10b981] to-[#4ade80] opacity-30"
+            className={`absolute bottom-20 right-[20%] w-[500px] h-[500px] rounded-full ${
+              isDark 
+                ? "bg-gradient-to-tl from-[#10b981] to-[#4ade80] opacity-35" 
+                : "bg-gradient-to-tl from-[#34d399] to-[#86efac] opacity-25"
+            }`}
           />
         </div>
       </div>
@@ -106,12 +125,12 @@ export const PageBackground = () => {
         <motion.div
           key={shape.id}
           initial={{ 
-            opacity: 0.2, // Start with higher opacity
+            opacity: shape.opacity,
             x: `${shape.x}%`, 
             y: `${shape.y}%` 
           }}
           animate={{ 
-            opacity: [0.2, 0.25, 0.15, 0.25, 0.2], // More visible opacity values
+            opacity: [shape.opacity, shape.opacity + 0.03, shape.opacity - 0.02, shape.opacity],
             x: [`${shape.x}%`, `${shape.x + 10}%`, `${shape.x - 5}%`, `${shape.x}%`],
             y: [`${shape.y}%`, `${shape.y - 15}%`, `${shape.y + 8}%`, `${shape.y}%`],
           }}
@@ -122,16 +141,15 @@ export const PageBackground = () => {
             repeatType: "loop",
             repeatDelay: 0, // No delay between repetitions
           }}
-          className={`absolute ${isDark ? "bg-white" : "bg-black"} rounded-full`}
+          className={`absolute ${isDark ? "bg-white" : "bg-black"} rounded-full blur-md`}
           style={{
             width: shape.size,
             height: shape.size,
-            opacity: isDark ? 0.07 : 0.04, // Increased fixed base opacity
           }}
         />
       ))}
       
-      {/* Additional subtle effect for light/dark modes with higher opacity */}
+      {/* Additional subtle effect for light/dark modes */}
       <div 
         className={`absolute inset-0 ${
           isDark 

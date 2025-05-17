@@ -2,9 +2,23 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { Toggle } from "@/components/ui/toggle";
+import { useEffect } from "react";
 
 export const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
+  
+  // Force animation re-render when theme changes
+  useEffect(() => {
+    // Trigger animation recalculations
+    const animations = document.querySelectorAll('.motion-safe\\:animate-*');
+    animations.forEach(animation => {
+      animation.classList.remove('motion-safe:animate-none');
+      void animation.offsetWidth; // Trigger reflow
+      animation.classList.add('motion-safe:animate-none');
+      void animation.offsetWidth; // Trigger reflow again
+      animation.classList.remove('motion-safe:animate-none');
+    });
+  }, [theme]);
   
   return (
     <Toggle 

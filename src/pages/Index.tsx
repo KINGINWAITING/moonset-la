@@ -20,7 +20,7 @@ const Index = () => {
   const isDark = theme === "dark";
   
   return (
-    <div className={`min-h-screen ${isDark ? "bg-black" : "bg-white"} text-foreground relative`}>
+    <div className={`min-h-screen ${isDark ? "bg-transparent" : "bg-transparent"} text-foreground relative`}>
       {/* Page-wide animated background */}
       <PageBackground />
       
@@ -48,7 +48,7 @@ const Index = () => {
       <CTASection />
 
       {/* Footer */}
-      <div className={isDark ? "bg-black relative z-10" : "bg-white relative z-10"}>
+      <div className={isDark ? "bg-black/70 backdrop-blur-md relative z-10" : "bg-white/70 backdrop-blur-md relative z-10"}>
         <Footer />
       </div>
     </div>
