@@ -6,6 +6,7 @@ import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
+import { HeroBackground } from "./HeroBackground";
 
 export const HeroSection = () => {
   const { session } = useAuth();
@@ -19,10 +20,8 @@ export const HeroSection = () => {
       transition={{ duration: 0.5 }}
       className="relative container px-4 pt-40 pb-20"
     >
-      {/* Background */}
-      <div 
-        className={`absolute inset-0 -z-10 ${isDark ? "bg-[#0A0A0A]" : "bg-white"}`}
-      />
+      {/* Animated Background */}
+      <HeroBackground />
       
       <motion.div
         initial={{ opacity: 0 }}
