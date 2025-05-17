@@ -17,12 +17,12 @@ const darkTheme = {
   dialog: '#121212',
   fontFamily: 'Geist',
   borderRadius: {
-    xsmall: '0.2rem',  // Added xsmall property
-    small: '0.4rem',
-    medium: '0.6rem',
-    large: '0.8rem',
-    xlarge: '1rem',    // Added xlarge property
-    full: '9999px'     // Added full property
+    xsmall: 0.2,  // Changed to number from string
+    small: 0.4,   // Changed to number from string
+    medium: 0.6,  // Changed to number from string
+    large: 0.8,   // Changed to number from string
+    xlarge: 1.0,  // Changed to number from string
+    full: 9999    // Changed to number from string
   }
 };
 
