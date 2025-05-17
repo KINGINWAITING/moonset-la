@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { ArrowRight, Command } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -99,8 +98,8 @@ const Index = () => {
         >
           <div className="glass rounded-xl overflow-hidden">
             <img
-              src="/lovable-uploads/c32c6788-5e4a-4fee-afee-604b03113c7f.png"
-              alt="MoonSet Dashboard"
+              src="/lovable-uploads/0ea2d2b4-8dc0-442b-aca0-f5622012b579.png"
+              alt="MoonSet Dashboard Analytics"
               className="w-full h-auto"
             />
           </div>
@@ -317,4 +316,3 @@ const Index = () => {
 };
 
 export default Index;
-
