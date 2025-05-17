@@ -5,6 +5,7 @@ import { Menu, X, Command, Wallet, BarChart3, Settings, LogOut, Users, Bot, Doll
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useTheme } from "@/context/ThemeContext";
 
 interface SidebarProps {
   isMobileOpen: boolean;
@@ -13,6 +14,7 @@ interface SidebarProps {
 
 export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
   const { signOut } = useAuth();
+  const { theme } = useTheme();
 
   const navItems = [
     { name: "Portfolio", path: "/dashboard/portfolio", icon: <Wallet className="w-5 h-5" /> },
@@ -35,7 +37,7 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
       
       {/* Mobile sidebar toggle button */}
       <button
-        className="fixed top-4 left-4 z-50 p-2 rounded-md text-white lg:hidden"
+        className="fixed top-4 left-4 z-50 p-2 rounded-md text-foreground lg:hidden"
         onClick={() => setIsMobileOpen(!isMobileOpen)}
       >
         {isMobileOpen ? <X /> : <Menu />}
@@ -43,7 +45,9 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
 
       {/* Sidebar */}
       <motion.aside
-        className={`fixed lg:static inset-y-0 left-0 z-40 w-64 bg-[#0A0A0A] border-r border-gray-800 transform transition-transform duration-200 ease-in-out ${
+        className={`fixed lg:static inset-y-0 left-0 z-40 w-64 ${
+          theme === "dark" ? "bg-[#0A0A0A] border-gray-800" : "bg-white border-gray-200"
+        } border-r transform transition-transform duration-200 ease-in-out ${
           isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
         initial={{ x: -20, opacity: 0 }}
@@ -54,7 +58,7 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
         <div className="flex items-center justify-between p-6">
           <Link to="/" className="flex items-center gap-2">
             <Command className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">MOONSET</span>
+            <span className="text-xl font-bold text-foreground">MOONSET</span>
           </Link>
           <ThemeToggle />
         </div>
@@ -69,8 +73,12 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                       isActive
-                        ? "bg-gray-800/50 text-primary"
-                        : "text-gray-400 hover:text-white hover:bg-gray-800/30"
+                        ? `bg-gray-800/50 text-primary ${theme === "light" ? "bg-gray-200/50" : ""}`
+                        : `text-gray-400 hover:text-foreground ${
+                            theme === "dark" 
+                              ? "hover:bg-gray-800/30" 
+                              : "hover:bg-gray-200/30"
+                          }`
                     }`
                   }
                   onClick={() => setIsMobileOpen(false)}
@@ -87,7 +95,9 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
         <div className="absolute bottom-6 left-0 right-0 px-4">
           <Button 
             variant="ghost" 
-            className="w-full justify-start text-gray-400 hover:text-white"
+            className={`w-full justify-start ${
+              theme === "dark" ? "text-gray-400 hover:text-white" : "text-gray-500 hover:text-black"
+            }`}
             onClick={signOut}
           >
             <LogOut className="mr-2 h-4 w-4" />

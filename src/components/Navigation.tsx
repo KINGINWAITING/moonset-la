@@ -7,6 +7,7 @@ import { useNavigationScroll } from "@/hooks/useNavigationScroll";
 import { NavigationLogo } from "./navigation/NavigationLogo";
 import { DesktopMenu } from "./navigation/DesktopMenu";
 import { MobileMenu } from "./navigation/MobileMenu";
+import { useTheme } from "@/context/ThemeContext";
 
 const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -14,6 +15,7 @@ const Navigation = () => {
   const { session, signOut } = useAuth();
   const navigate = useNavigate();
   const { isScrolled, scrollToSection } = useNavigationScroll();
+  const { theme } = useTheme();
 
   const handleDashboardClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -34,8 +36,8 @@ const Navigation = () => {
     <header
       className={`fixed top-3.5 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 rounded-full ${
         isScrolled 
-          ? "h-14 bg-[#1B1B1B]/40 backdrop-blur-xl border border-white/10 scale-95 w-[90%] max-w-2xl" 
-          : "h-14 bg-[#1B1B1B] w-[95%] max-w-3xl"
+          ? `h-14 ${theme === "dark" ? "bg-[#1B1B1B]/40" : "bg-white/40"} backdrop-blur-xl border ${theme === "dark" ? "border-white/10" : "border-gray-300/20"} scale-95 w-[90%] max-w-2xl` 
+          : `h-14 ${theme === "dark" ? "bg-[#1B1B1B]" : "bg-white"} w-[95%] max-w-3xl`
       }`}
     >
       <div className="mx-auto h-full px-6">

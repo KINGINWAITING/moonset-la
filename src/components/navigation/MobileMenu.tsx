@@ -5,6 +5,7 @@ import { Menu } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { NavigationItems } from "./NavigationItems";
+import { useTheme } from "@/context/ThemeContext";
 
 interface MobileMenuProps {
   isMobileMenuOpen: boolean;
@@ -23,6 +24,8 @@ export const MobileMenu = ({
   scrollToSection,
   isLoggedIn,
 }: MobileMenuProps) => {
+  const { theme } = useTheme();
+
   return (
     <div className="md:hidden flex items-center gap-2">
       <ThemeToggle />
@@ -32,7 +35,7 @@ export const MobileMenu = ({
             <Menu className="h-5 w-5" />
           </Button>
         </SheetTrigger>
-        <SheetContent className="bg-[#1B1B1B]">
+        <SheetContent className={theme === "dark" ? "bg-[#1B1B1B]" : "bg-white"}>
           <div className="flex flex-col gap-4 mt-8">
             <NavigationItems 
               isMobile={true} 
