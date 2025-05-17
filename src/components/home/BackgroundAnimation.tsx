@@ -1,92 +1,95 @@
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useTheme } from "@/context/ThemeContext";
+import { motion } from "framer-motion";
 
 export const BackgroundAnimation = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const containerRef = useRef<HTMLDivElement>(null);
   
-  // Simple animation setup with standard CSS animations
+  // Setting base background styles on component mount
   useEffect(() => {
-    // Set initial styles
     document.documentElement.style.backgroundColor = isDark ? '#060606' : '#f8f8f8';
-    
-    // Force immediate display of animation elements
-    if (containerRef.current) {
-      containerRef.current.style.opacity = '1';
-      containerRef.current.style.visibility = 'visible';
-    }
-    
-    console.log("Background animation initialized with theme:", theme);
+    document.body.style.backgroundColor = isDark ? '#060606' : '#f8f8f8';
   }, [theme]);
 
   return (
-    <div 
-      ref={containerRef} 
-      className="fixed inset-0 overflow-hidden -z-10"
-      style={{ opacity: 1 }} // Force visibility
-    >
+    <div className="fixed inset-0 z-[-1] overflow-hidden">
       {/* Base background color */}
       <div className={`absolute inset-0 ${isDark ? "bg-[#060606]" : "bg-[#f8f8f8]"}`} />
       
       {/* Grid overlay */}
       <div className={`absolute inset-0 ${isDark ? "bg-grid-dark" : "bg-grid-light"}`} />
       
-      {/* Three simpler animated blobs with standard CSS animations */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Primary blob */}
-        <div 
-          className={`absolute w-[800px] h-[800px] rounded-full bg-animate-blob1 ${
-            isDark 
-              ? "bg-gradient-to-br from-[#4ADE80] to-[#45b06c]" 
-              : "bg-gradient-to-br from-[#4ADE80] to-[#22c55e]"
-          }`}
-          style={{
-            top: '5%',
-            left: '10%',
-            opacity: 0.7,
-            animation: 'blob-movement-1 30s infinite alternate ease-in-out'
-          }}
-        />
-        
-        {/* Secondary blob */}
-        <div 
-          className={`absolute w-[700px] h-[700px] rounded-full bg-animate-blob2 ${
-            isDark 
-              ? "bg-gradient-to-bl from-[#1e293b] to-[#334155]" 
-              : "bg-gradient-to-bl from-[#cbd5e1] to-[#94a3b8]"
-          }`}
-          style={{
-            top: '10%',
-            right: '5%',
-            opacity: isDark ? 0.6 : 0.5,
-            animation: 'blob-movement-2 25s infinite alternate ease-in-out'
-          }}
-        />
-        
-        {/* Third blob */}
-        <div 
-          className={`absolute w-[600px] h-[600px] rounded-full bg-animate-blob3 ${
-            isDark 
-              ? "bg-gradient-to-tr from-[#3b82f6] to-[#8b5cf6]" 
-              : "bg-gradient-to-tr from-[#60a5fa] to-[#a78bfa]"
-          }`}
-          style={{
-            bottom: '5%',
-            left: '30%',
-            opacity: isDark ? 0.5 : 0.4,
-            animation: 'blob-movement-3 35s infinite alternate ease-in-out'
-          }}
-        />
-      </div>
+      {/* Primary blob - green gradient */}
+      <motion.div
+        initial={{ x: "-5%", y: "-5%" }}
+        animate={{
+          x: ["0%", "5%", "-3%", "0%"],
+          y: ["0%", "-5%", "3%", "0%"],
+          scale: [1, 1.05, 0.95, 1]
+        }}
+        transition={{
+          duration: 30,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: "easeInOut"
+        }}
+        className={`absolute top-0 left-0 w-[800px] h-[800px] rounded-full ${
+          isDark 
+            ? "bg-gradient-to-br from-[#4ADE80]/30 to-[#45b06c]/20" 
+            : "bg-gradient-to-br from-[#4ADE80]/20 to-[#22c55e]/15"
+        } blur-[80px] opacity-80`}
+      />
       
-      {/* Additional subtle gradient overlay */}
+      {/* Secondary blob - blue/purple */}
+      <motion.div
+        initial={{ x: "10%", y: "0%" }}
+        animate={{
+          x: ["10%", "5%", "15%", "10%"],
+          y: ["0%", "10%", "-5%", "0%"],
+          scale: [1, 0.9, 1.1, 1]
+        }}
+        transition={{
+          duration: 35,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: "easeInOut"
+        }}
+        className={`absolute top-1/4 right-0 w-[600px] h-[600px] rounded-full ${
+          isDark 
+            ? "bg-gradient-to-tl from-[#3b82f6]/30 to-[#8b5cf6]/20" 
+            : "bg-gradient-to-tl from-[#60a5fa]/20 to-[#a78bfa]/15"
+        } blur-[80px] opacity-70`}
+      />
+      
+      {/* Third blob - gray/neutral */}
+      <motion.div
+        initial={{ x: "0%", y: "10%" }}
+        animate={{
+          x: ["0%", "-10%", "5%", "0%"],
+          y: ["10%", "5%", "15%", "10%"],
+          scale: [1, 1.1, 0.95, 1]
+        }}
+        transition={{
+          duration: 40,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: "easeInOut"
+        }}
+        className={`absolute bottom-0 left-1/3 w-[700px] h-[700px] rounded-full ${
+          isDark 
+            ? "bg-gradient-to-tr from-[#1e293b]/40 to-[#334155]/20" 
+            : "bg-gradient-to-tr from-[#cbd5e1]/20 to-[#94a3b8]/15"
+        } blur-[80px] opacity-70`}
+      />
+      
+      {/* Subtle gradient overlay */}
       <div 
         className={`absolute inset-0 ${
           isDark 
-            ? "bg-gradient-to-b from-black/50 via-transparent to-transparent" 
-            : "bg-gradient-to-b from-white/50 via-transparent to-transparent"
+            ? "bg-gradient-to-b from-black/10 via-transparent to-black/5" 
+            : "bg-gradient-to-b from-white/10 via-transparent to-white/5"
         }`}
       />
     </div>

@@ -1,5 +1,4 @@
 
-import { motion } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import { FeaturesSection } from "@/components/features/FeaturesSection";
 import { PricingSection } from "@/components/pricing/PricingSection";
@@ -20,28 +19,18 @@ const Index = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   
-  // Simple initialization effect
+  // Initialize document background color
   useEffect(() => {
-    console.log("Index component mounted - setting basic styles");
-    
-    // Set background color immediately for a smooth experience
-    document.body.style.backgroundColor = isDark ? "#060606" : "#f8f8f8";
     document.documentElement.style.backgroundColor = isDark ? "#060606" : "#f8f8f8";
-    
-    // Hide loading indicator if it exists
-    const loader = document.querySelector('.app-loading');
-    if (loader) {
-      loader.classList.add('hidden');
-      setTimeout(() => loader.remove(), 300);
-    }
+    document.body.style.backgroundColor = isDark ? "#060606" : "#f8f8f8";
   }, [theme]);
   
   return (
     <div className={`min-h-screen ${isDark ? "bg-[#060606]" : "bg-[#f8f8f8]"} text-foreground relative`}>
-      {/* Simple, more reliable background animation */}
+      {/* Background animation */}
       <BackgroundAnimation />
       
-      {/* Navigation - extended width */}
+      {/* Navigation */}
       <Navigation />
       
       {/* Hero Section */}

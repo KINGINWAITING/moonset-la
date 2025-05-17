@@ -17,37 +17,39 @@ export const DesktopMenu = ({
   isLoggedIn,
 }: DesktopMenuProps) => {
   return (
-    <div className="hidden md:flex items-center gap-4">
+    <div className="hidden md:flex items-center gap-6">
       <NavigationItems scrollToSection={scrollToSection} />
       
-      <ThemeToggle />
-      
-      <Button 
-        size="sm" 
-        variant="outline" 
-        className="mr-1" 
-        onClick={handleDashboardClick}
-      >
-        Dashboard
-      </Button>
-      
-      {isLoggedIn ? (
+      <div className="flex items-center gap-4">
+        <ThemeToggle />
+        
         <Button 
-          onClick={handleSignOut}
-          size="sm"
-          variant="destructive"
+          size="sm" 
+          variant="outline" 
+          className="mr-2" 
+          onClick={handleDashboardClick}
         >
-          Sign Out
+          Dashboard
         </Button>
-      ) : (
-        <Button 
-          onClick={() => scrollToSection('cta')}
-          size="sm"
-          className="button-gradient"
-        >
-          Start Trading
-        </Button>
-      )}
+        
+        {isLoggedIn ? (
+          <Button 
+            onClick={handleSignOut}
+            size="sm"
+            variant="destructive"
+          >
+            Sign Out
+          </Button>
+        ) : (
+          <Button 
+            onClick={() => scrollToSection('cta')}
+            size="sm"
+            className="button-gradient"
+          >
+            Start Trading
+          </Button>
+        )}
+      </div>
     </div>
   );
 };
