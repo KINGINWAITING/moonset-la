@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { TrendingUp, WalletMinimal } from "lucide-react";
+import { WalletMinimal } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
@@ -42,26 +42,15 @@ export const PortfolioSummary = ({
               <h2 className="text-3xl font-bold text-white">${totalValue.toFixed(2)}</h2>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="bg-gray-800/30 rounded-lg p-4">
-                <div className="flex items-center mb-2">
-                  <TrendingUp className="h-5 w-5 text-green-500 mr-2" />
-                  <h3 className="font-medium">Profit/Loss</h3>
-                </div>
-                <p className="text-xl font-bold text-green-500">+$1,234.56</p>
-                <p className="text-sm text-gray-400">+12.34%</p>
+            <div className="bg-gray-800/30 rounded-lg p-4">
+              <div className="flex items-center mb-2">
+                <WalletMinimal className="h-5 w-5 text-blue-500 mr-2" />
+                <h3 className="font-medium">Assets</h3>
               </div>
-              
-              <div className="bg-gray-800/30 rounded-lg p-4">
-                <div className="flex items-center mb-2">
-                  <WalletMinimal className="h-5 w-5 text-blue-500 mr-2" />
-                  <h3 className="font-medium">Assets</h3>
-                </div>
-                <p className="text-xl font-bold">
-                  {connected ? walletPortfolio.length : 0}
-                </p>
-                <p className="text-sm text-gray-400">Different cryptocurrencies</p>
-              </div>
+              <p className="text-xl font-bold">
+                {connected ? walletPortfolio.length : 0}
+              </p>
+              <p className="text-sm text-gray-400">Different cryptocurrencies</p>
             </div>
           </div>
           

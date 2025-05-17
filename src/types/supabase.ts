@@ -1,3 +1,4 @@
+
 import { Database } from "@/integrations/supabase/types";
 
 // Define types based on the generated Database type
@@ -9,7 +10,7 @@ export type ProfileInsert = Tables['profiles']['Insert'];
 export type ProfileUpdate = Tables['profiles']['Update'];
 
 // Crypto portfolio related types
-export type CryptoPortfolio = Tables['crypto_portfolio']['Row'];
+export type CryptoPortfolioRow = Tables['crypto_portfolio']['Row'];
 export type CryptoPortfolioInsert = Tables['crypto_portfolio']['Insert'];
 export type CryptoPortfolioUpdate = Tables['crypto_portfolio']['Update'];
 
@@ -34,6 +35,7 @@ export type Session = {
   isLoading: boolean;
 };
 
+// Extended CryptoPortfolio interface for both database and wallet data
 export interface CryptoPortfolio {
   id: string | number;
   cryptocurrency: string;

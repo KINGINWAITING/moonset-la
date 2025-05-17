@@ -26,7 +26,17 @@ export const usePortfolioData = (userId: string | undefined) => {
           throw error;
         }
         
-        setPortfolio(data || []);
+        // Convert database rows to CryptoPortfolio type
+        const portfolioData = data.map(item => ({
+          id: item.id,
+          cryptocurrency: item.cryptocurrency,
+          amount: item.amount.toString(),
+          purchase_price: item.purchase_price.toString(),
+          user_id: item.user_id,
+          purchase_date: item.purchase_date || undefined
+        }));
+        
+        setPortfolio(portfolioData);
       } catch (error) {
         console.error("Error fetching portfolio:", error);
       } finally {
