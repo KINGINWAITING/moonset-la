@@ -34,15 +34,15 @@ const Navigation = () => {
 
   return (
     <header
-      className={`fixed top-3.5 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 rounded-full ${
+      className={`fixed top-3.5 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-in-out rounded-full ${
         isScrolled 
-          ? `h-14 ${theme === "dark" ? "bg-[#1B1B1B]/40" : "bg-white/40"} backdrop-blur-xl border ${theme === "dark" ? "border-white/10" : "border-gray-300/20"} scale-95 w-auto min-w-[650px] max-w-[800px]` 
+          ? `h-14 ${theme === "dark" ? "bg-[#1B1B1B]/40" : "bg-white/40"} backdrop-blur-xl border ${theme === "dark" ? "border-white/10" : "border-gray-300/20"} scale-[0.95] w-auto min-w-[650px] max-w-[800px]` 
           : `h-14 ${theme === "dark" ? "bg-[#1B1B1B]" : "bg-white"} w-full max-w-7xl`
       }`}
     >
       <div className="mx-auto h-full px-5 md:px-8">
         <nav className="flex items-center justify-between h-full">
-          <NavigationLogo />
+          <NavigationLogo className="transition-all duration-500 ease-in-out" />
 
           {/* Desktop Navigation */}
           <DesktopMenu 
@@ -50,6 +50,7 @@ const Navigation = () => {
             handleSignOut={handleSignOut}
             scrollToSection={scrollToSection}
             isLoggedIn={session.isLoggedIn}
+            isScrolled={isScrolled}
           />
 
           {/* Mobile Navigation */}
