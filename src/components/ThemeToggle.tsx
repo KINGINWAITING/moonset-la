@@ -13,9 +13,11 @@ export const ThemeToggle = () => {
     const animations = document.querySelectorAll('.motion-safe\\:animate-*');
     animations.forEach(animation => {
       animation.classList.remove('motion-safe:animate-none');
-      void animation.offsetWidth; // Trigger reflow
+      // Cast Element to HTMLElement to access offsetWidth property
+      void (animation as HTMLElement).offsetWidth; // Trigger reflow
       animation.classList.add('motion-safe:animate-none');
-      void animation.offsetWidth; // Trigger reflow again
+      // Cast Element to HTMLElement to access offsetWidth property
+      void (animation as HTMLElement).offsetWidth; // Trigger reflow again
       animation.classList.remove('motion-safe:animate-none');
     });
   }, [theme]);
