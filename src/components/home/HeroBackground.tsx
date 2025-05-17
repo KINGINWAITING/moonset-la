@@ -7,7 +7,7 @@ export const HeroBackground = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   
-  // Create animated shapes for the background with more prominent properties
+  // Create animated shapes for the background with persistent animations
   const shapes = Array.from({ length: 10 }).map((_, i) => ({
     id: i,
     size: Math.random() * 150 + 100, // Larger size
@@ -37,6 +37,7 @@ export const HeroBackground = () => {
         >
           {/* Primary blob with more vibrant colors */}
           <motion.div
+            initial={{ x: "0%", y: "0%" }}
             animate={{
               x: ["0%", "100%", "0%"],
               y: ["0%", "50%", "0%"],
@@ -52,6 +53,7 @@ export const HeroBackground = () => {
           
           {/* Secondary blob with higher opacity */}
           <motion.div
+            initial={{ x: "0%", y: "0%" }}
             animate={{
               x: ["0%", "-50%", "0%"],
               y: ["0%", "30%", "0%"],
@@ -67,6 +69,7 @@ export const HeroBackground = () => {
           
           {/* Add a third blob for more visual interest */}
           <motion.div
+            initial={{ x: "0%", y: "0%" }}
             animate={{
               x: ["0%", "30%", "0%"],
               y: ["0%", "-20%", "0%"],
@@ -82,17 +85,17 @@ export const HeroBackground = () => {
         </div>
       </div>
       
-      {/* Floating shapes with higher opacity */}
+      {/* Floating shapes with higher opacity - ensure they're always visible */}
       {shapes.map((shape) => (
         <motion.div
           key={shape.id}
           initial={{ 
-            opacity: 0,
+            opacity: 0.15, // Start with opacity
             x: `${shape.x}%`, 
             y: `${shape.y}%` 
           }}
           animate={{ 
-            opacity: [0, 0.15, 0.08, 0.15, 0], // Higher opacity values
+            opacity: [0.15, 0.2, 0.1, 0.2, 0.15], // More visible opacity values
             x: [`${shape.x}%`, `${shape.x + 15}%`, `${shape.x - 8}%`, `${shape.x}%`],
             y: [`${shape.y}%`, `${shape.y - 20}%`, `${shape.y + 12}%`, `${shape.y}%`],
           }}
@@ -101,11 +104,13 @@ export const HeroBackground = () => {
             delay: shape.delay,
             repeat: Infinity,
             repeatType: "loop",
+            repeatDelay: 0, // No delay between repetitions
           }}
-          className={`absolute ${isDark ? "bg-white" : "bg-black"} rounded-full opacity-[0.05]`}
+          className={`absolute ${isDark ? "bg-white" : "bg-black"} rounded-full`}
           style={{
             width: shape.size,
             height: shape.size,
+            opacity: isDark ? 0.05 : 0.03, // Fixed base opacity
           }}
         />
       ))}
