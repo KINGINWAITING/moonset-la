@@ -5,27 +5,6 @@ import { WalletConnectButton } from './WalletConnectButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useWeb3 } from '@/context/Web3Context';
 
-// Custom Uniswap Widget Theme
-const darkTheme = {
-  primary: '#4ADE80',
-  secondary: '#1B1B1B',
-  interactive: '#2D2D2D',
-  container: '#121212',
-  module: '#1B1B1B',
-  accent: '#4ADE80',
-  outline: '#343434',
-  dialog: '#121212',
-  fontFamily: 'Geist',
-  borderRadius: {
-    xsmall: 0.2,
-    small: 0.4,
-    medium: 0.6,
-    large: 0.8,
-    xlarge: 1.0,
-    full: 9999
-  }
-};
-
 // Define supported chains (mainnet, goerli, etc)
 const MAINNET_CHAIN_ID = 1;
 const jsonRpcUrlMap = {
@@ -71,11 +50,10 @@ export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
         <div className="h-[520px] rounded-lg overflow-hidden mt-4">
           {provider ? (
             <UniswapWidget 
-              theme={darkTheme}
               width="100%"
               defaultOutputTokenAddress={tokenAddress}
               convenienceFee={0}
-              className="!bg-[#121212] rounded-lg overflow-hidden"
+              className="rounded-lg overflow-hidden"
               provider={provider}
               jsonRpcUrlMap={jsonRpcUrlMap}
               tokenList={TOKEN_LIST}
