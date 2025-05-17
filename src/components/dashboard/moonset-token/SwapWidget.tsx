@@ -34,11 +34,8 @@ const jsonRpcUrlMap = {
   ],
 };
 
-// Define token list URLs instead of relying on IPFS
-const TOKEN_LISTS = [
-  'https://gateway.ipfs.io/ipns/tokens.uniswap.org',
-  'https://tokens.coingecko.com/uniswap/all.json', // Backup list
-];
+// Define token list URL - using a single URL instead of an array
+const TOKEN_LIST = 'https://tokens.coingecko.com/uniswap/all.json'; // Using CoinGecko's token list
 
 interface SwapWidgetProps {
   tokenAddress: string;
@@ -81,7 +78,7 @@ export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
               className="!bg-[#121212] rounded-lg overflow-hidden"
               provider={provider}
               jsonRpcUrlMap={jsonRpcUrlMap}
-              tokenList={TOKEN_LISTS}
+              tokenList={TOKEN_LIST}
               defaultChainId={chainId || MAINNET_CHAIN_ID}
             />
           ) : (
