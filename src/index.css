@@ -64,7 +64,7 @@
 }
 
 .glass {
-  @apply bg-black/70 backdrop-blur-lg dark:bg-black/70 light:bg-white/70;
+  @apply backdrop-blur-lg dark:bg-black/70 bg-white/70;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background-clip: padding-box;
   position: relative;
