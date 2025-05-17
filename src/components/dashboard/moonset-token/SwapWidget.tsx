@@ -1,7 +1,8 @@
 
 import React, { useEffect } from 'react';
 import { SwapWidget as UniswapWidget } from "@uniswap/widgets";
-import { Web3ReactProvider, createWeb3ReactRoot } from '@web3-react/core';
+import { Web3ReactProvider } from '@web3-react/core';
+import { InjectedConnector } from '@web3-react/injected-connector';
 import { ethers } from 'ethers';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -40,11 +41,6 @@ if (typeof window !== 'undefined' && typeof (window as any).global === 'undefine
   (window as any).global = window;
 }
 
-// Define connectors array for Web3ReactProvider
-const connectors = [
-  { supportedChainIds: [1, 3, 4, 5, 42] }
-];
-
 export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
   // Initialize window global polyfill on component mount
   useEffect(() => {
@@ -62,7 +58,7 @@ export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
       </CardHeader>
       <CardContent>
         <div className="h-[550px]">
-          <Web3ReactProvider getLibrary={getLibrary} connectors={connectors}>
+          <Web3ReactProvider getLibrary={getLibrary}>
             <UniswapWidget 
               theme={darkTheme}
               width="100%"
