@@ -12,23 +12,17 @@ import { TokenSection } from "@/components/home/TokenSection";
 import { ApolloMissionSection } from "@/components/home/ApolloMissionSection";
 import { FrameworkSection } from "@/components/home/FrameworkSection";
 import { CTASection } from "@/components/home/CTASection";
-import { BackgroundAnimation } from "@/components/home/BackgroundAnimation";
+import { OptimizedBackground } from "@/components/home/OptimizedBackground";
 import { useEffect } from "react";
 
 const Index = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   
-  // Initialize document background color
-  useEffect(() => {
-    document.documentElement.style.backgroundColor = isDark ? "#060606" : "#f8f8f8";
-    document.body.style.backgroundColor = isDark ? "#060606" : "#f8f8f8";
-  }, [theme]);
-  
   return (
     <div className={`min-h-screen ${isDark ? "bg-[#060606]" : "bg-[#f8f8f8]"} text-foreground relative`}>
       {/* Background animation */}
-      <BackgroundAnimation />
+      <OptimizedBackground />
       
       {/* Navigation */}
       <Navigation />
