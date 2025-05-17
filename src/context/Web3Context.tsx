@@ -122,6 +122,8 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
           title: "Wallet Connected",
           description: `Connected to ${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`,
         });
+
+        console.log("Connected to chain ID:", network.chainId);
       }
     } catch (error: any) {
       console.error("Error connecting wallet:", error);
