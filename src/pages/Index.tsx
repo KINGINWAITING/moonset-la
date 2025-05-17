@@ -46,11 +46,11 @@ const Index = () => {
         <div className="max-w-4xl relative z-10">
           <h1 className="text-5xl md:text-7xl font-normal mb-4 tracking-tight text-left">
             <span className="text-gray-200">
-              <TextGenerateEffect words="Engineering a new standard for" />
+              <TextGenerateEffect words="Engineering a new standard" />
             </span>
             <br />
             <span className="text-white font-medium">
-              <TextGenerateEffect words="verifiable truth" />
+              <TextGenerateEffect words="for verifiable truth" />
             </span>
           </h1>
           
