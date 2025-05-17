@@ -9,18 +9,20 @@ export const ThemeToggle = () => {
   
   // Force animation re-render when theme changes
   useEffect(() => {
-    // Trigger animation recalculations
-    // Instead of using wildcard selector which causes error, target specific animation classes
-    const animations = document.querySelectorAll('[class*="animate-"]');
-    animations.forEach(animation => {
-      // Store original classes
-      const originalClasses = [...animation.classList];
-      
-      // Apply a small forced reflow by temporarily adding and removing a class
-      animation.classList.add('theme-transition');
-      void (animation as HTMLElement).offsetWidth; // Trigger reflow
-      animation.classList.remove('theme-transition');
-      void (animation as HTMLElement).offsetWidth; // Trigger reflow again
+    // Instead of trying to select all animations with a complex selector,
+    // we'll use a simpler approach to trigger a global style recalculation
+    document.body.classList.add('theme-transition');
+    void document.body.offsetWidth; // Trigger reflow
+    document.body.classList.remove('theme-transition');
+    
+    // For framer-motion animations specifically
+    const motionElements = document.querySelectorAll('[style*="animation"]');
+    motionElements.forEach(element => {
+      // Brief pause and restart of animations by manipulating style
+      const originalStyle = (element as HTMLElement).style.cssText;
+      (element as HTMLElement).style.animation = 'none';
+      void (element as HTMLElement).offsetWidth; // Trigger reflow
+      (element as HTMLElement).style.cssText = originalStyle;
     });
   }, [theme]);
   
