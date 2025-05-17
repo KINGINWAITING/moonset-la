@@ -11,12 +11,15 @@ import Footer from "@/components/Footer";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import { useTheme } from "@/context/ThemeContext";
 
 const Index = () => {
   const { session } = useAuth();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   
   return (
-    <div className="min-h-screen bg-black text-foreground">
+    <div className={`min-h-screen ${isDark ? "bg-black" : "bg-white"} text-foreground`}>
       <Navigation />
       
       {/* Hero Section */}
@@ -28,7 +31,7 @@ const Index = () => {
       >
         {/* Background */}
         <div 
-          className="absolute inset-0 -z-10 bg-[#0A0A0A]"
+          className={`absolute inset-0 -z-10 ${isDark ? "bg-[#0A0A0A]" : "bg-white"}`}
         />
         
         <motion.div
@@ -45,11 +48,11 @@ const Index = () => {
         
         <div className="max-w-4xl relative z-10">
           <h1 className="text-5xl md:text-7xl font-normal mb-4 tracking-tight text-left">
-            <span className="text-gray-200">
+            <span className={isDark ? "text-gray-200" : "text-gray-800"}>
               <TextGenerateEffect words="Engineering a new standard" />
             </span>
             <br />
-            <span className="text-white font-medium">
+            <span className={isDark ? "text-white" : "text-black"}>
               <TextGenerateEffect words="for verifiable truth" />
             </span>
           </h1>
@@ -58,7 +61,7 @@ const Index = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-lg md:text-xl text-gray-200 mb-8 max-w-2xl text-left"
+            className={`text-lg md:text-xl ${isDark ? "text-gray-200" : "text-gray-700"} mb-8 max-w-2xl text-left`}
           >
             MoonSet combines the analytical power of Artificial Intelligence with the immutable security of Blockchain to create a transparent, collaborative, and incentivized ecosystem for rigorous scientific investigations.
           </motion.p>
@@ -82,7 +85,7 @@ const Index = () => {
                 </Button>
               </Link>
             )}
-            <Button size="lg" variant="link" className="text-white">
+            <Button size="lg" variant="link" className={isDark ? "text-white" : "text-black"}>
               View Whitepaper <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </motion.div>
@@ -108,7 +111,7 @@ const Index = () => {
       <LogoCarousel />
 
       {/* Features Section - Replace with MoonSet Features */}
-      <div id="features" className="bg-black">
+      <div id="features" className={isDark ? "bg-black" : "bg-white"}>
         <section className="container px-4 py-24">
           {/* Header Section */}
           <div className="max-w-2xl mb-20">
@@ -117,7 +120,7 @@ const Index = () => {
               <br />
               <span className="text-gradient font-medium">Truth Protocol</span>
             </h2>
-            <p className="text-lg md:text-xl text-gray-400 text-left">
+            <p className={`text-lg md:text-xl ${isDark ? "text-gray-400" : "text-gray-600"} text-left`}>
               Our mission is to build tools that empower individuals and communities to critically examine complex narratives, fostering a culture of evidence-based reasoning.
             </p>
           </div>
@@ -133,7 +136,7 @@ const Index = () => {
               className="glass rounded-xl p-6 h-full"
             >
               <h3 className="text-xl font-semibold mb-4">MoonSet AI Research Engine (MARE)</h3>
-              <p className="text-gray-300">
+              <p className={isDark ? "text-gray-300" : "text-gray-700"}>
                 Advanced AI that analyzes vast datasets, identifies anomalies, and assists researchers in uncovering insights from historical records, including the Apollo missions.
               </p>
             </motion.div>
@@ -147,7 +150,7 @@ const Index = () => {
               className="glass rounded-xl p-6 h-full"
             >
               <h3 className="text-xl font-semibold mb-4">Decentralized Evidence Ledger (DEL)</h3>
-              <p className="text-gray-300">
+              <p className={isDark ? "text-gray-300" : "text-gray-700"}>
                 All submitted evidence, research, and findings are cryptographically secured on the blockchain, making them transparent, timestamped, and censorship-resistant.
               </p>
             </motion.div>
@@ -161,7 +164,7 @@ const Index = () => {
               className="glass rounded-xl p-6 h-full"
             >
               <h3 className="text-xl font-semibold mb-4">Community-Driven & Rewarded</h3>
-              <p className="text-gray-300">
+              <p className={isDark ? "text-gray-300" : "text-gray-700"}>
                 Contribute data, research, or participate in peer review. The MOONSET token incentivizes valuable contributions to the ecosystem and empowers decentralized governance.
               </p>
             </motion.div>
@@ -170,7 +173,7 @@ const Index = () => {
       </div>
 
       {/* MOONSET Token Section */}
-      <div className="bg-black" id="token">
+      <div className={isDark ? "bg-black" : "bg-white"} id="token">
         <section className="container px-4 py-20">
           <div className="flex flex-col md:flex-row gap-12 items-center">
             <motion.div 
@@ -183,7 +186,7 @@ const Index = () => {
               <h2 className="text-4xl md:text-5xl font-normal mb-6">
                 <span className="text-gradient font-medium">MOONSET Token:</span> Fueling the Pursuit of Truth
               </h2>
-              <p className="text-lg text-gray-300 mb-6">
+              <p className={`text-lg ${isDark ? "text-gray-300" : "text-gray-700"} mb-6`}>
                 The MOONSET ERC-20 utility token is central to our ecosystem. It grants access to advanced platform features, rewards contributions, enables staking, and empowers community governance over the MoonSet Truth Protocol.
               </p>
               <Link to="/dashboard/moonset-token">
@@ -212,7 +215,7 @@ const Index = () => {
       </div>
 
       {/* Apollo Mission Case Study */}
-      <div className="bg-black">
+      <div className={isDark ? "bg-black" : "bg-white"}>
         <section className="container px-4 py-20">
           <motion.div 
             initial={{ opacity: 0 }}
@@ -222,25 +225,25 @@ const Index = () => {
             className="glass rounded-xl p-8 md:p-12"
           >
             <h2 className="text-3xl md:text-4xl font-medium mb-6">The Apollo Missions: A Defining Case Study</h2>
-            <p className="text-lg text-gray-300 mb-6">
+            <p className={`text-lg ${isDark ? "text-gray-300" : "text-gray-700"} mb-6`}>
               The Apollo program serves as a compelling and high-impact initial case study for the MoonSet Truth Protocol due to its enduring public interest, scientific significance, vast data pool, and potential for demonstrating the power of our approach.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
               <div className="flex flex-col space-y-2">
                 <h3 className="text-xl font-medium">Enduring Public Interest</h3>
-                <p className="text-gray-400">A subject of global fascination and ongoing debate</p>
+                <p className={isDark ? "text-gray-400" : "text-gray-600"}>A subject of global fascination and ongoing debate</p>
               </div>
               <div className="flex flex-col space-y-2">
                 <h3 className="text-xl font-medium">Scientific Significance</h3>
-                <p className="text-gray-400">Extraordinary claims demanding rigorous verification</p>
+                <p className={isDark ? "text-gray-400" : "text-gray-600"}>Extraordinary claims demanding rigorous verification</p>
               </div>
               <div className="flex flex-col space-y-2">
                 <h3 className="text-xl font-medium">Vast Data Pool</h3>
-                <p className="text-gray-400">A large body of evidence ripe for AI-powered analysis</p>
+                <p className={isDark ? "text-gray-400" : "text-gray-600"}>A large body of evidence ripe for AI-powered analysis</p>
               </div>
               <div className="flex flex-col space-y-2">
                 <h3 className="text-xl font-medium">Demonstrable Impact</h3>
-                <p className="text-gray-400">Showcasing the protocol's power for complex inquiries</p>
+                <p className={isDark ? "text-gray-400" : "text-gray-600"}>Showcasing the protocol's power for complex inquiries</p>
               </div>
             </div>
           </motion.div>
@@ -248,11 +251,11 @@ const Index = () => {
       </div>
 
       {/* Framework Section */}
-      <div className="bg-black">
+      <div className={isDark ? "bg-black" : "bg-white"}>
         <section className="container px-4 py-20">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-medium mb-8">A Framework for Investigation, Not Pre-Determined Conclusions</h2>
-            <p className="text-lg text-gray-300 mb-6">
+            <p className={`text-lg ${isDark ? "text-gray-300" : "text-gray-700"} mb-6`}>
               MoonSet provides powerful tools and a transparent protocol for investigation. Our platform welcomes evidence supporting all perspectives, emphasizing the scientific method and rigorous peer review.
             </p>
             <div className="flex justify-center mt-8">
@@ -275,7 +278,7 @@ const Index = () => {
       </div>
 
       {/* CTA Section */}
-      <section className="container px-4 py-20 relative bg-black">
+      <section className={`container px-4 py-20 relative ${isDark ? "bg-black" : "bg-white"}`}>
         <div 
           className="absolute inset-0 opacity-40"
           style={{
@@ -288,7 +291,7 @@ const Index = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-[#0A0A0A]/80 backdrop-blur-lg border border-white/10 rounded-2xl p-8 md:p-12 text-center relative z-10"
+          className={`${isDark ? "bg-[#0A0A0A]/80" : "bg-white/80"} backdrop-blur-lg border ${isDark ? "border-white/10" : "border-black/10"} rounded-2xl p-8 md:p-12 text-center relative z-10`}
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Ready to join the truth discovery?
@@ -306,7 +309,7 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <div className="bg-black">
+      <div className={isDark ? "bg-black" : "bg-white"}>
         <Footer />
       </div>
     </div>
@@ -314,3 +317,4 @@ const Index = () => {
 };
 
 export default Index;
+

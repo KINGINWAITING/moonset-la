@@ -7,11 +7,14 @@ import { PortfolioSummary } from "./portfolio/PortfolioSummary";
 import { TransactionsList } from "./portfolio/TransactionsList";
 import { usePortfolioData } from "@/hooks/usePortfolioData";
 import { DateRangePicker } from "./DateRangePicker";
+import { useTheme } from "@/context/ThemeContext";
 
 export const PortfolioView = () => {
   const { session } = useAuth();
   const { account, connected } = useWeb3();
   const { isLoading, totalValue, chartData, walletPortfolio, recentTransactions } = usePortfolioData(session.user?.id);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   
   const COLORS = ['#4ADE80', '#A259FF', '#FFBB28', '#FF8042', '#1EAEDB'];
   
@@ -20,13 +23,13 @@ export const PortfolioView = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="p-6 md:p-8 bg-black min-h-screen"
+      className={`p-6 md:p-8 ${isDark ? "bg-black" : "bg-white"} min-h-screen`}
     >
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold mb-1">Welcome back, {session.user?.username || 'User'}</h1>
-            <p className="text-gray-400">Here's take a look at your performance and analytics.</p>
+            <p className={isDark ? "text-gray-400" : "text-gray-600"}>Here's take a look at your performance and analytics.</p>
           </div>
           
           <div className="flex items-center gap-4 mt-4 md:mt-0">
@@ -62,3 +65,4 @@ export const PortfolioView = () => {
     </motion.div>
   );
 };
+

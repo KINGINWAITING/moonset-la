@@ -8,12 +8,14 @@ import { CommunityView } from "@/components/dashboard/CommunityView";
 import { PostDetail } from "@/components/forum/PostDetail";
 import { SettingsView } from "@/components/dashboard/SettingsView";
 import { MoonChatView } from "@/components/dashboard/MoonChatView";
+import { useTheme } from "@/context/ThemeContext";
 
 export const Dashboard = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-
+  const { theme } = useTheme();
+  
   return (
-    <div className="flex min-h-screen bg-black">
+    <div className={`flex min-h-screen ${theme === "dark" ? "bg-black" : "bg-white"}`}>
       <Sidebar 
         isMobileOpen={isMobileSidebarOpen} 
         setIsMobileOpen={setIsMobileSidebarOpen} 
@@ -33,3 +35,4 @@ export const Dashboard = () => {
     </div>
   );
 };
+
