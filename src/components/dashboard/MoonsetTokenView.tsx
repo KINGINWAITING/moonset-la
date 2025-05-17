@@ -1,6 +1,5 @@
 
 import { useState } from "react";
-import { InjectedConnector } from '@web3-react/injected-connector';
 import { Card } from "@/components/ui/card";
 import { tokenConfig } from "@/config/tokenConfig";
 import { TokenStats } from "./moonset-token/TokenStats";
@@ -11,11 +10,6 @@ import { usePriceData } from "@/hooks/usePriceData";
 export const MoonsetTokenView = () => {
   const [timeframe, setTimeframe] = useState("24h");
   const { priceData, tokenStats } = usePriceData(timeframe);
-  
-  // Injected connector for Metamask
-  const injected = new InjectedConnector({
-    supportedChainIds: [1, 3, 4, 5, 42]
-  });
 
   return (
     <div className="p-6 max-w-7xl mx-auto">

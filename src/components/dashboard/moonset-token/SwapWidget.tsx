@@ -1,9 +1,6 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { SwapWidget as UniswapWidget } from "@uniswap/widgets";
-import { Web3ReactProvider } from '@web3-react/core';
-import { InjectedConnector } from '@web3-react/injected-connector';
-import { ethers } from 'ethers';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 // Custom Uniswap Widget Theme
@@ -31,22 +28,18 @@ interface SwapWidgetProps {
   tokenAddress: string;
 }
 
-// Web3 Provider for Uniswap Widget
-function getLibrary(provider: any): ethers.providers.Web3Provider {
-  return new ethers.providers.Web3Provider(provider);
-}
-
 // Fix for global is not defined
 if (typeof window !== 'undefined' && typeof (window as any).global === 'undefined') {
   (window as any).global = window;
 }
 
 export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
-  // Initialize window global polyfill on component mount
-  useEffect(() => {
-    // This is a backup initialization if the vite config solution doesn't work
-    if (typeof (window as any).global === 'undefined') {
+  // Ensure global is defined in the window scope
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // This makes "global" available to the widget and its dependencies
       (window as any).global = window;
+      (window as any).Buffer = window.Buffer || require("buffer").Buffer;
     }
   }, []);
 
@@ -58,7 +51,8 @@ export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
       </CardHeader>
       <CardContent>
         <div className="h-[550px]">
-          <Web3ReactProvider getLibrary={getLibrary}>
+          {/* Using the widget without Web3ReactProvider */}
+          <div className="rounded-lg overflow-hidden">
             <UniswapWidget 
               theme={darkTheme}
               width="100%"
@@ -66,7 +60,7 @@ export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
               convenienceFee={0}
               className="!bg-[#121212] rounded-lg overflow-hidden"
             />
-          </Web3ReactProvider>
+          </div>
         </div>
       </CardContent>
     </Card>
