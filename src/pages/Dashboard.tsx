@@ -7,6 +7,7 @@ import { MoonsetTokenView } from "@/components/dashboard/MoonsetTokenView";
 import { CommunityView } from "@/components/dashboard/CommunityView";
 import { PostDetail } from "@/components/forum/PostDetail";
 import { SettingsView } from "@/components/dashboard/SettingsView";
+import { MoonChatView } from "@/components/dashboard/MoonChatView";
 
 export const Dashboard = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -25,6 +26,7 @@ export const Dashboard = () => {
           <Route path="/moonset-token" element={<MoonsetTokenView />} />
           <Route path="/community" element={<CommunityView />} />
           <Route path="/community/post/:postId" element={<PostDetail />} />
+          <Route path="/moonchat" element={<MoonChatView />} />
           <Route path="/settings" element={<SettingsView />} />
         </Routes>
       </div>
