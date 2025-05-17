@@ -42,7 +42,7 @@ export const NavigationItems: React.FC<NavigationItemProps> = ({
   }
 
   return (
-    <>
+    <div className="flex items-center gap-3">
       {navItems.map((item) => (
         <a
           key={item.name}
@@ -58,6 +58,6 @@ export const NavigationItems: React.FC<NavigationItemProps> = ({
           {item.name}
         </a>
       ))}
-    </>
+    </div>
   );
 };

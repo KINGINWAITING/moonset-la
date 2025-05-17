@@ -17,7 +17,7 @@ export const DesktopMenu = ({
   isLoggedIn,
 }: DesktopMenuProps) => {
   return (
-    <div className="hidden md:flex items-center gap-6">
+    <div className="hidden md:flex items-center gap-4">
       <NavigationItems scrollToSection={scrollToSection} />
       
       <ThemeToggle />
@@ -25,7 +25,7 @@ export const DesktopMenu = ({
       <Button 
         size="sm" 
         variant="outline" 
-        className="mr-2" 
+        className="mr-1" 
         onClick={handleDashboardClick}
       >
         Dashboard
