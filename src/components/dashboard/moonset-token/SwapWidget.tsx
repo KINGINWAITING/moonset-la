@@ -17,9 +17,12 @@ const darkTheme = {
   dialog: '#121212',
   fontFamily: 'Geist',
   borderRadius: {
+    xsmall: '0.2rem',  // Added xsmall property
     small: '0.4rem',
     medium: '0.6rem',
-    large: '0.8rem'
+    large: '0.8rem',
+    xlarge: '1rem',    // Added xlarge property
+    full: '9999px'     // Added full property
   }
 };
 
