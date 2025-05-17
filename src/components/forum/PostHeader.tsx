@@ -13,10 +13,18 @@ interface PostHeaderProps {
 }
 
 export const PostHeader = ({ post }: PostHeaderProps) => {
-  // Check if profiles has error property
-  const hasProfileError = post.profiles && 'error' in post.profiles;
-  const avatarUrl = hasProfileError ? '' : post.profiles?.avatar_url || '';
-  const username = hasProfileError ? 'Anonymous' : post.profiles?.username || 'Anonymous';
+  // Check if profiles exists and has an error property
+  const hasProfileError = !post.profiles || (post.profiles && 'error' in post.profiles);
+  
+  // Safe access of properties with proper type checking
+  const avatarUrl = !hasProfileError && post.profiles && 'avatar_url' in post.profiles 
+    ? post.profiles.avatar_url || '' 
+    : '';
+    
+  const username = !hasProfileError && post.profiles && 'username' in post.profiles 
+    ? post.profiles.username || 'Anonymous' 
+    : 'Anonymous';
+    
   const usernameInitial = username.charAt(0).toUpperCase();
 
   return (

@@ -10,10 +10,18 @@ interface CommentProps {
 }
 
 export const Comment = ({ comment }: CommentProps) => {
-  // Check if profiles has error property
-  const hasProfileError = comment.profiles && 'error' in comment.profiles;
-  const avatarUrl = hasProfileError ? '' : comment.profiles?.avatar_url || '';
-  const username = hasProfileError ? 'Anonymous' : comment.profiles?.username || 'Anonymous';
+  // Check if profiles exists and has an error property
+  const hasProfileError = !comment.profiles || (comment.profiles && 'error' in comment.profiles);
+  
+  // Safe access of properties with proper type checking
+  const avatarUrl = !hasProfileError && comment.profiles && 'avatar_url' in comment.profiles 
+    ? comment.profiles.avatar_url || '' 
+    : '';
+    
+  const username = !hasProfileError && comment.profiles && 'username' in comment.profiles 
+    ? comment.profiles.username || 'Anonymous' 
+    : 'Anonymous';
+    
   const usernameInitial = username.charAt(0).toUpperCase();
 
   return (
