@@ -9,6 +9,8 @@ import { AuthProvider } from "./context/AuthContext";
 import { Web3Provider } from "./context/Web3Context";
 import { Dashboard } from "./pages/Dashboard";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { PostDetail } from "./components/forum/PostDetail";
+import { SettingsView } from "./components/dashboard/SettingsView";
 
 const queryClient = new QueryClient();
 
