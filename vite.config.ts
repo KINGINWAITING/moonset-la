@@ -19,4 +19,9 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  define: {
+    // Polyfill for global, process, and Buffer to work with web3 libraries
+    global: 'globalThis',
+    'process.env': {},
+  }
 }));

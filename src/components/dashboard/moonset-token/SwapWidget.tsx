@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SwapWidget as UniswapWidget } from "@uniswap/widgets";
 import { Web3ReactProvider } from '@web3-react/core';
 import { ethers } from 'ethers';
@@ -17,12 +17,12 @@ const darkTheme = {
   dialog: '#121212',
   fontFamily: 'Geist',
   borderRadius: {
-    xsmall: 0.2,  // Changed to number from string
-    small: 0.4,   // Changed to number from string
-    medium: 0.6,  // Changed to number from string
-    large: 0.8,   // Changed to number from string
-    xlarge: 1.0,  // Changed to number from string
-    full: 9999    // Changed to number from string
+    xsmall: 0.2,
+    small: 0.4,
+    medium: 0.6,
+    large: 0.8,
+    xlarge: 1.0,
+    full: 9999
   }
 };
 
@@ -35,7 +35,20 @@ function getLibrary(provider: any): ethers.providers.Web3Provider {
   return new ethers.providers.Web3Provider(provider);
 }
 
+// Fix for global is not defined
+if (typeof window !== 'undefined' && typeof (window as any).global === 'undefined') {
+  (window as any).global = window;
+}
+
 export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
+  // Initialize window global polyfill on component mount
+  useEffect(() => {
+    // This is a backup initialization if the vite config solution doesn't work
+    if (typeof (window as any).global === 'undefined') {
+      (window as any).global = window;
+    }
+  }, []);
+
   return (
     <Card className="h-full bg-[#121212] border-gray-800">
       <CardHeader>
