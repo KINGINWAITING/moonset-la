@@ -18,23 +18,42 @@ export const usePostDetails = (postId: string | undefined) => {
   const fetchPostDetails = async (id: string) => {
     try {
       setIsLoading(true);
-      const { data, error } = await supabase
+      
+      // First fetch the post
+      const { data: postData, error: postError } = await supabase
         .from('forum_posts')
         .select(`
           *,
-          profiles(username, avatar_url),
           forum_categories:category_id(name)
         `)
         .eq('id', id)
         .single();
 
-      if (error) throw error;
+      if (postError) throw postError;
       
-      // Cast to make TypeScript happy - we ensure the structure matches ForumPostWithDetails
-      setPost(data as unknown as ForumPostWithDetails);
+      if (!postData) {
+        setPost(null);
+        return;
+      }
+
+      // Then fetch the profile for this post
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('username, avatar_url')
+        .eq('id', postData.user_id)
+        .single();
+
+      // Combine the post with profile data
+      const postWithProfile = {
+        ...postData,
+        profiles: profileError || !profileData 
+          ? { error: true } 
+          : profileData
+      };
       
-      // Add console log for debugging
-      console.log("Post details fetched:", data);
+      console.log("Post details fetched:", postWithProfile);
+      setPost(postWithProfile as ForumPostWithDetails);
+      
     } catch (error) {
       console.error('Error fetching post details:', error);
       toast({

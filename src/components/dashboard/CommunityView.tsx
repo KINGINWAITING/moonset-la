@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,7 +22,7 @@ export const CommunityView = () => {
 
   useEffect(() => {
     fetchCategories();
-    fetchPosts();
+    fetchPosts(selectedCategory || undefined);
   }, [selectedCategory]);
 
   const fetchCategories = async () => {
@@ -49,11 +48,11 @@ export const CommunityView = () => {
     try {
       console.log("Fetching posts for category:", categoryId || "all");
       
+      // First fetch the posts
       let query = supabase
         .from('forum_posts')
         .select(`
           *,
-          profiles(username, avatar_url),
           forum_categories:category_id(name),
           comments:forum_comments(count)
         `);
@@ -64,15 +63,43 @@ export const CommunityView = () => {
         
       query = query.order('created_at', { ascending: false });
         
-      const { data, error } = await query;
+      const { data: postsData, error: postsError } = await query;
 
-      if (error) throw error;
+      if (postsError) throw postsError;
       
-      // Log the actual data before casting
-      console.log("Posts fetched:", data);
+      if (!postsData || postsData.length === 0) {
+        setPosts([]);
+        setIsLoading(false);
+        return;
+      }
+
+      // Then fetch profiles for the user_ids in the posts
+      const userIds = postsData.map(post => post.user_id);
+      const { data: profilesData, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, username, avatar_url')
+        .in('id', userIds);
+
+      // Create a map of user_id to profile data for quick lookup
+      const profilesMap = new Map();
+      if (profilesData && !profilesError) {
+        profilesData.forEach(profile => {
+          profilesMap.set(profile.id, profile);
+        });
+      }
+
+      // Add profiles to posts
+      const postsWithProfiles = postsData.map(post => {
+        const profile = profilesMap.get(post.user_id);
+        return {
+          ...post,
+          profiles: profile || { error: true }
+        };
+      });
+
+      console.log("Posts fetched with profiles:", postsWithProfiles);
       
-      // Cast to make TypeScript happy - we ensure the structure matches ForumPostWithDetails[]
-      setPosts(data as unknown as ForumPostWithDetails[]);
+      setPosts(postsWithProfiles as ForumPostWithDetails[]);
     } catch (error) {
       console.error('Error fetching posts:', error);
       toast({
@@ -90,7 +117,7 @@ export const CommunityView = () => {
   };
 
   const handlePostCreated = () => {
-    fetchPosts();
+    fetchPosts(selectedCategory || undefined);
     setIsCreatePostModalOpen(false);
     toast({
       title: "Success",

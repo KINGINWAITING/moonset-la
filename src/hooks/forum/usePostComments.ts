@@ -16,22 +16,47 @@ export const usePostComments = (postId: string | undefined) => {
 
   const fetchComments = async (id: string) => {
     try {
-      const { data, error } = await supabase
+      // First fetch the comments
+      const { data: commentsData, error: commentsError } = await supabase
         .from('forum_comments')
-        .select(`
-          *,
-          profiles(username, avatar_url)
-        `)
+        .select('*')
         .eq('post_id', id)
         .order('created_at', { ascending: true });
 
-      if (error) throw error;
+      if (commentsError) throw commentsError;
       
-      // Cast to make TypeScript happy - we ensure the structure matches ForumCommentWithDetails[]
-      setComments(data as unknown as ForumCommentWithDetails[]);
+      if (!commentsData || commentsData.length === 0) {
+        setComments([]);
+        return;
+      }
+
+      // Then fetch profiles for the user_ids in the comments
+      const userIds = commentsData.map(comment => comment.user_id);
+      const { data: profilesData, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, username, avatar_url')
+        .in('id', userIds);
+
+      // Create a map of user_id to profile data for quick lookup
+      const profilesMap = new Map();
+      if (profilesData && !profilesError) {
+        profilesData.forEach(profile => {
+          profilesMap.set(profile.id, profile);
+        });
+      }
+
+      // Add profiles to comments
+      const commentsWithProfiles = commentsData.map(comment => {
+        const profile = profilesMap.get(comment.user_id);
+        return {
+          ...comment,
+          profiles: profile || { error: true }
+        };
+      });
+
+      console.log("Comments fetched:", commentsWithProfiles);
+      setComments(commentsWithProfiles as ForumCommentWithDetails[]);
       
-      // Add console log for debugging
-      console.log("Comments fetched:", data);
     } catch (error) {
       console.error('Error fetching comments:', error);
       toast({
