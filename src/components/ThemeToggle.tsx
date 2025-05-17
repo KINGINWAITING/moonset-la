@@ -7,8 +7,13 @@ import { useEffect } from "react";
 export const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
   
-  // Simplified animation refresh for theme changes
+  // Enhanced animation refresh for theme changes that properly updates HTML class
   useEffect(() => {
+    // Apply the theme to HTML element immediately
+    document.documentElement.classList.remove('dark', 'light');
+    document.documentElement.classList.add(theme);
+    document.documentElement.style.backgroundColor = theme === 'dark' ? '#060606' : '#f8f8f8';
+    
     // Apply a subtle transition to the entire document
     document.documentElement.classList.add('theme-transition');
     
@@ -20,6 +25,15 @@ export const ThemeToggle = () => {
       document.body.style.display = 'none';
       void document.body.offsetHeight;
       document.body.style.display = '';
+      
+      // Find all animation elements and ensure they're visible
+      const animations = document.querySelectorAll('.framer-animation');
+      animations.forEach(anim => {
+        if (anim instanceof HTMLElement) {
+          anim.style.opacity = '1';
+          anim.style.visibility = 'visible';
+        }
+      });
       
       console.log("Theme toggle animation refresh triggered");
     }, 50);

@@ -20,12 +20,15 @@ const Index = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   
-  // Enhanced animation initialization
+  // More aggressive animation initialization for direct page loads
   useEffect(() => {
     console.log("Index component mounted - initializing animations");
     
-    // Force all framer-motion animations to reset
-    const resetAnimations = () => {
+    const initializeAnimations = () => {
+      // Ensure background is visible first
+      document.documentElement.style.backgroundColor = isDark ? "#060606" : "#f8f8f8";
+      document.body.style.backgroundColor = isDark ? "#060606" : "#f8f8f8";
+      
       // Add animation trigger class to body
       document.body.classList.add('animation-ready');
       
@@ -36,6 +39,15 @@ const Index = () => {
       
       // Force a document repaint to ensure animations restart
       requestAnimationFrame(() => {
+        // Find and force display of all animations
+        const animations = document.querySelectorAll('.framer-animation');
+        animations.forEach(anim => {
+          if (anim instanceof HTMLElement) {
+            anim.style.opacity = '1';
+            anim.style.visibility = 'visible';
+          }
+        });
+        
         document.body.style.opacity = '0.99';
         
         requestAnimationFrame(() => {
@@ -46,18 +58,18 @@ const Index = () => {
     };
     
     // Initial reset
-    resetAnimations();
+    initializeAnimations();
     
     // Secondary reset after a short delay for late-loaded components
     const timeout = setTimeout(() => {
-      resetAnimations();
+      initializeAnimations();
     }, 300);
     
     return () => clearTimeout(timeout);
-  }, []);
+  }, [theme]);
   
   return (
-    <div className={`min-h-screen ${isDark ? "bg-transparent" : "bg-transparent"} text-foreground relative`}>
+    <div className={`min-h-screen ${isDark ? "bg-[#060606]" : "bg-[#f8f8f8]"} text-foreground relative`}>
       {/* Full page animated background */}
       <PageBackground />
       

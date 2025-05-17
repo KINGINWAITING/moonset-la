@@ -57,9 +57,15 @@
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground font-sans antialiased;
+  
+  html, body {
+    @apply bg-background text-foreground font-sans antialiased min-h-screen;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Ensure HTML has a background color too for direct loads */
+  html {
+    background-color: #060606; /* Default to dark theme initially to prevent flash */
   }
   
   /* Framer Motion performance optimizations */
@@ -69,11 +75,20 @@
     transform: translateZ(0);
     will-change: transform, opacity;
     transform-style: preserve-3d;
+    opacity: 1 !important; /* Force opacity */
+    visibility: visible !important; /* Force visibility */
   }
   
   /* Animation ready state */
   .animation-ready * {
     transition: none !important;
+  }
+
+  /* Active animation state */
+  .animation-active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    animation-play-state: running !important;
   }
 }
 

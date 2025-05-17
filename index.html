@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +8,30 @@
     <meta name="description" content="Advanced crypto trading dashboard" />
     <meta name="author" content="MOONSET" />
     <meta property="og:image" content="/og-image.svg" />
+    <style>
+      /* Critical CSS to prevent blank page during load */
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #060606; /* Dark background as fallback */
+      }
+      
+      html.light {
+        background-color: #f8f8f8;
+      }
+      
+      #root {
+        min-height: 100%;
+      }
+      
+      /* Animation initial state */
+      .framer-animation {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+    </style>
   </head>
 
   <body>

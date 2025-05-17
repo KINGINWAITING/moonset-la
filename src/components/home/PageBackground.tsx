@@ -7,19 +7,39 @@ export const PageBackground = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   
-  // Force animation to run on component mount
+  // Force animation to run on component mount with more robust initialization
   useEffect(() => {
     console.log("PageBackground mounted - animations should start");
     
-    // Add animation class to background wrapper
-    const bgWrapper = document.querySelector('.bg-animation-wrapper');
-    if (bgWrapper) {
-      bgWrapper.classList.add('animate-trigger');
-    }
+    // Make sure DOM is fully loaded before attempting animations
+    const initializeAnimations = () => {
+      // Log all animation elements to help debug
+      const animationElements = document.querySelectorAll('.framer-animation');
+      console.log(`Found ${animationElements.length} animation elements`);
+      
+      // Force all animations to be visible
+      animationElements.forEach(element => {
+        if (element instanceof HTMLElement) {
+          element.style.opacity = '1';
+          element.style.visibility = 'visible';
+          element.classList.add('animation-active');
+        }
+      });
+      
+      // Force repaint
+      document.body.style.display = 'none';
+      void document.body.offsetHeight;
+      document.body.style.display = '';
+    };
     
-    // Log all animation elements to help debug
-    const animationElements = document.querySelectorAll('.framer-animation');
-    console.log(`Found ${animationElements.length} animation elements`);
+    // Run immediately and also after a short delay to ensure everything is loaded
+    initializeAnimations();
+    
+    const timeout = setTimeout(() => {
+      initializeAnimations();
+    }, 100);
+    
+    return () => clearTimeout(timeout);
   }, []);
 
   // Create animated shapes with very high opacity for maximum visibility
@@ -35,9 +55,10 @@ export const PageBackground = () => {
 
   return (
     <div className="fixed inset-0 overflow-hidden -z-10 bg-animation-wrapper">
-      {/* Base background */}
+      {/* Base background to ensure there's always a visible background */}
       <div 
         className={`absolute inset-0 ${isDark ? "bg-[#060606]" : "bg-[#f8f8f8]"}`}
+        style={{opacity: 1}} // Force opacity
       />
       
       {/* Grid pattern with higher contrast */}
@@ -45,12 +66,14 @@ export const PageBackground = () => {
         className={`absolute inset-0 ${
           isDark ? "bg-grid-dark" : "bg-grid-light"
         }`}
+        style={{opacity: isDark ? 0.5 : 0.6}} // Force opacity
       />
       
       {/* Animated gradient backdrop with much higher opacity */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0" style={{opacity: 1}}>
         <div
           className={`absolute -inset-[300px] ${isDark ? "opacity-80" : "opacity-70"} blur-[120px]`}
+          style={{visibility: 'visible'}}
         >
           {/* Primary blob with theme-specific colors - using inline styles for guaranteed visibility */}
           <motion.div
@@ -78,8 +101,9 @@ export const PageBackground = () => {
                 : "linear-gradient(to bottom right, #4ADE80, #22c55e)",
               opacity: 0.8,
               willChange: "transform, opacity",
+              visibility: "visible", // Force visibility
             }}
-            className="framer-animation"
+            className="framer-animation animation-active"
           />
           
           {/* Secondary blob with theme-specific colors */}
@@ -108,8 +132,9 @@ export const PageBackground = () => {
                 : "linear-gradient(to bottom left, #cbd5e1, #94a3b8)",
               opacity: isDark ? 0.8 : 0.6,
               willChange: "transform, opacity",
+              visibility: "visible", // Force visibility
             }}
-            className="framer-animation"
+            className="framer-animation animation-active"
           />
           
           {/* Third blob for more visual interest */}
@@ -138,8 +163,9 @@ export const PageBackground = () => {
                 : "linear-gradient(to top right, #60a5fa, #a78bfa)",
               opacity: isDark ? 0.5 : 0.4,
               willChange: "transform, opacity",
+              visibility: "visible", // Force visibility
             }}
-            className="framer-animation"
+            className="framer-animation animation-active"
           />
         </div>
       </div>
@@ -172,8 +198,9 @@ export const PageBackground = () => {
             background: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.05)",
             filter: "blur(20px)",
             willChange: "transform, opacity",
+            visibility: "visible", // Force visibility
           }}
-          className="framer-animation"
+          className="framer-animation animation-active"
         />
       ))}
       
@@ -184,6 +211,7 @@ export const PageBackground = () => {
             ? "bg-gradient-to-b from-black via-transparent to-transparent" 
             : "bg-gradient-to-b from-white via-transparent to-transparent"
         } opacity-70`}
+        style={{visibility: 'visible'}} // Force visibility
       />
     </div>
   );
