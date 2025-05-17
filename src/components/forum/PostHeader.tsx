@@ -13,6 +13,12 @@ interface PostHeaderProps {
 }
 
 export const PostHeader = ({ post }: PostHeaderProps) => {
+  // Check if profiles has error property
+  const hasProfileError = post.profiles && 'error' in post.profiles;
+  const avatarUrl = hasProfileError ? '' : post.profiles?.avatar_url || '';
+  const username = hasProfileError ? 'Anonymous' : post.profiles?.username || 'Anonymous';
+  const usernameInitial = username.charAt(0).toUpperCase();
+
   return (
     <div className="mb-6">
       <Button variant="outline" asChild className="mb-4">
@@ -27,13 +33,13 @@ export const PostHeader = ({ post }: PostHeaderProps) => {
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <Avatar className="h-8 w-8">
-                <AvatarImage src={post.profiles?.avatar_url || ''} />
+                <AvatarImage src={avatarUrl} />
                 <AvatarFallback>
-                  {post.profiles?.username?.charAt(0).toUpperCase() || 'U'}
+                  {usernameInitial || 'U'}
                 </AvatarFallback>
               </Avatar>
               <div>
-                <span className="font-medium">{post.profiles?.username || 'Anonymous'}</span>
+                <span className="font-medium">{username}</span>
                 <div className="text-xs text-gray-400">
                   {format(new Date(post.created_at), 'PPp')}
                 </div>

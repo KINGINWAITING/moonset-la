@@ -29,6 +29,9 @@ export const usePostComments = (postId: string | undefined) => {
       
       // Cast to make TypeScript happy - we ensure the structure matches ForumCommentWithDetails[]
       setComments(data as unknown as ForumCommentWithDetails[]);
+      
+      // Add console log for debugging
+      console.log("Comments fetched:", data);
     } catch (error) {
       console.error('Error fetching comments:', error);
       toast({

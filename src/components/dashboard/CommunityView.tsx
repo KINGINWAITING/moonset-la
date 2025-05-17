@@ -47,6 +47,8 @@ export const CommunityView = () => {
   const fetchPosts = async (categoryId?: string) => {
     setIsLoading(true);
     try {
+      console.log("Fetching posts for category:", categoryId || "all");
+      
       let query = supabase
         .from('forum_posts')
         .select(`
@@ -65,6 +67,9 @@ export const CommunityView = () => {
       const { data, error } = await query;
 
       if (error) throw error;
+      
+      // Log the actual data before casting
+      console.log("Posts fetched:", data);
       
       // Cast to make TypeScript happy - we ensure the structure matches ForumPostWithDetails[]
       setPosts(data as unknown as ForumPostWithDetails[]);

@@ -32,6 +32,9 @@ export const usePostDetails = (postId: string | undefined) => {
       
       // Cast to make TypeScript happy - we ensure the structure matches ForumPostWithDetails
       setPost(data as unknown as ForumPostWithDetails);
+      
+      // Add console log for debugging
+      console.log("Post details fetched:", data);
     } catch (error) {
       console.error('Error fetching post details:', error);
       toast({
