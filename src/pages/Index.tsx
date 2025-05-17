@@ -21,7 +21,7 @@ const Index = () => {
   
   return (
     <div className={`min-h-screen ${isDark ? "bg-transparent" : "bg-transparent"} text-foreground relative`}>
-      {/* Page-wide animated background */}
+      {/* Full page animated background */}
       <PageBackground />
       
       <Navigation />

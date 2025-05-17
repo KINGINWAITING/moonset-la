@@ -141,7 +141,7 @@ export const PageBackground = () => {
             repeatType: "loop",
             repeatDelay: 0, // No delay between repetitions
           }}
-          className={`absolute ${isDark ? "bg-white" : "bg-black"} rounded-full blur-md`}
+          className={`absolute ${isDark ? "bg-white" : "bg-black"} rounded-full blur-md motion-safe:animate-none`}
           style={{
             width: shape.size,
             height: shape.size,

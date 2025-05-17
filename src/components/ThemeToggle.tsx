@@ -10,15 +10,17 @@ export const ThemeToggle = () => {
   // Force animation re-render when theme changes
   useEffect(() => {
     // Trigger animation recalculations
-    const animations = document.querySelectorAll('.motion-safe\\:animate-*');
+    // Instead of using wildcard selector which causes error, target specific animation classes
+    const animations = document.querySelectorAll('[class*="animate-"]');
     animations.forEach(animation => {
-      animation.classList.remove('motion-safe:animate-none');
-      // Cast Element to HTMLElement to access offsetWidth property
+      // Store original classes
+      const originalClasses = [...animation.classList];
+      
+      // Apply a small forced reflow by temporarily adding and removing a class
+      animation.classList.add('theme-transition');
       void (animation as HTMLElement).offsetWidth; // Trigger reflow
-      animation.classList.add('motion-safe:animate-none');
-      // Cast Element to HTMLElement to access offsetWidth property
+      animation.classList.remove('theme-transition');
       void (animation as HTMLElement).offsetWidth; // Trigger reflow again
-      animation.classList.remove('motion-safe:animate-none');
     });
   }, [theme]);
   
