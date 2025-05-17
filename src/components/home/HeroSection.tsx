@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { ArrowRight, Command } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -18,7 +17,7 @@ export const HeroSection = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="relative container px-4 pt-40 pb-20"
+      className="relative overflow-hidden container px-4 pt-40 pb-20"
     >
       {/* Animated Background */}
       <HeroBackground />
