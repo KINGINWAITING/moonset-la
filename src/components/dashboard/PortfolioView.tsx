@@ -1,8 +1,6 @@
 
 import { motion } from "framer-motion";
-import { PlusCircle } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import { Button } from "@/components/ui/button";
 import { useWeb3 } from "@/context/Web3Context";
 import { WalletConnectButton } from "../dashboard/moonset-token/WalletConnectButton";
 import { PortfolioSummary } from "./portfolio/PortfolioSummary";
@@ -33,16 +31,8 @@ export const PortfolioView = () => {
           
           <div className="flex items-center gap-4 mt-4 md:mt-0">
             <DateRangePicker />
-            
-            <Button className="rounded-full flex items-center gap-2 bg-white text-black hover:bg-white/90">
-              <PlusCircle className="mr-1 h-4 w-4" /> Add new coin
-            </Button>
+            <WalletConnectButton />
           </div>
-        </div>
-
-        {/* Wallet Connect Button - Optional based on your preference */}
-        <div className="mb-6 hidden">
-          <WalletConnectButton />
         </div>
         
         {isLoading ? (

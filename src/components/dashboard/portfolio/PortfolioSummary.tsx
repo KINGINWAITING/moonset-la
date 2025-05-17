@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { cn } from "@/lib/utils";
-import { ArrowUp, ArrowDown, Download } from "lucide-react";
+import { Download } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/format-utils";
@@ -129,7 +129,7 @@ export const PortfolioSummary = ({
                     <span className="text-xs font-medium">{crypto.cryptocurrency}</span>
                   </div>
                   <span className="text-xs font-medium">
-                    ${Number(crypto.amount * Number(crypto.purchase_price)).toFixed(2)}
+                    ${(Number(crypto.amount) * Number(crypto.purchase_price)).toFixed(2)}
                   </span>
                 </div>
               ))}
@@ -137,61 +137,6 @@ export const PortfolioSummary = ({
           </CardContent>
         </Card>
       </div>
-      
-      <Card className="glass">
-        <CardHeader>
-          <CardTitle className="text-lg font-medium">Your credit score</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col md:flex-row items-center justify-between">
-          <div>
-            <div className="text-6xl font-semibold">
-              660
-            </div>
-            <div className="text-sm text-gray-400 mt-2">
-              Your credit score is average
-            </div>
-          </div>
-          
-          <div className="relative w-32 h-32 mt-4 md:mt-0">
-            <svg className="w-full h-full" viewBox="0 0 100 100">
-              <circle
-                cx="50"
-                cy="50"
-                r="45"
-                fill="none"
-                stroke="#333"
-                strokeWidth="10"
-              />
-              <circle
-                cx="50"
-                cy="50"
-                r="45"
-                fill="none"
-                stroke="#4ADE80"
-                strokeWidth="10"
-                strokeDasharray="282.7"
-                strokeDashoffset="56.54" // 20% of circumference
-                strokeLinecap="round"
-                transform="rotate(-90 50 50)"
-              />
-              <text
-                x="50"
-                y="50"
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fill="white"
-                fontSize="18"
-                fontWeight="bold"
-              >
-                80%
-              </text>
-            </svg>
-            <div className="mt-1 text-center text-sm text-green-500 font-medium">
-              +2.34%
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
