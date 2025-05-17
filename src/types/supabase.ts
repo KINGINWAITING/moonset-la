@@ -14,12 +14,18 @@ export type CryptoPortfolio = Tables['crypto_portfolio']['Row'];
 export type CryptoPortfolioInsert = Tables['crypto_portfolio']['Insert'];
 export type CryptoPortfolioUpdate = Tables['crypto_portfolio']['Update'];
 
+// Forum related types
+export type ForumCategory = Tables['forum_categories']['Row'];
+export type ForumPost = Tables['forum_posts']['Row'];
+export type ForumComment = Tables['forum_comments']['Row'];
+
 // Auth types
 export type User = {
   id: string;
   email?: string;
   username?: string;
   avatarUrl?: string;
+  avatar_url?: string; // Added for compatibility
 };
 
 // Session type

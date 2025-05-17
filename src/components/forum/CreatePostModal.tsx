@@ -8,12 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { ForumCategory } from "@/types/forum";
 
 interface CreatePostModalProps {
   isOpen: boolean;
   onClose: () => void;
   onPostCreated: () => void;
-  categories: any[];
+  categories: ForumCategory[];
 }
 
 export const CreatePostModal = ({

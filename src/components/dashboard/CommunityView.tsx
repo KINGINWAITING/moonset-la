@@ -10,12 +10,13 @@ import { CreatePostModal } from "@/components/forum/CreatePostModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MessageSquare, PlusCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { ForumCategory, ForumPostWithDetails } from "@/types/forum";
 
 export const CommunityView = () => {
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [posts, setPosts] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [posts, setPosts] = useState<ForumPostWithDetails[]>([]);
+  const [categories, setCategories] = useState<ForumCategory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { session } = useAuth();
   const { toast } = useToast();
@@ -109,7 +110,7 @@ export const CommunityView = () => {
           {session.isLoggedIn && session.user && (
             <div className="flex items-center gap-2">
               <Avatar className="h-8 w-8">
-                <AvatarImage src={session.user.avatar_url || ''} />
+                <AvatarImage src={session.user.avatarUrl || ''} />
                 <AvatarFallback>
                   {session.user.username?.charAt(0).toUpperCase() || 
                    session.user.email?.charAt(0).toUpperCase() || 'U'}

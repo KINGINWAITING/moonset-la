@@ -11,11 +11,12 @@ import { formatDistanceToNow, format } from 'date-fns';
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { ForumPostWithDetails, ForumCommentWithDetails } from "@/types/forum";
 
 export const PostDetail = () => {
   const { postId } = useParams<{ postId: string }>();
-  const [post, setPost] = useState<any>(null);
-  const [comments, setComments] = useState<any[]>([]);
+  const [post, setPost] = useState<ForumPostWithDetails | null>(null);
+  const [comments, setComments] = useState<ForumCommentWithDetails[]>([]);
   const [newComment, setNewComment] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
