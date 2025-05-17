@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -44,7 +43,7 @@ export const CommunityView = () => {
     }
   };
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (categoryId?: string) => {
     setIsLoading(true);
     try {
       let query = supabase
@@ -52,18 +51,21 @@ export const CommunityView = () => {
         .select(`
           *,
           profiles:user_id(username, avatar_url),
+          forum_categories:category_id(name),
           comments:forum_comments(count)
-        `)
-        .order('created_at', { ascending: false });
-
-      if (selectedCategory) {
-        query = query.eq('category_id', selectedCategory);
+        `);
+        
+      if (categoryId) {
+        query = query.eq('category_id', categoryId);
       }
-
+        
+      query = query.order('created_at', { ascending: false });
+        
       const { data, error } = await query;
 
       if (error) throw error;
-      setPosts(data || []);
+      
+      setPosts(data as ForumPostWithDetails[]);
     } catch (error) {
       console.error('Error fetching posts:', error);
       toast({

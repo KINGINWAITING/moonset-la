@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -32,6 +31,19 @@ export const SettingsView = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isChangingPassword, setIsChangingPassword] = useState(false);
+
+  // Portfolio data state
+  const [portfolioData, setPortfolioData] = useState<{
+    cryptocurrency: string;
+    amount: number;
+    purchasePrice: number;
+    purchaseDate: string; // Changed from Date to string
+  }>({
+    cryptocurrency: '',
+    amount: 0,
+    purchasePrice: 0,
+    purchaseDate: new Date().toISOString().split('T')[0], // Convert Date to string
+  });
 
   useEffect(() => {
     if (session.isLoggedIn && session.user) {
@@ -260,6 +272,54 @@ export const SettingsView = () => {
       });
     } catch (error) {
       console.error('Error signing out:', error);
+    }
+  };
+
+  const handleAddAsset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!portfolioData.cryptocurrency || !portfolioData.amount || !portfolioData.purchasePrice) {
+      toast({
+        title: "Validation Error",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      const { data, error } = await supabase
+        .from('portfolio')
+        .insert({
+          cryptocurrency: portfolioData.cryptocurrency,
+          amount: portfolioData.amount,
+          purchase_price: portfolioData.purchasePrice,
+          purchase_date: portfolioData.purchaseDate
+        });
+
+      if (error) throw error;
+      
+      toast({
+        title: "Asset Added",
+        description: "Your asset has been added successfully"
+      });
+    } catch (error) {
+      console.error('Error adding asset:', error);
+      toast({
+        title: "Asset Add Failed",
+        description: "Failed to add your asset",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+      setPortfolioData({
+        cryptocurrency: '',
+        amount: 0,
+        purchasePrice: 0,
+        purchaseDate: new Date().toISOString().split('T')[0], // Convert Date to string
+      });
     }
   };
 
