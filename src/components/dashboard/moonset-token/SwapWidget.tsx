@@ -44,17 +44,6 @@ export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
     }
   }, []);
 
-  // Function to handle JSON RPC requests from Uniswap widget to connected provider
-  const jsonRpcEndpoint = provider ? 
-    async (jsonRpcRequest: any) => {
-      const response = await provider.send(
-        jsonRpcRequest.method,
-        jsonRpcRequest.params
-      );
-      return response;
-    } : 
-    undefined;
-
   return (
     <Card className="h-full bg-[#121212] border-gray-800">
       <CardHeader>
@@ -72,7 +61,6 @@ export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
             convenienceFee={0}
             className="!bg-[#121212] rounded-lg overflow-hidden"
             provider={provider || undefined}
-            jsonRpcEndpoint={jsonRpcEndpoint}
           />
         </div>
       </CardContent>

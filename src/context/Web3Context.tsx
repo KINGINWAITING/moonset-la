@@ -68,7 +68,8 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
         
         // Refresh provider on chain change
         if (window.ethereum) {
-          const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
+          // Use as any to bypass the type checking issue
+          const web3Provider = new ethers.providers.Web3Provider(window.ethereum as any);
           setProvider(web3Provider);
         }
         
@@ -102,8 +103,8 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
 
     try {
       setConnecting(true);
-      // Request accounts from the wallet
-      const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
+      // Request accounts from the wallet, using as any to bypass the type checking
+      const web3Provider = new ethers.providers.Web3Provider(window.ethereum as any);
       const accounts = await web3Provider.send("eth_requestAccounts", []);
       
       if (accounts.length > 0) {
