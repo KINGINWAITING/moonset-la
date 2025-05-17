@@ -4,8 +4,8 @@ import { Send, Bot, User, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Message {
   id: string;
@@ -115,72 +115,74 @@ export const MoonChatView = () => {
           </Button>
         </div>
         
-        <Card className="bg-[#0A0A0A] border border-gray-800">
+        <Card className="bg-[#0A0A0A] border border-gray-800 overflow-hidden">
           <CardContent className="p-0">
-            <div className="h-[60vh] overflow-y-auto p-6 space-y-4">
-              {messages.map((message) => (
-                <motion.div
-                  key={message.id}
-                  className={`flex ${
-                    message.role === "assistant" ? "justify-start" : "justify-end"
-                  }`}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                      message.role === "assistant"
-                        ? "bg-gray-800 text-white"
-                        : "bg-primary text-primary-foreground"
+            <ScrollArea className="h-[60vh] pr-4">
+              <div className="p-6 space-y-4">
+                {messages.map((message) => (
+                  <motion.div
+                    key={message.id}
+                    className={`flex ${
+                      message.role === "assistant" ? "justify-start" : "justify-end"
                     }`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    <div className="flex items-center gap-2 mb-1">
-                      {message.role === "assistant" ? (
-                        <>
-                          <Bot className="h-4 w-4" />
-                          <span className="font-medium">MoonChat AI</span>
-                        </>
-                      ) : (
-                        <>
-                          <User className="h-4 w-4" />
-                          <span className="font-medium">You</span>
-                        </>
-                      )}
+                    <div
+                      className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                        message.role === "assistant"
+                          ? "bg-gray-800/80 backdrop-blur border border-gray-700/50"
+                          : "bg-primary/90 backdrop-blur border border-primary/50"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        {message.role === "assistant" ? (
+                          <>
+                            <Bot className="h-4 w-4" />
+                            <span className="font-medium">MoonChat AI</span>
+                          </>
+                        ) : (
+                          <>
+                            <User className="h-4 w-4" />
+                            <span className="font-medium">You</span>
+                          </>
+                        )}
+                      </div>
+                      <p className="text-sm">{message.content}</p>
                     </div>
-                    <p className="text-sm">{message.content}</p>
-                  </div>
-                </motion.div>
-              ))}
-              {isLoading && (
-                <motion.div
-                  className="flex justify-start"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  <div className="max-w-[80%] rounded-2xl px-4 py-3 bg-gray-800 text-white">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Bot className="h-4 w-4" />
-                      <span className="font-medium">MoonChat AI</span>
+                  </motion.div>
+                ))}
+                {isLoading && (
+                  <motion.div
+                    className="flex justify-start"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
+                    <div className="max-w-[80%] rounded-2xl px-4 py-3 bg-gray-800/80 backdrop-blur border border-gray-700/50">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Bot className="h-4 w-4" />
+                        <span className="font-medium">MoonChat AI</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+                        <div className="w-2 h-2 rounded-full bg-primary animate-pulse delay-150"></div>
+                        <div className="w-2 h-2 rounded-full bg-primary animate-pulse delay-300"></div>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
-                      <div className="w-2 h-2 rounded-full bg-primary animate-pulse delay-150"></div>
-                      <div className="w-2 h-2 rounded-full bg-primary animate-pulse delay-300"></div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
+                  </motion.div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+            </ScrollArea>
             
             <form onSubmit={handleSubmit} className="border-t border-gray-800 p-4">
-              <div className="flex gap-2">
+              <div className="relative flex">
                 <Textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about crypto markets, trading strategies, or technical analysis..."
-                  className="min-h-[60px] resize-none bg-transparent"
+                  className="min-h-[60px] max-h-[120px] resize-none bg-transparent pr-12 rounded-xl border-gray-700/50 focus-visible:ring-primary/50"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
@@ -190,14 +192,15 @@ export const MoonChatView = () => {
                 />
                 <Button 
                   type="submit" 
-                  className="h-[60px] aspect-square"
+                  className="absolute right-2 bottom-2 h-10 w-10 p-0 rounded-full bg-primary hover:bg-primary/90 transition-all duration-200 flex items-center justify-center"
                   disabled={isLoading || !input.trim()}
+                  size="icon"
                 >
                   <Send className="h-4 w-4" />
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                MoonChat AI provides market insights with professional crypto analysis.
+              <p className="text-xs text-muted-foreground mt-2 px-1">
+                MoonChat AI provides market insights with professional crypto analysis. Press Enter to send.
               </p>
             </form>
           </CardContent>
@@ -206,3 +209,4 @@ export const MoonChatView = () => {
     </div>
   );
 };
+
