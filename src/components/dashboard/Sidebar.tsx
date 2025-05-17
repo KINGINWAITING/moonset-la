@@ -1,7 +1,7 @@
 
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Menu, X, Command, Wallet, BarChart3, Settings, LogOut, Zap, Users, Bot } from "lucide-react";
+import { Menu, X, Command, Wallet, BarChart3, Settings, LogOut, Zap, Users, Bot, DollarSign } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 
@@ -15,7 +15,7 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
 
   const navItems = [
     { name: "Portfolio", path: "/dashboard/portfolio", icon: <Wallet className="w-5 h-5" /> },
-    { name: "MOONSET Token", path: "/dashboard/moonset-token", icon: <Zap className="w-5 h-5" /> },
+    { name: "MOONSET", path: "/dashboard/moonset-token", icon: <DollarSign className="w-5 h-5" /> },
     { name: "Community", path: "/dashboard/community", icon: <Users className="w-5 h-5" /> },
     { name: "MoonChat AI", path: "/dashboard/moonchat", icon: <Bot className="w-5 h-5" /> },
     { name: "Markets", path: "/dashboard/markets", icon: <BarChart3 className="w-5 h-5" /> },
@@ -50,10 +50,10 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
         transition={{ duration: 0.5 }}
       >
         {/* Logo */}
-        <div className="flex items-center gap-2 p-6">
+        <Link to="/" className="flex items-center gap-2 p-6">
           <Command className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold">CryptoTrade</span>
-        </div>
+          <span className="text-xl font-bold">MOONSET</span>
+        </Link>
         
         {/* Navigation */}
         <nav className="px-4 pt-6">
