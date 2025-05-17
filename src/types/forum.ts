@@ -19,7 +19,7 @@ export interface ForumPostWithDetails extends ForumPost {
   profiles?: {
     username: string | null;
     avatar_url: string | null;
-  } | null;
+  } | null | { error: true };
   comments?: {
     count: number;
   }[];
@@ -32,5 +32,5 @@ export interface ForumCommentWithDetails extends ForumComment {
   profiles?: {
     username: string | null;
     avatar_url: string | null;
-  } | null;
+  } | null | { error: true };
 }

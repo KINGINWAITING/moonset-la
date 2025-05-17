@@ -22,7 +22,7 @@ export const usePostDetails = (postId: string | undefined) => {
         .from('forum_posts')
         .select(`
           *,
-          profiles:user_id(username, avatar_url),
+          profiles(username, avatar_url),
           forum_categories:category_id(name)
         `)
         .eq('id', id)
@@ -30,7 +30,8 @@ export const usePostDetails = (postId: string | undefined) => {
 
       if (error) throw error;
       
-      setPost(data as ForumPostWithDetails);
+      // Cast to make TypeScript happy - we ensure the structure matches ForumPostWithDetails
+      setPost(data as unknown as ForumPostWithDetails);
     } catch (error) {
       console.error('Error fetching post details:', error);
       toast({

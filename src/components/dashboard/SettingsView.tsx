@@ -37,13 +37,16 @@ export const SettingsView = () => {
     cryptocurrency: string;
     amount: number;
     purchasePrice: number;
-    purchaseDate: string; // Changed from Date to string
+    purchaseDate: string;
   }>({
     cryptocurrency: '',
     amount: 0,
     purchasePrice: 0,
-    purchaseDate: new Date().toISOString().split('T')[0], // Convert Date to string
+    purchaseDate: new Date().toISOString().split('T')[0],
   });
+
+  // Add the missing isSubmitting state
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (session.isLoggedIn && session.user) {
@@ -88,7 +91,7 @@ export const SettingsView = () => {
         .from('profiles')
         .update({
           username,
-          updated_at: new Date()
+          updated_at: new Date().toISOString() // Convert Date to string
         })
         .eq('id', session.user.id);
 
@@ -143,7 +146,7 @@ export const SettingsView = () => {
         .from('profiles')
         .update({
           avatar_url: avatarUrl,
-          updated_at: new Date()
+          updated_at: new Date().toISOString() // Convert Date to string
         })
         .eq('id', session.user.id);
 
@@ -291,12 +294,13 @@ export const SettingsView = () => {
     
     try {
       const { data, error } = await supabase
-        .from('portfolio')
+        .from('crypto_portfolio')
         .insert({
           cryptocurrency: portfolioData.cryptocurrency,
           amount: portfolioData.amount,
           purchase_price: portfolioData.purchasePrice,
-          purchase_date: portfolioData.purchaseDate
+          purchase_date: portfolioData.purchaseDate,
+          user_id: session.user?.id // Add user_id for the crypto_portfolio table
         });
 
       if (error) throw error;
@@ -318,7 +322,7 @@ export const SettingsView = () => {
         cryptocurrency: '',
         amount: 0,
         purchasePrice: 0,
-        purchaseDate: new Date().toISOString().split('T')[0], // Convert Date to string
+        purchaseDate: new Date().toISOString().split('T')[0],
       });
     }
   };

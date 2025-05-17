@@ -20,14 +20,15 @@ export const usePostComments = (postId: string | undefined) => {
         .from('forum_comments')
         .select(`
           *,
-          profiles:user_id(username, avatar_url)
+          profiles(username, avatar_url)
         `)
         .eq('post_id', id)
         .order('created_at', { ascending: true });
 
       if (error) throw error;
       
-      setComments(data as ForumCommentWithDetails[]);
+      // Cast to make TypeScript happy - we ensure the structure matches ForumCommentWithDetails[]
+      setComments(data as unknown as ForumCommentWithDetails[]);
     } catch (error) {
       console.error('Error fetching comments:', error);
       toast({

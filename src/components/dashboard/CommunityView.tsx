@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -50,7 +51,7 @@ export const CommunityView = () => {
         .from('forum_posts')
         .select(`
           *,
-          profiles:user_id(username, avatar_url),
+          profiles(username, avatar_url),
           forum_categories:category_id(name),
           comments:forum_comments(count)
         `);
@@ -65,7 +66,8 @@ export const CommunityView = () => {
 
       if (error) throw error;
       
-      setPosts(data as ForumPostWithDetails[]);
+      // Cast to make TypeScript happy - we ensure the structure matches ForumPostWithDetails[]
+      setPosts(data as unknown as ForumPostWithDetails[]);
     } catch (error) {
       console.error('Error fetching posts:', error);
       toast({
