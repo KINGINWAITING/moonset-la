@@ -54,17 +54,19 @@ export const usePortfolioData = (userId: string | undefined) => {
   }, [connected, provider, account]);
 
   // Create wallet-based portfolio data
-  const walletPortfolio = connected && account ? [
-    {
-      id: 1,
-      cryptocurrency: "ETH",
-      amount: walletBalance,
-      purchase_price: "1",
-      user_id: userId || "",
-      purchase_date: new Date().toISOString(),
-    },
-    ...portfolio
-  ] : portfolio;
+  const walletPortfolio: CryptoPortfolio[] = connected && account 
+    ? [
+        {
+          id: "wallet-eth",
+          cryptocurrency: "ETH",
+          amount: walletBalance,
+          purchase_price: "1",
+          user_id: userId || "",
+          purchase_date: new Date().toISOString(),
+        },
+        ...portfolio
+      ] 
+    : portfolio;
   
   // Calculate portfolio statistics from wallet data
   const totalValue = walletPortfolio.reduce((sum, item) => {

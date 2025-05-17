@@ -30,7 +30,7 @@ export const TransactionsList = ({ recentTransactions, connected }: Transactions
               </thead>
               <tbody>
                 {recentTransactions.map((tx, index) => (
-                  <tr key={tx.id || `wallet-tx-${index}`} className="border-b border-gray-800">
+                  <tr key={String(tx.id || `wallet-tx-${index}`)} className="border-b border-gray-800">
                     <td className="py-4 flex items-center">
                       <div className="w-8 h-8 bg-gray-800 rounded-full mr-2"></div>
                       <div>

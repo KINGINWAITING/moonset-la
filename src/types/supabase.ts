@@ -1,4 +1,3 @@
-
 import { Database } from "@/integrations/supabase/types";
 
 // Define types based on the generated Database type
@@ -34,3 +33,12 @@ export type Session = {
   isLoggedIn: boolean;
   isLoading: boolean;
 };
+
+export interface CryptoPortfolio {
+  id: string | number;
+  cryptocurrency: string;
+  amount: string | number;
+  purchase_price: string | number;
+  user_id: string;
+  purchase_date?: string;
+}
