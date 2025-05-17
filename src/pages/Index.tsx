@@ -13,65 +13,33 @@ import { TokenSection } from "@/components/home/TokenSection";
 import { ApolloMissionSection } from "@/components/home/ApolloMissionSection";
 import { FrameworkSection } from "@/components/home/FrameworkSection";
 import { CTASection } from "@/components/home/CTASection";
-import { PageBackground } from "@/components/home/PageBackground";
+import { BackgroundAnimation } from "@/components/home/BackgroundAnimation";
 import { useEffect } from "react";
 
 const Index = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   
-  // More aggressive animation initialization for direct page loads
+  // Simple initialization effect
   useEffect(() => {
-    console.log("Index component mounted - initializing animations");
+    console.log("Index component mounted - setting basic styles");
     
-    const initializeAnimations = () => {
-      // Ensure background is visible first
-      document.documentElement.style.backgroundColor = isDark ? "#060606" : "#f8f8f8";
-      document.body.style.backgroundColor = isDark ? "#060606" : "#f8f8f8";
-      
-      // Add animation trigger class to body
-      document.body.classList.add('animation-ready');
-      
-      // Force reflow to ensure animations reset
-      void document.body.offsetHeight;
-      
-      console.log("Animation reset triggered");
-      
-      // Force a document repaint to ensure animations restart
-      requestAnimationFrame(() => {
-        // Find and force display of all animations
-        const animations = document.querySelectorAll('.framer-animation');
-        animations.forEach(anim => {
-          if (anim instanceof HTMLElement) {
-            anim.style.opacity = '1';
-            anim.style.visibility = 'visible';
-          }
-        });
-        
-        document.body.style.opacity = '0.99';
-        
-        requestAnimationFrame(() => {
-          document.body.style.opacity = '1';
-          console.log("Animation repaint complete");
-        });
-      });
-    };
+    // Set background color immediately for a smooth experience
+    document.body.style.backgroundColor = isDark ? "#060606" : "#f8f8f8";
+    document.documentElement.style.backgroundColor = isDark ? "#060606" : "#f8f8f8";
     
-    // Initial reset
-    initializeAnimations();
-    
-    // Secondary reset after a short delay for late-loaded components
-    const timeout = setTimeout(() => {
-      initializeAnimations();
-    }, 300);
-    
-    return () => clearTimeout(timeout);
+    // Hide loading indicator if it exists
+    const loader = document.querySelector('.app-loading');
+    if (loader) {
+      loader.classList.add('hidden');
+      setTimeout(() => loader.remove(), 300);
+    }
   }, [theme]);
   
   return (
     <div className={`min-h-screen ${isDark ? "bg-[#060606]" : "bg-[#f8f8f8]"} text-foreground relative`}>
-      {/* Full page animated background */}
-      <PageBackground />
+      {/* Simple, more reliable background animation */}
+      <BackgroundAnimation />
       
       {/* Navigation - extended width */}
       <Navigation />

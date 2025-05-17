@@ -16,27 +16,90 @@
         width: 100%;
         height: 100%;
         background-color: #060606; /* Dark background as fallback */
+        color: #ffffff; /* Light text for dark background */
       }
       
       html.light {
         background-color: #f8f8f8;
+        color: #1a1a1a;
       }
       
       #root {
         min-height: 100%;
+        display: block !important; /* Force display */
+        opacity: 1 !important; /* Force opacity */
       }
       
-      /* Animation initial state */
-      .framer-animation {
-        opacity: 1 !important;
-        visibility: visible !important;
+      /* Loading state */
+      .app-loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #060606;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.3s ease-out;
+      }
+      
+      html.light .app-loading {
+        background-color: #f8f8f8;
+      }
+      
+      .app-loading.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      .app-loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-left-color: #4ADE80;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
       }
     </style>
   </head>
 
   <body>
+    <!-- Loading indicator that will be removed once content loads -->
+    <div class="app-loading">
+      <div class="app-loading-spinner"></div>
+    </div>
+    
     <div id="root"></div>
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Simple script to remove loading screen once content is ready -->
+    <script>
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loader = document.querySelector('.app-loading');
+          if (loader) {
+            loader.classList.add('hidden');
+            setTimeout(() => loader.remove(), 300);
+          }
+        }, 500); // Short delay to ensure everything is rendered
+      });
+      
+      // Backup timeout to remove loader if it gets stuck
+      setTimeout(function() {
+        const loader = document.querySelector('.app-loading');
+        if (loader) {
+          loader.classList.add('hidden');
+          setTimeout(() => loader.remove(), 300);
+        }
+      }, 3000);
+    </script>
   </body>
 </html>

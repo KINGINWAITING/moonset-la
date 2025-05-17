@@ -63,32 +63,13 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
-  /* Ensure HTML has a background color too for direct loads */
+  /* Ensure HTML has a background color for direct loads */
   html {
-    background-color: #060606; /* Default to dark theme initially to prevent flash */
+    background-color: #060606; /* Default to dark theme initially */
   }
   
-  /* Framer Motion performance optimizations */
-  .framer-animation {
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    transform: translateZ(0);
-    will-change: transform, opacity;
-    transform-style: preserve-3d;
-    opacity: 1 !important; /* Force opacity */
-    visibility: visible !important; /* Force visibility */
-  }
-  
-  /* Animation ready state */
-  .animation-ready * {
-    transition: none !important;
-  }
-
-  /* Active animation state */
-  .animation-active {
-    opacity: 1 !important;
-    visibility: visible !important;
-    animation-play-state: running !important;
+  html.light {
+    background-color: #f8f8f8;
   }
 }
 
@@ -110,8 +91,33 @@
   
   /* Add a helper class for theme transitions */
   .theme-transition {
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease;
   }
+}
+
+/* Blob animation keyframes */
+@keyframes blob-movement-1 {
+  0% { transform: translate(0%, 0%) scale(1); }
+  25% { transform: translate(10%, 10%) scale(1.05); }
+  50% { transform: translate(5%, -10%) scale(0.95); }
+  75% { transform: translate(-5%, 15%) scale(1.05); }
+  100% { transform: translate(0%, 0%) scale(1); }
+}
+
+@keyframes blob-movement-2 {
+  0% { transform: translate(0%, 0%) scale(0.9); }
+  33% { transform: translate(-7%, 7%) scale(1.1); }
+  66% { transform: translate(10%, -5%) scale(0.85); }
+  100% { transform: translate(0%, 0%) scale(0.9); }
+}
+
+@keyframes blob-movement-3 {
+  0% { transform: translate(0%, 0%) scale(1); }
+  20% { transform: translate(8%, -8%) scale(0.9); }
+  40% { transform: translate(15%, 10%) scale(1.1); }
+  60% { transform: translate(0%, 15%) scale(1); }
+  80% { transform: translate(-10%, 5%) scale(0.95); }
+  100% { transform: translate(0%, 0%) scale(1); }
 }
 
 .glass {
