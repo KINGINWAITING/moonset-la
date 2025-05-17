@@ -1,7 +1,7 @@
 
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Menu, X, Command, Wallet, BarChart3, Settings, LogOut } from "lucide-react";
+import { Menu, X, Command, Wallet, BarChart3, Settings, LogOut, Zap, Users } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 
@@ -15,6 +15,8 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
 
   const navItems = [
     { name: "Portfolio", path: "/dashboard/portfolio", icon: <Wallet className="w-5 h-5" /> },
+    { name: "MOONSET Token", path: "/dashboard/moonset-token", icon: <Zap className="w-5 h-5" /> },
+    { name: "Community", path: "/dashboard/community", icon: <Users className="w-5 h-5" /> },
     { name: "Markets", path: "/dashboard/markets", icon: <BarChart3 className="w-5 h-5" /> },
     { name: "Settings", path: "/dashboard/settings", icon: <Settings className="w-5 h-5" /> },
   ];

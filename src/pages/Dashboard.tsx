@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { PortfolioView } from "@/components/dashboard/PortfolioView";
+import { MoonsetTokenView } from "@/components/dashboard/MoonsetTokenView";
+import { CommunityView } from "@/components/dashboard/CommunityView";
 
 export const Dashboard = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -18,7 +20,8 @@ export const Dashboard = () => {
         <Routes>
           <Route path="/" element={<PortfolioView />} />
           <Route path="/portfolio" element={<PortfolioView />} />
-          {/* Add more dashboard routes as needed */}
+          <Route path="/moonset-token" element={<MoonsetTokenView />} />
+          <Route path="/community" element={<CommunityView />} />
         </Routes>
       </div>
     </div>
