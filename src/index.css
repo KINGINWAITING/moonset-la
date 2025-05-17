@@ -8,6 +8,29 @@
 
 @layer base {
   :root {
+    --background: 0 0% 98%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 98%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 98%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 142 84% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 94%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 142 84% 58%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
     --background: 0 0% 4%;
     --foreground: 0 0% 100%;
     --card: 0 0% 4%;
@@ -27,7 +50,6 @@
     --border: 0 0% 12%;
     --input: 0 0% 12%;
     --ring: 142 84% 58%;
-    --radius: 0.75rem;
   }
 }
 
@@ -42,7 +64,7 @@
 }
 
 .glass {
-  @apply bg-black/70 backdrop-blur-lg;
+  @apply bg-black/70 backdrop-blur-lg dark:bg-black/70 light:bg-white/70;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background-clip: padding-box;
   position: relative;

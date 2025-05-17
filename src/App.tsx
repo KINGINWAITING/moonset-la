@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import { AuthProvider } from "./context/AuthContext";
 import { Web3Provider } from "./context/Web3Context";
+import { ThemeProvider } from "./context/ThemeContext";
 import { Dashboard } from "./pages/Dashboard";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { PostDetail } from "./components/forum/PostDetail";
@@ -18,27 +19,29 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <Web3Provider>
-        <TooltipProvider>
-          <div className="min-h-screen bg-background">
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route 
-                  path="/dashboard/*" 
-                  element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  } 
-                />
-                {/* Redirect any other routes to home */}
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </BrowserRouter>
-          </div>
-        </TooltipProvider>
+        <ThemeProvider>
+          <TooltipProvider>
+            <div className="min-h-screen bg-background">
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route 
+                    path="/dashboard/*" 
+                    element={
+                      <ProtectedRoute>
+                        <Dashboard />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  {/* Redirect any other routes to home */}
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </BrowserRouter>
+            </div>
+          </TooltipProvider>
+        </ThemeProvider>
       </Web3Provider>
     </AuthProvider>
   </QueryClientProvider>

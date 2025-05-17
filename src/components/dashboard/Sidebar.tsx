@@ -1,9 +1,10 @@
 
 import { NavLink, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Menu, X, Command, Wallet, BarChart3, Settings, LogOut, Zap, Users, Bot, DollarSign } from "lucide-react";
+import { Menu, X, Command, Wallet, BarChart3, Settings, LogOut, Users, Bot, DollarSign } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 interface SidebarProps {
   isMobileOpen: boolean;
@@ -49,11 +50,14 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 p-6">
-          <Command className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold">MOONSET</span>
-        </Link>
+        {/* Logo and Theme Toggle */}
+        <div className="flex items-center justify-between p-6">
+          <Link to="/" className="flex items-center gap-2">
+            <Command className="h-6 w-6 text-primary" />
+            <span className="text-xl font-bold">MOONSET</span>
+          </Link>
+          <ThemeToggle />
+        </div>
         
         {/* Navigation */}
         <nav className="px-4 pt-6">
