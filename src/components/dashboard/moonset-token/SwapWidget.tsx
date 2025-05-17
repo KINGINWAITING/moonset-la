@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { SwapWidget as UniswapWidget } from "@uniswap/widgets";
-import { Web3ReactProvider, Web3ReactContextInterface } from '@web3-react/core';
+import { Web3ReactProvider } from '@web3-react/core';
 import { ethers } from 'ethers';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -16,7 +16,11 @@ const darkTheme = {
   outline: '#343434',
   dialog: '#121212',
   fontFamily: 'Geist',
-  borderRadius: 0.8,
+  borderRadius: {
+    small: '0.4rem',
+    medium: '0.6rem',
+    large: '0.8rem'
+  }
 };
 
 interface SwapWidgetProps {
