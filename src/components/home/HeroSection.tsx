@@ -6,7 +6,6 @@ import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
-import { HeroBackground } from "./HeroBackground";
 
 export const HeroSection = () => {
   const { session } = useAuth();
@@ -18,11 +17,8 @@ export const HeroSection = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="relative overflow-hidden container px-4 pt-40 pb-20"
+      className="relative container px-4 pt-40 pb-20"
     >
-      {/* Animated Background - Rendered first to ensure it's behind everything */}
-      <HeroBackground />
-      
       {/* Content - everything rendered on top of the background */}
       <motion.div
         initial={{ opacity: 0 }}

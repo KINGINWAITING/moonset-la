@@ -10,9 +10,9 @@ export const FrameworkSection = () => {
   const isDark = theme === "dark";
   
   return (
-    <div className={isDark ? "bg-black" : "bg-white"}>
+    <div className={`${isDark ? "bg-transparent" : "bg-transparent"} relative z-10`}>
       <section className="container px-4 py-20">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-3xl mx-auto text-center glass rounded-xl p-8">
           <h2 className="text-3xl md:text-4xl font-medium mb-8">A Framework for Investigation, Not Pre-Determined Conclusions</h2>
           <p className={`text-lg ${isDark ? "text-gray-300" : "text-gray-700"} mb-6`}>
             MoonSet provides powerful tools and a transparent protocol for investigation. Our platform welcomes evidence supporting all perspectives, emphasizing the scientific method and rigorous peer review.

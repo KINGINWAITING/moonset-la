@@ -7,7 +7,7 @@ export const ApolloMissionSection = () => {
   const isDark = theme === "dark";
   
   return (
-    <div className={isDark ? "bg-black" : "bg-white"}>
+    <div className={`${isDark ? "bg-transparent" : "bg-transparent"} relative z-10`}>
       <section className="container px-4 py-20">
         <motion.div 
           initial={{ opacity: 0 }}

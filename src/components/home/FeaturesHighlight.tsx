@@ -7,7 +7,7 @@ export const FeaturesHighlight = () => {
   const isDark = theme === "dark";
   
   return (
-    <div id="features" className={isDark ? "bg-black" : "bg-white"}>
+    <div id="features" className={`${isDark ? "bg-transparent" : "bg-transparent"} relative z-10`}>
       <section className="container px-4 py-24">
         {/* Header Section */}
         <div className="max-w-2xl mb-20">

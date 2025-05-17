@@ -12,7 +12,7 @@ export const CTASection = () => {
   const isDark = theme === "dark";
   
   return (
-    <section className={`container px-4 py-20 relative ${isDark ? "bg-black" : "bg-white"}`}>
+    <section className={`container px-4 py-20 relative ${isDark ? "bg-transparent" : "bg-transparent"} z-10`}>
       <div 
         className="absolute inset-0 opacity-40"
         style={{

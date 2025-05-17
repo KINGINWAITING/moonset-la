@@ -10,7 +10,7 @@ export const TokenSection = () => {
   const isDark = theme === "dark";
   
   return (
-    <div className={isDark ? "bg-black" : "bg-white"} id="token">
+    <div className={`${isDark ? "bg-transparent" : "bg-transparent"} relative z-10`} id="token">
       <section className="container px-4 py-20">
         <div className="flex flex-col md:flex-row gap-12 items-center">
           <motion.div 
