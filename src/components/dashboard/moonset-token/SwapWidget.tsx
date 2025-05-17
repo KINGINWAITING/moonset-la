@@ -1,7 +1,9 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SwapWidget as UniswapWidget } from "@uniswap/widgets";
+import { WalletConnectButton } from './WalletConnectButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useWeb3 } from '@/context/Web3Context';
 
 // Custom Uniswap Widget Theme
 const darkTheme = {
@@ -28,20 +30,30 @@ interface SwapWidgetProps {
   tokenAddress: string;
 }
 
-// Fix for global is not defined
-if (typeof window !== 'undefined' && typeof (window as any).global === 'undefined') {
-  (window as any).global = window;
-}
-
 export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
-  // Ensure global is defined in the window scope
-  React.useEffect(() => {
+  const { provider } = useWeb3();
+
+  // Ensure required globals are available
+  useEffect(() => {
     if (typeof window !== 'undefined') {
-      // This makes "global" available to the widget and its dependencies
+      // Make global available
       (window as any).global = window;
+      
+      // Setup Buffer for IPFS operations
       (window as any).Buffer = window.Buffer || require("buffer").Buffer;
     }
   }, []);
+
+  // Function to handle JSON RPC requests from Uniswap widget to connected provider
+  const jsonRpcEndpoint = provider ? 
+    async (jsonRpcRequest: any) => {
+      const response = await provider.send(
+        jsonRpcRequest.method,
+        jsonRpcRequest.params
+      );
+      return response;
+    } : 
+    undefined;
 
   return (
     <Card className="h-full bg-[#121212] border-gray-800">
@@ -50,17 +62,18 @@ export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
         <CardDescription>Trade tokens directly on Uniswap</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-[550px]">
-          {/* Using the widget without Web3ReactProvider */}
-          <div className="rounded-lg overflow-hidden">
-            <UniswapWidget 
-              theme={darkTheme}
-              width="100%"
-              defaultOutputTokenAddress={tokenAddress}
-              convenienceFee={0}
-              className="!bg-[#121212] rounded-lg overflow-hidden"
-            />
-          </div>
+        <WalletConnectButton />
+        
+        <div className="h-[520px] rounded-lg overflow-hidden">
+          <UniswapWidget 
+            theme={darkTheme}
+            width="100%"
+            defaultOutputTokenAddress={tokenAddress}
+            convenienceFee={0}
+            className="!bg-[#121212] rounded-lg overflow-hidden"
+            provider={provider || undefined}
+            jsonRpcEndpoint={jsonRpcEndpoint}
+          />
         </div>
       </CardContent>
     </Card>
