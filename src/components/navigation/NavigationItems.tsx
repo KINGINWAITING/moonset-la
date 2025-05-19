@@ -44,7 +44,7 @@ export const NavigationItems: React.FC<NavigationItemProps> = ({
   }
 
   return (
-    <div className={`flex items-center gap-5 transition-all duration-500 ease-in-out ${isScrolled ? 'scale-[0.98]' : ''}`}>
+    <div className="flex items-center gap-5 transition-all duration-300 ease-in-out">
       {navItems.map((item) => (
         <a
           key={item.name}
