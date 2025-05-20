@@ -41,7 +41,10 @@ export const TokenSection = () => {
           >
             <div className="flex justify-center">
               <img 
-                src="/lovable-uploads/e2e01f9c-1634-432c-8c56-1cf117558407.png" 
+                src={isDark
+                  ? "/lovable-uploads/e2e01f9c-1634-432c-8c56-1cf117558407.png"
+                  : "/lovable-uploads/3a365caa-ecb9-494d-89b2-9a2633ddd782.png"
+                } 
                 alt="MOONSET Token Staking Rewards" 
                 className="max-w-full h-auto"
               />

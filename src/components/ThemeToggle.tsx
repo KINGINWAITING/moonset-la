@@ -2,17 +2,23 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { Toggle } from "@/components/ui/toggle";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
+  const prevTheme = useRef(theme);
   
-  // Simplified theme change effect with performance optimization
+  // Optimized theme change effect
   useEffect(() => {
-    // Apply the theme directly to HTML element
-    document.documentElement.classList.remove('dark', 'light');
-    document.documentElement.classList.add(theme);
-    document.documentElement.style.backgroundColor = theme === 'dark' ? '#060606' : '#ffffff';
+    if (prevTheme.current !== theme) {
+      // Only update DOM if theme actually changed
+      document.documentElement.classList.remove('dark', 'light');
+      document.documentElement.classList.add(theme);
+      document.documentElement.style.backgroundColor = theme === 'dark' ? '#060606' : '#ffffff';
+      
+      // Update ref for future comparisons
+      prevTheme.current = theme;
+    }
   }, [theme]);
   
   return (

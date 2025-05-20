@@ -1,19 +1,24 @@
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useTheme } from "@/context/ThemeContext";
 import { motion } from "framer-motion";
 
 export const OptimizedBackground = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const prevTheme = useRef(theme);
   
-  // Initialize document background color
+  // Initialize document background color with improved performance
   useEffect(() => {
-    document.documentElement.style.backgroundColor = isDark ? '#060606' : '#f8f8f8';
-    document.body.style.backgroundColor = isDark ? '#060606' : '#f8f8f8';
-    
-    console.log("Background theme updated:", theme);
-  }, [theme]);
+    if (prevTheme.current !== theme) {
+      // Only update if theme actually changed
+      document.documentElement.style.backgroundColor = isDark ? '#060606' : '#f8f8f8';
+      document.body.style.backgroundColor = isDark ? '#060606' : '#f8f8f8';
+      
+      // Update ref for future comparisons
+      prevTheme.current = theme;
+    }
+  }, [theme, isDark]);
 
   return (
     <div className="fixed inset-0 z-[-1] overflow-hidden">
@@ -23,7 +28,7 @@ export const OptimizedBackground = () => {
       {/* Grid overlay with proper contrast */}
       <div className={`absolute inset-0 ${isDark ? "bg-grid-dark" : "bg-grid-light"} opacity-30`} />
       
-      {/* Animated gradient blobs */}
+      {/* Animated gradient blobs - with will-change optimization */}
       <div className="absolute inset-0">
         {/* Primary blob - green gradient */}
         <motion.div
@@ -39,6 +44,7 @@ export const OptimizedBackground = () => {
             repeatType: "reverse",
             ease: "easeInOut"
           }}
+          style={{ willChange: "transform" }} // Performance optimization
           className={`absolute top-0 left-0 w-[800px] h-[800px] rounded-full ${
             isDark 
               ? "bg-gradient-to-br from-[#4ADE80]/30 to-[#45b06c]/20" 
@@ -60,6 +66,7 @@ export const OptimizedBackground = () => {
             repeatType: "reverse",
             ease: "easeInOut"
           }}
+          style={{ willChange: "transform" }} // Performance optimization
           className={`absolute top-1/4 right-0 w-[600px] h-[600px] rounded-full ${
             isDark 
               ? "bg-gradient-to-tl from-[#3b82f6]/30 to-[#8b5cf6]/20" 
@@ -81,6 +88,7 @@ export const OptimizedBackground = () => {
             repeatType: "reverse",
             ease: "easeInOut"
           }}
+          style={{ willChange: "transform" }} // Performance optimization
           className={`absolute bottom-0 left-1/3 w-[700px] h-[700px] rounded-full ${
             isDark 
               ? "bg-gradient-to-tr from-[#1e293b]/40 to-[#334155]/20" 

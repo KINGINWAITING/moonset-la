@@ -16,7 +16,10 @@ export const CTASection = () => {
       <div 
         className="absolute inset-0 opacity-40"
         style={{
-          backgroundImage: 'url("/lovable-uploads/21f3edfb-62b5-4e35-9d03-7339d803b980.png")',
+          backgroundImage: `url(${isDark 
+            ? "/lovable-uploads/21f3edfb-62b5-4e35-9d03-7339d803b980.png"
+            : "/lovable-uploads/1e2a48dc-059b-4919-a1ed-44685d771a32.png"
+          })`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}

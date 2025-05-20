@@ -13,11 +13,24 @@ import { ApolloMissionSection } from "@/components/home/ApolloMissionSection";
 import { FrameworkSection } from "@/components/home/FrameworkSection";
 import { CTASection } from "@/components/home/CTASection";
 import { OptimizedBackground } from "@/components/home/OptimizedBackground";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Index = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const [isLoaded, setIsLoaded] = useState(false);
+  
+  // Enhanced performance optimization
+  useEffect(() => {
+    // Mark page as loaded once it's fully rendered
+    if (!isLoaded) {
+      const timer = setTimeout(() => {
+        setIsLoaded(true);
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isLoaded]);
   
   return (
     <div className={`min-h-screen ${isDark ? "bg-[#060606]" : "bg-[#f8f8f8]"} text-foreground relative`}>

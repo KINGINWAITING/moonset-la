@@ -17,6 +17,18 @@ export const FrameworkSection = () => {
           <p className={`text-lg ${isDark ? "text-gray-300" : "text-gray-700"} mb-6`}>
             MoonSet provides powerful tools and a transparent protocol for investigation. Our platform welcomes evidence supporting all perspectives, emphasizing the scientific method and rigorous peer review.
           </p>
+          
+          <div className="flex justify-center mb-8">
+            <img
+              src={isDark 
+                ? "/lovable-uploads/0dbe1b75-2c74-4ff8-ba55-4be4d74abe72.png"
+                : "/lovable-uploads/7335619d-58a9-41ad-a233-f7826f56f3e9.png"
+              }
+              alt="Evidence framework"
+              className="w-full max-w-2xl h-auto rounded-lg"
+            />
+          </div>
+          
           <div className="flex justify-center mt-8">
             {session.isLoggedIn ? (
               <Link to="/dashboard">

@@ -85,7 +85,10 @@ export const HeroSection = () => {
       >
         <div className="glass rounded-xl overflow-hidden">
           <img
-            src="/lovable-uploads/0ea2d2b4-8dc0-442b-aca0-f5622012b579.png"
+            src={isDark 
+              ? "/lovable-uploads/0ea2d2b4-8dc0-442b-aca0-f5622012b579.png"
+              : "/lovable-uploads/7cc724d4-3e14-4e7c-9e7a-8d613fde54d0.png"
+            }
             alt="MoonSet Dashboard Analytics"
             className="w-full h-auto"
           />
