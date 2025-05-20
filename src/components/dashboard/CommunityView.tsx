@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MessageSquare, PlusCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ForumCategory, ForumPostWithDetails } from "@/types/forum";
+import { useTheme } from "@/context/ThemeContext";
 
 export const CommunityView = () => {
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
@@ -19,6 +20,7 @@ export const CommunityView = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { session } = useAuth();
   const { toast } = useToast();
+  const { theme } = useTheme();
 
   useEffect(() => {
     fetchCategories();
@@ -126,7 +128,7 @@ export const CommunityView = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className={`p-6 ${theme === "dark" ? "bg-black" : "bg-white"}`}>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">
           Community <span className="text-primary">Forum</span>
@@ -170,7 +172,7 @@ export const CommunityView = () => {
         </div>
         
         <div className="lg:col-span-3">
-          <Card className="bg-[#121212] border-gray-800">
+          <Card className={theme === "dark" ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <MessageSquare className="h-5 w-5" /> 

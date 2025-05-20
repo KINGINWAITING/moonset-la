@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useTheme } from "@/context/ThemeContext";
 
 interface ForumCategoriesProps {
   categories: any[];
@@ -15,8 +16,10 @@ export const ForumCategories = ({
   selectedCategory, 
   onCategorySelect 
 }: ForumCategoriesProps) => {
+  const { theme } = useTheme();
+  
   return (
-    <Card className="bg-[#121212] border-gray-800">
+    <Card className={theme === "dark" ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"}>
       <CardHeader>
         <CardTitle>Categories</CardTitle>
       </CardHeader>
@@ -30,12 +33,14 @@ export const ForumCategories = ({
                 className={`flex justify-between items-center p-3 rounded-lg cursor-pointer transition-colors ${
                   selectedCategory === category.id 
                     ? 'bg-primary/20 border border-primary/30' 
-                    : 'border border-gray-800 hover:bg-gray-900'
+                    : theme === "dark"
+                      ? 'border border-gray-800 hover:bg-gray-900'
+                      : 'border border-gray-200 hover:bg-gray-100'
                 }`}
               >
                 <span className="font-medium">{category.name}</span>
                 {category.post_count > 0 && (
-                  <Badge variant="outline" className="bg-gray-800">
+                  <Badge variant="outline" className={theme === "dark" ? "bg-gray-800" : "bg-gray-100"}>
                     {category.post_count}
                   </Badge>
                 )}

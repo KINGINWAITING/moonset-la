@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Send, Bot, User, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
@@ -6,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useTheme } from "@/context/ThemeContext";
 
 interface Message {
   id: string;
@@ -34,6 +34,7 @@ export const MoonChatView = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
   
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -91,7 +92,7 @@ export const MoonChatView = () => {
   };
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-5xl">
+    <div className={`container mx-auto py-8 px-4 max-w-5xl ${theme === "dark" ? "bg-black" : "bg-white"}`}>
       <div className="flex flex-col space-y-4">
         <div className="flex items-center justify-between mb-4">
           <motion.h1 
@@ -115,7 +116,7 @@ export const MoonChatView = () => {
           </Button>
         </div>
         
-        <Card className="bg-[#0A0A0A] border border-gray-800 overflow-hidden">
+        <Card className={theme === "dark" ? "bg-[#0A0A0A] border border-gray-800" : "bg-white border border-gray-200"}>
           <CardContent className="p-0">
             <ScrollArea className="h-[60vh] pr-4">
               <div className="p-6 space-y-4">
@@ -132,7 +133,9 @@ export const MoonChatView = () => {
                     <div
                       className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                         message.role === "assistant"
-                          ? "bg-gray-800/80 backdrop-blur border border-gray-700/50"
+                          ? theme === "dark"
+                            ? "bg-gray-800/80 backdrop-blur border border-gray-700/50"
+                            : "bg-gray-100 backdrop-blur border border-gray-200/50"
                           : "bg-primary/90 backdrop-blur border border-primary/50"
                       }`}
                     >
@@ -159,7 +162,11 @@ export const MoonChatView = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                   >
-                    <div className="max-w-[80%] rounded-2xl px-4 py-3 bg-gray-800/80 backdrop-blur border border-gray-700/50">
+                    <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                      theme === "dark"
+                        ? "bg-gray-800/80 backdrop-blur border border-gray-700/50"
+                        : "bg-gray-100 backdrop-blur border border-gray-200/50"
+                    }`}>
                       <div className="flex items-center gap-2 mb-1">
                         <Bot className="h-4 w-4" />
                         <span className="font-medium">MoonChat AI</span>
@@ -176,13 +183,15 @@ export const MoonChatView = () => {
               </div>
             </ScrollArea>
             
-            <form onSubmit={handleSubmit} className="border-t border-gray-800 p-4">
+            <form onSubmit={handleSubmit} className={`border-t ${theme === "dark" ? "border-gray-800" : "border-gray-200"} p-4`}>
               <div className="relative flex">
                 <Textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about crypto markets, trading strategies, or technical analysis..."
-                  className="min-h-[60px] max-h-[120px] resize-none bg-transparent pr-12 rounded-xl border-gray-700/50 focus-visible:ring-primary/50"
+                  className={`min-h-[60px] max-h-[120px] resize-none bg-transparent pr-12 rounded-xl ${
+                    theme === "dark" ? "border-gray-700/50" : "border-gray-300/50"
+                  } focus-visible:ring-primary/50`}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
@@ -209,4 +218,3 @@ export const MoonChatView = () => {
     </div>
   );
 };
-

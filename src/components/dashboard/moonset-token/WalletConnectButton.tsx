@@ -19,7 +19,9 @@ export const WalletConnectButton = () => {
       <Button 
         onClick={connectWallet}
         className={`rounded-full flex items-center gap-2 ${
-          theme === "dark" ? "bg-white text-black hover:bg-white/90" : "bg-black text-white hover:bg-black/90"
+          theme === "dark" 
+            ? "bg-white text-black hover:bg-white/90" 
+            : "bg-black text-white hover:bg-black/90"
         }`}
         disabled={connecting}
       >

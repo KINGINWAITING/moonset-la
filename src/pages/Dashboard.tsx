@@ -21,7 +21,7 @@ export const Dashboard = () => {
         setIsMobileOpen={setIsMobileSidebarOpen} 
       />
       
-      <div className="flex-1 overflow-auto">
+      <div className={`flex-1 overflow-auto ${theme === "dark" ? "bg-black" : "bg-white"}`}>
         <Routes>
           <Route path="/" element={<PortfolioView />} />
           <Route path="/portfolio" element={<PortfolioView />} />
@@ -35,4 +35,3 @@ export const Dashboard = () => {
     </div>
   );
 };
-

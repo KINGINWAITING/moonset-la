@@ -3,12 +3,15 @@ import React from 'react';
 import { MessageSquare } from "lucide-react";
 import { Comment } from "@/components/forum/Comment";
 import { ForumCommentWithDetails } from "@/types/forum";
+import { useTheme } from "@/context/ThemeContext";
 
 interface CommentListProps {
   comments: ForumCommentWithDetails[];
 }
 
 export const CommentList = ({ comments }: CommentListProps) => {
+  const { theme } = useTheme();
+  
   return (
     <div className="mt-8">
       <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
@@ -18,8 +21,14 @@ export const CommentList = ({ comments }: CommentListProps) => {
       
       <div className="space-y-4 mb-6">
         {comments.length === 0 ? (
-          <div className="text-center py-8 bg-[#121212] border border-gray-800 rounded-lg">
-            <p className="text-gray-400">No comments yet. Be the first to comment!</p>
+          <div className={`text-center py-8 ${
+            theme === "dark" 
+              ? "bg-[#121212] border border-gray-800" 
+              : "bg-gray-50 border border-gray-200"
+          } rounded-lg`}>
+            <p className={theme === "dark" ? "text-gray-400" : "text-gray-500"}>
+              No comments yet. Be the first to comment!
+            </p>
           </div>
         ) : (
           comments.map((comment) => (

@@ -4,12 +4,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDistanceToNow } from 'date-fns';
 import { ForumCommentWithDetails } from "@/types/forum";
+import { useTheme } from "@/context/ThemeContext";
 
 interface CommentProps {
   comment: ForumCommentWithDetails;
 }
 
 export const Comment = ({ comment }: CommentProps) => {
+  const { theme } = useTheme();
   // Check if profiles exists and has an error property
   const hasProfileError = !comment.profiles || (comment.profiles && 'error' in comment.profiles);
   
@@ -25,7 +27,7 @@ export const Comment = ({ comment }: CommentProps) => {
   const usernameInitial = username.charAt(0).toUpperCase();
 
   return (
-    <Card className="bg-[#121212] border-gray-800">
+    <Card className={theme === "dark" ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"}>
       <CardContent className="pt-4">
         <div className="flex items-start gap-3">
           <Avatar className="h-8 w-8">
@@ -37,7 +39,7 @@ export const Comment = ({ comment }: CommentProps) => {
           <div className="flex-1">
             <div className="flex items-center justify-between mb-1">
               <span className="font-medium">{username}</span>
-              <span className="text-xs text-gray-400">
+              <span className={`text-xs ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}>
                 {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
               </span>
             </div>
