@@ -35,6 +35,7 @@ export const MoonChatView = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
+  const isDark = theme === "dark";
   
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -92,7 +93,7 @@ export const MoonChatView = () => {
   };
 
   return (
-    <div className={`container mx-auto py-8 px-4 max-w-5xl ${theme === "dark" ? "bg-black" : "bg-white"}`}>
+    <div className={`container mx-auto py-8 px-4 max-w-5xl ${isDark ? "bg-black" : "bg-white"}`}>
       <div className="flex flex-col space-y-4">
         <div className="flex items-center justify-between mb-4">
           <motion.h1 
@@ -116,7 +117,7 @@ export const MoonChatView = () => {
           </Button>
         </div>
         
-        <Card className={theme === "dark" ? "bg-[#0A0A0A] border border-gray-800" : "bg-white border border-gray-200"}>
+        <Card className={isDark ? "bg-[#0A0A0A] border border-gray-800" : "bg-white border border-gray-200"}>
           <CardContent className="p-0">
             <ScrollArea className="h-[60vh] pr-4">
               <div className="p-6 space-y-4">
@@ -133,7 +134,7 @@ export const MoonChatView = () => {
                     <div
                       className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                         message.role === "assistant"
-                          ? theme === "dark"
+                          ? isDark
                             ? "bg-gray-800/80 backdrop-blur border border-gray-700/50"
                             : "bg-gray-100 backdrop-blur border border-gray-200/50"
                           : "bg-primary/90 backdrop-blur border border-primary/50"
@@ -163,7 +164,7 @@ export const MoonChatView = () => {
                     animate={{ opacity: 1 }}
                   >
                     <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                      theme === "dark"
+                      isDark
                         ? "bg-gray-800/80 backdrop-blur border border-gray-700/50"
                         : "bg-gray-100 backdrop-blur border border-gray-200/50"
                     }`}>
@@ -183,14 +184,14 @@ export const MoonChatView = () => {
               </div>
             </ScrollArea>
             
-            <form onSubmit={handleSubmit} className={`border-t ${theme === "dark" ? "border-gray-800" : "border-gray-200"} p-4`}>
+            <form onSubmit={handleSubmit} className={`border-t ${isDark ? "border-gray-800" : "border-gray-200"} p-4`}>
               <div className="relative flex">
                 <Textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about crypto markets, trading strategies, or technical analysis..."
                   className={`min-h-[60px] max-h-[120px] resize-none bg-transparent pr-12 rounded-xl ${
-                    theme === "dark" ? "border-gray-700/50" : "border-gray-300/50"
+                    isDark ? "border-gray-700/50" : "border-gray-300/50"
                   } focus-visible:ring-primary/50`}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {

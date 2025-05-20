@@ -9,6 +9,7 @@ import { useTheme } from "@/context/ThemeContext";
 export const WalletConnectButton = () => {
   const { account, connecting, connected, connectWallet, disconnectWallet, chainId } = useWeb3();
   const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const formatAddress = (address: string) => {
     return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
@@ -19,7 +20,7 @@ export const WalletConnectButton = () => {
       <Button 
         onClick={connectWallet}
         className={`rounded-full flex items-center gap-2 ${
-          theme === "dark" 
+          isDark 
             ? "bg-white text-black hover:bg-white/90" 
             : "bg-black text-white hover:bg-black/90"
         }`}
@@ -43,9 +44,7 @@ export const WalletConnectButton = () => {
   return (
     <Button 
       variant="outline" 
-      className={`rounded-full flex items-center gap-1 glass ${
-        theme === "dark" ? "text-white" : "text-black"
-      }`}
+      className={`rounded-full flex items-center gap-1 glass ${isDark ? "text-white" : "text-black"}`}
       onClick={disconnectWallet}
     >
       <span>{formatAddress(account as string)}</span>

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
 
 export const SettingsView = () => {
   const { session, signOut } = useAuth();
@@ -20,6 +22,8 @@ export const SettingsView = () => {
   const [isSavingProfile, setIsSavingProfile] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   
   // Email change fields
   const [newEmail, setNewEmail] = useState('');
@@ -330,11 +334,11 @@ export const SettingsView = () => {
   if (!session.isLoggedIn) {
     return (
       <div className="p-6">
-        <Card className="bg-[#121212] border-gray-800">
+        <Card className={isDark ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"}>
           <CardContent className="pt-6">
             <div className="text-center py-12">
               <h3 className="text-xl font-medium mb-2">Authentication Required</h3>
-              <p className="text-gray-400 mb-6">Please sign in to access your settings</p>
+              <p className={isDark ? "text-gray-400" : "text-gray-600"} mb-6>Please sign in to access your settings</p>
               <Button asChild>
                 <a href="/">
                   Sign In
@@ -362,7 +366,7 @@ export const SettingsView = () => {
         
         <TabsContent value="profile">
           <div className="grid grid-cols-1 gap-6">
-            <Card className="bg-[#121212] border-gray-800">
+            <Card className={isDark ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"}>
               <CardHeader>
                 <CardTitle>Profile Settings</CardTitle>
               </CardHeader>
@@ -386,7 +390,7 @@ export const SettingsView = () => {
                         <div className="flex flex-col items-center gap-2">
                           <Label 
                             htmlFor="avatar" 
-                            className="cursor-pointer bg-[#1A1A1A] px-3 py-1 rounded-md text-sm hover:bg-[#252525] transition-colors"
+                            className={`cursor-pointer ${isDark ? "bg-[#1A1A1A]" : "bg-gray-100"} px-3 py-1 rounded-md text-sm ${isDark ? "hover:bg-[#252525]" : "hover:bg-gray-200"} transition-colors`}
                           >
                             Choose Image
                           </Label>
@@ -423,7 +427,7 @@ export const SettingsView = () => {
                             value={session.user?.email || ''}
                             readOnly
                             disabled
-                            className="bg-[#1A1A1A] border-gray-800"
+                            className={isDark ? "bg-[#1A1A1A] border-gray-800" : "bg-gray-100 border-gray-200"}
                           />
                           <p className="text-xs text-gray-400">
                             To change your email, use the Account tab
@@ -437,7 +441,7 @@ export const SettingsView = () => {
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             placeholder="Your username"
-                            className="bg-[#1A1A1A] border-gray-800"
+                            className={isDark ? "bg-[#1A1A1A] border-gray-800" : "bg-gray-100 border-gray-200"}
                           />
                         </div>
                       </div>
@@ -460,7 +464,7 @@ export const SettingsView = () => {
         
         <TabsContent value="account">
           <div className="grid grid-cols-1 gap-6">
-            <Card className="bg-[#121212] border-gray-800">
+            <Card className={isDark ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"}>
               <CardHeader>
                 <CardTitle>Email Address</CardTitle>
               </CardHeader>
@@ -471,7 +475,7 @@ export const SettingsView = () => {
                     id="current-email"
                     value={session.user?.email || ''}
                     disabled
-                    className="bg-[#1A1A1A] border-gray-800"
+                    className={isDark ? "bg-[#1A1A1A] border-gray-800" : "bg-gray-100 border-gray-200"}
                   />
                 </div>
                 
@@ -483,7 +487,7 @@ export const SettingsView = () => {
                     value={newEmail}
                     onChange={(e) => setNewEmail(e.target.value)}
                     placeholder="Enter new email address"
-                    className="bg-[#1A1A1A] border-gray-800"
+                    className={isDark ? "bg-[#1A1A1A] border-gray-800" : "bg-gray-100 border-gray-200"}
                   />
                 </div>
                 
@@ -495,7 +499,7 @@ export const SettingsView = () => {
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
                     placeholder="Enter your current password"
-                    className="bg-[#1A1A1A] border-gray-800"
+                    className={isDark ? "bg-[#1A1A1A] border-gray-800" : "bg-gray-100 border-gray-200"}
                   />
                 </div>
                 
@@ -510,7 +514,7 @@ export const SettingsView = () => {
               </CardContent>
             </Card>
             
-            <Card className="bg-[#121212] border-gray-800">
+            <Card className={isDark ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"}>
               <CardHeader>
                 <CardTitle>Change Password</CardTitle>
               </CardHeader>
@@ -523,7 +527,7 @@ export const SettingsView = () => {
                     value={oldPassword}
                     onChange={(e) => setOldPassword(e.target.value)}
                     placeholder="Enter your current password"
-                    className="bg-[#1A1A1A] border-gray-800"
+                    className={isDark ? "bg-[#1A1A1A] border-gray-800" : "bg-gray-100 border-gray-200"}
                   />
                 </div>
                 
@@ -535,7 +539,7 @@ export const SettingsView = () => {
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Enter new password"
-                    className="bg-[#1A1A1A] border-gray-800"
+                    className={isDark ? "bg-[#1A1A1A] border-gray-800" : "bg-gray-100 border-gray-200"}
                   />
                 </div>
                 
@@ -547,7 +551,7 @@ export const SettingsView = () => {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Confirm new password"
-                    className="bg-[#1A1A1A] border-gray-800"
+                    className={isDark ? "bg-[#1A1A1A] border-gray-800" : "bg-gray-100 border-gray-200"}
                   />
                 </div>
                 
@@ -562,12 +566,12 @@ export const SettingsView = () => {
               </CardContent>
             </Card>
             
-            <Card className="bg-[#121212] border-gray-800">
+            <Card className={isDark ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"}>
               <CardHeader>
                 <CardTitle className="text-red-500">Danger Zone</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="border border-red-900/50 rounded-lg p-4 bg-red-950/10">
+                <div className={`border rounded-lg p-4 ${isDark ? "border-red-900/50 bg-red-950/10" : "border-red-300/50 bg-red-50/30"}`}>
                   <h4 className="font-semibold mb-2">Sign Out</h4>
                   <p className="text-sm mb-4">
                     Sign out from your account on this device
@@ -585,19 +589,19 @@ export const SettingsView = () => {
         </TabsContent>
         
         <TabsContent value="notifications">
-          <Card className="bg-[#121212] border-gray-800">
+          <Card className={isDark ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"}>
             <CardHeader>
               <CardTitle>Notification Preferences</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-gray-400 text-sm">
+              <p className={isDark ? "text-gray-400 text-sm" : "text-gray-600 text-sm"}>
                 Configure which notifications you want to receive
               </p>
               
               <div className="space-y-4">
                 {/* Notification preferences would go here */}
                 <div className="text-center py-8">
-                  <p className="text-gray-400">
+                  <p className={isDark ? "text-gray-400" : "text-gray-500"}>
                     Notification settings coming soon!
                   </p>
                 </div>

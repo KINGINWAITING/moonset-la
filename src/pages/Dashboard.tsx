@@ -13,15 +13,16 @@ import { useTheme } from "@/context/ThemeContext";
 export const Dashboard = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const { theme } = useTheme();
+  const isDark = theme === "dark";
   
   return (
-    <div className={`flex min-h-screen ${theme === "dark" ? "bg-black" : "bg-white"}`}>
+    <div className={`flex min-h-screen ${isDark ? "bg-black" : "bg-white"}`}>
       <Sidebar 
         isMobileOpen={isMobileSidebarOpen} 
         setIsMobileOpen={setIsMobileSidebarOpen} 
       />
       
-      <div className={`flex-1 overflow-auto ${theme === "dark" ? "bg-black" : "bg-white"}`}>
+      <div className={`flex-1 overflow-auto ${isDark ? "bg-black" : "bg-white"}`}>
         <Routes>
           <Route path="/" element={<PortfolioView />} />
           <Route path="/portfolio" element={<PortfolioView />} />

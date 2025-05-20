@@ -11,6 +11,7 @@ interface CommentListProps {
 
 export const CommentList = ({ comments }: CommentListProps) => {
   const { theme } = useTheme();
+  const isDark = theme === "dark";
   
   return (
     <div className="mt-8">
@@ -22,11 +23,11 @@ export const CommentList = ({ comments }: CommentListProps) => {
       <div className="space-y-4 mb-6">
         {comments.length === 0 ? (
           <div className={`text-center py-8 ${
-            theme === "dark" 
+            isDark 
               ? "bg-[#121212] border border-gray-800" 
               : "bg-gray-50 border border-gray-200"
           } rounded-lg`}>
-            <p className={theme === "dark" ? "text-gray-400" : "text-gray-500"}>
+            <p className={isDark ? "text-gray-400" : "text-gray-500"}>
               No comments yet. Be the first to comment!
             </p>
           </div>

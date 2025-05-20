@@ -10,10 +10,11 @@ interface PostContentProps {
 
 export const PostContent = ({ post }: PostContentProps) => {
   const { theme } = useTheme();
+  const isDark = theme === "dark";
   
   return (
     <CardContent>
-      <div className={`${theme === "dark" ? "prose-invert" : "prose"} max-w-none`}>
+      <div className={`${isDark ? "prose-invert" : "prose"} max-w-none`}>
         {post.content.split('\n').map((paragraph: string, i: number) => (
           <p key={i}>{paragraph}</p>
         ))}

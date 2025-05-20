@@ -15,6 +15,7 @@ interface SidebarProps {
 export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
   const { signOut } = useAuth();
   const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const navItems = [
     { name: "Portfolio", path: "/dashboard/portfolio", icon: <Wallet className="w-5 h-5" /> },
@@ -46,7 +47,7 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
       {/* Sidebar */}
       <motion.aside
         className={`fixed lg:static inset-y-0 left-0 z-40 w-64 ${
-          theme === "dark" ? "bg-[#0A0A0A] border-gray-800" : "bg-white border-gray-200"
+          isDark ? "bg-[#0A0A0A] border-gray-800" : "bg-white border-gray-200"
         } border-r transform transition-transform duration-200 ease-in-out ${
           isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
@@ -73,12 +74,8 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                       isActive
-                        ? `bg-gray-800/50 text-primary ${theme === "light" ? "bg-gray-200/50" : ""}`
-                        : `text-gray-400 hover:text-foreground ${
-                            theme === "dark" 
-                              ? "hover:bg-gray-800/30" 
-                              : "hover:bg-gray-200/30"
-                          }`
+                        ? `${isDark ? "bg-gray-800/50" : "bg-gray-200/50"} text-primary`
+                        : `${isDark ? "text-gray-400 hover:bg-gray-800/30" : "text-gray-500 hover:bg-gray-200/30"} hover:text-foreground`
                     }`
                   }
                   onClick={() => setIsMobileOpen(false)}
@@ -95,9 +92,7 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
         <div className="absolute bottom-6 left-0 right-0 px-4">
           <Button 
             variant="ghost" 
-            className={`w-full justify-start ${
-              theme === "dark" ? "text-gray-400 hover:text-white" : "text-gray-500 hover:text-black"
-            }`}
+            className={isDark ? "w-full justify-start text-gray-400 hover:text-white" : "w-full justify-start text-gray-500 hover:text-black"}
             onClick={signOut}
           >
             <LogOut className="mr-2 h-4 w-4" />

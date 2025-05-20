@@ -12,9 +12,10 @@ export const MoonsetTokenView = () => {
   const [timeframe, setTimeframe] = useState("24h");
   const { priceData, tokenStats } = usePriceData(timeframe);
   const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   return (
-    <div className={`p-6 max-w-7xl mx-auto ${theme === "dark" ? "bg-black" : "bg-white"}`}>
+    <div className={`p-6 max-w-7xl mx-auto ${isDark ? "bg-black" : "bg-white"}`}>
       <h1 className="text-3xl font-bold mb-6">
         {tokenConfig.symbol} <span className="text-primary">Token</span>
       </h1>
