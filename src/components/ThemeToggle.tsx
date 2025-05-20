@@ -18,6 +18,9 @@ export const ThemeToggle = () => {
       
       // Update ref for future comparisons
       prevTheme.current = theme;
+      
+      // Store the theme preference in localStorage for persistence
+      localStorage.setItem('theme', theme);
     }
   }, [theme]);
   

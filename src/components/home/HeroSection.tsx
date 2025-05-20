@@ -87,7 +87,7 @@ export const HeroSection = () => {
           <img
             src={isDark 
               ? "/lovable-uploads/0ea2d2b4-8dc0-442b-aca0-f5622012b579.png"
-              : "/lovable-uploads/7cc724d4-3e14-4e7c-9e7a-8d613fde54d0.png"
+              : "/lovable-uploads/63041e81-616a-4f1e-8faf-7cc9a2b3da0e.png"
             }
             alt="MoonSet Dashboard Analytics"
             className="w-full h-auto"
@@ -97,3 +97,4 @@ export const HeroSection = () => {
     </motion.section>
   );
 };
+
