@@ -4,6 +4,7 @@ import { TrendingDown, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatCurrency, formatLargeNumber } from "@/lib/format-utils";
+import { useTheme } from "@/context/ThemeContext";
 
 interface TokenStatsProps {
   tokenStats: {
@@ -17,24 +18,29 @@ interface TokenStatsProps {
 }
 
 export const TokenStats = ({ tokenStats }: TokenStatsProps) => {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <Card className="bg-[#121212] border-gray-800">
+      <Card className={`${isDark ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"} transition-colors`}>
         <CardHeader className="pb-2">
-          <CardDescription>Price</CardDescription>
+          <CardDescription className={isDark ? "text-gray-400" : "text-gray-500"}>Price</CardDescription>
         </CardHeader>
         <CardContent>
           {tokenStats.loading ? (
             <Skeleton className="h-8 w-24" />
           ) : (
-            <p className="text-2xl font-bold">{formatCurrency(tokenStats.price)}</p>
+            <p className={`text-2xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>
+              {formatCurrency(tokenStats.price)}
+            </p>
           )}
         </CardContent>
       </Card>
       
-      <Card className="bg-[#121212] border-gray-800">
+      <Card className={`${isDark ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"} transition-colors`}>
         <CardHeader className="pb-2">
-          <CardDescription>24h Change</CardDescription>
+          <CardDescription className={isDark ? "text-gray-400" : "text-gray-500"}>24h Change</CardDescription>
         </CardHeader>
         <CardContent>
           {tokenStats.loading ? (
@@ -54,28 +60,32 @@ export const TokenStats = ({ tokenStats }: TokenStatsProps) => {
         </CardContent>
       </Card>
       
-      <Card className="bg-[#121212] border-gray-800">
+      <Card className={`${isDark ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"} transition-colors`}>
         <CardHeader className="pb-2">
-          <CardDescription>24h Volume</CardDescription>
+          <CardDescription className={isDark ? "text-gray-400" : "text-gray-500"}>24h Volume</CardDescription>
         </CardHeader>
         <CardContent>
           {tokenStats.loading ? (
             <Skeleton className="h-8 w-24" />
           ) : (
-            <p className="text-2xl font-bold">{formatLargeNumber(tokenStats.volume)}</p>
+            <p className={`text-2xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>
+              {formatLargeNumber(tokenStats.volume)}
+            </p>
           )}
         </CardContent>
       </Card>
       
-      <Card className="bg-[#121212] border-gray-800">
+      <Card className={`${isDark ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"} transition-colors`}>
         <CardHeader className="pb-2">
-          <CardDescription>TVL</CardDescription>
+          <CardDescription className={isDark ? "text-gray-400" : "text-gray-500"}>TVL</CardDescription>
         </CardHeader>
         <CardContent>
           {tokenStats.loading ? (
             <Skeleton className="h-8 w-24" />
           ) : (
-            <p className="text-2xl font-bold">{formatLargeNumber(tokenStats.liquidity)}</p>
+            <p className={`text-2xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>
+              {formatLargeNumber(tokenStats.liquidity)}
+            </p>
           )}
         </CardContent>
       </Card>

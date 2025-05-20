@@ -12,6 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { CustomTooltip } from "./CustomTooltip";
+import { useTheme } from "@/context/ThemeContext";
 
 interface PriceChartProps {
   priceData: Array<{timestamp: string; price: number}>;
@@ -20,6 +21,9 @@ interface PriceChartProps {
 }
 
 export const PriceChart = ({ priceData, loading, onTimeframeChange }: PriceChartProps) => {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  
   const handleTabChange = (value: string) => {
     if (onTimeframeChange) {
       onTimeframeChange(value);
@@ -27,12 +31,12 @@ export const PriceChart = ({ priceData, loading, onTimeframeChange }: PriceChart
   };
 
   return (
-    <Card className="bg-[#121212] border-gray-800">
+    <Card className={`${isDark ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"} transition-colors`}>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle>Price Chart</CardTitle>
+          <CardTitle className={isDark ? "text-white" : "text-gray-900"}>Price Chart</CardTitle>
           <Tabs defaultValue="24h" className="w-auto" onValueChange={handleTabChange}>
-            <TabsList className="bg-[#1B1B1B]">
+            <TabsList className={isDark ? "bg-[#1B1B1B]" : "bg-gray-100"}>
               <TabsTrigger value="1h">1H</TabsTrigger>
               <TabsTrigger value="24h">24H</TabsTrigger>
               <TabsTrigger value="7d">7D</TabsTrigger>
@@ -52,7 +56,7 @@ export const PriceChart = ({ priceData, loading, onTimeframeChange }: PriceChart
             config={{
               price: { 
                 theme: { 
-                  light: '#E0E0E0', // Add light theme color
+                  light: '#4ADE80', // Use the same green for light theme 
                   dark: '#4ADE80' 
                 } 
               }
@@ -63,16 +67,19 @@ export const PriceChart = ({ priceData, loading, onTimeframeChange }: PriceChart
                 data={priceData}
                 margin={{ top: 5, right: 20, left: 20, bottom: 5 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                <CartesianGrid 
+                  strokeDasharray="3 3" 
+                  stroke={isDark ? "#333" : "#e5e5e5"} 
+                />
                 <XAxis 
                   dataKey="timestamp" 
-                  tick={{ fill: '#888' }}
-                  tickLine={{ stroke: '#444' }}
+                  tick={{ fill: isDark ? '#888' : '#555' }}
+                  tickLine={{ stroke: isDark ? '#444' : '#e0e0e0' }}
                 />
                 <YAxis 
                   domain={['auto', 'auto']}
-                  tick={{ fill: '#888' }}
-                  tickLine={{ stroke: '#444' }}
+                  tick={{ fill: isDark ? '#888' : '#555' }}
+                  tickLine={{ stroke: isDark ? '#444' : '#e0e0e0' }}
                   tickFormatter={(value) => `$${value.toFixed(0)}`}
                 />
                 <Line

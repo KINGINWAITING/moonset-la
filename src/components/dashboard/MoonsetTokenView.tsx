@@ -15,8 +15,8 @@ export const MoonsetTokenView = () => {
   const isDark = theme === "dark";
 
   return (
-    <div className={`p-6 max-w-7xl mx-auto ${isDark ? "bg-black text-white" : "bg-white text-black"} transition-colors duration-300`}>
-      <h1 className="text-3xl font-bold mb-6">
+    <div className={`p-6 max-w-7xl mx-auto ${isDark ? "bg-black text-white" : "bg-white text-gray-900"} transition-colors duration-300`}>
+      <h1 className={`text-3xl font-bold mb-6 ${isDark ? "text-white" : "text-gray-900"}`}>
         {tokenConfig.symbol} <span className="text-primary">Token</span>
       </h1>
       

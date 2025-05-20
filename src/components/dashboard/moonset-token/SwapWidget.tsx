@@ -4,6 +4,7 @@ import { SwapWidget as UniswapWidget } from "@uniswap/widgets";
 import { WalletConnectButton } from './WalletConnectButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useWeb3 } from '@/context/Web3Context';
+import { useTheme } from '@/context/ThemeContext';
 
 // Define supported chains (mainnet, goerli, etc)
 const MAINNET_CHAIN_ID = 1;
@@ -22,6 +23,8 @@ interface SwapWidgetProps {
 
 export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
   const { provider, account, chainId } = useWeb3();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   // Ensure required globals are available
   useEffect(() => {
@@ -39,10 +42,10 @@ export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
   }, [provider, account, chainId]);
 
   return (
-    <Card className="h-full bg-[#121212] border-gray-800">
+    <Card className={`h-full ${isDark ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"} transition-colors`}>
       <CardHeader>
-        <CardTitle>Swap Tokens</CardTitle>
-        <CardDescription>Trade tokens directly on Uniswap</CardDescription>
+        <CardTitle className={isDark ? "text-white" : "text-gray-900"}>Swap Tokens</CardTitle>
+        <CardDescription className={isDark ? "text-gray-400" : "text-gray-500"}>Trade tokens directly on Uniswap</CardDescription>
       </CardHeader>
       <CardContent>
         <WalletConnectButton />
@@ -60,9 +63,9 @@ export const SwapWidget = ({ tokenAddress }: SwapWidgetProps) => {
               defaultChainId={chainId || MAINNET_CHAIN_ID}
             />
           ) : (
-            <div className="flex items-center justify-center h-full bg-[#1B1B1B] rounded-lg text-center p-4">
+            <div className={`flex items-center justify-center h-full ${isDark ? "bg-[#1B1B1B]" : "bg-gray-50"} rounded-lg text-center p-4 transition-colors`}>
               <div>
-                <p className="text-gray-400 mb-4">Connect your wallet to use the swap feature</p>
+                <p className={`mb-4 ${isDark ? "text-gray-400" : "text-gray-500"}`}>Connect your wallet to use the swap feature</p>
               </div>
             </div>
           )}
