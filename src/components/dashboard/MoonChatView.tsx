@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { Send, Bot, User, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
@@ -93,7 +94,7 @@ export const MoonChatView = () => {
   };
 
   return (
-    <div className={`container mx-auto py-8 px-4 max-w-5xl ${isDark ? "bg-black" : "bg-white"}`}>
+    <div className={`container mx-auto py-8 px-4 max-w-5xl ${isDark ? "bg-black text-white" : "bg-white text-black"} transition-colors`}>
       <div className="flex flex-col space-y-4">
         <div className="flex items-center justify-between mb-4">
           <motion.h1 
@@ -135,9 +136,9 @@ export const MoonChatView = () => {
                       className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                         message.role === "assistant"
                           ? isDark
-                            ? "bg-gray-800/80 backdrop-blur border border-gray-700/50"
-                            : "bg-gray-100 backdrop-blur border border-gray-200/50"
-                          : "bg-primary/90 backdrop-blur border border-primary/50"
+                            ? "bg-gray-800/80 backdrop-blur border border-gray-700/50 text-white"
+                            : "bg-gray-100 backdrop-blur border border-gray-200/50 text-black"
+                          : "bg-primary/90 backdrop-blur border border-primary/50 text-white"
                       }`}
                     >
                       <div className="flex items-center gap-2 mb-1">
@@ -165,8 +166,8 @@ export const MoonChatView = () => {
                   >
                     <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                       isDark
-                        ? "bg-gray-800/80 backdrop-blur border border-gray-700/50"
-                        : "bg-gray-100 backdrop-blur border border-gray-200/50"
+                        ? "bg-gray-800/80 backdrop-blur border border-gray-700/50 text-white"
+                        : "bg-gray-100 backdrop-blur border border-gray-200/50 text-black"
                     }`}>
                       <div className="flex items-center gap-2 mb-1">
                         <Bot className="h-4 w-4" />
@@ -191,7 +192,7 @@ export const MoonChatView = () => {
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about crypto markets, trading strategies, or technical analysis..."
                   className={`min-h-[60px] max-h-[120px] resize-none bg-transparent pr-12 rounded-xl ${
-                    isDark ? "border-gray-700/50" : "border-gray-300/50"
+                    isDark ? "border-gray-700/50 text-white" : "border-gray-300/50 text-black"
                   } focus-visible:ring-primary/50`}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
@@ -219,3 +220,6 @@ export const MoonChatView = () => {
     </div>
   );
 };
+
+// For lazy loading
+export default { MoonChatView };

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTheme } from "@/context/ThemeContext";
 
 interface CustomTooltipProps {
   active?: boolean;
@@ -12,10 +13,13 @@ interface CustomTooltipProps {
 }
 
 export const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  
   if (active && payload && payload.length) {
     return (
-      <div className="bg-[#1B1B1B] p-3 border border-gray-800 rounded-md shadow-lg">
-        <p className="text-sm text-gray-300">{label}</p>
+      <div className={`${isDark ? "bg-[#1B1B1B] border-gray-800" : "bg-white border-gray-200"} p-3 border rounded-md shadow-lg transition-colors`}>
+        <p className={`text-sm ${isDark ? "text-gray-300" : "text-gray-700"}`}>{label}</p>
         <p className="text-lg font-semibold text-primary">
           ${Number(payload[0].value).toFixed(2)}
         </p>

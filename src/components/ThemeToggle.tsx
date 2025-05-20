@@ -7,14 +7,12 @@ import { useEffect } from "react";
 export const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
   
-  // Simplified theme change effect
+  // Simplified theme change effect with performance optimization
   useEffect(() => {
     // Apply the theme directly to HTML element
     document.documentElement.classList.remove('dark', 'light');
     document.documentElement.classList.add(theme);
-    document.documentElement.style.backgroundColor = theme === 'dark' ? '#060606' : '#f8f8f8';
-    
-    console.log("Theme updated to:", theme);
+    document.documentElement.style.backgroundColor = theme === 'dark' ? '#060606' : '#ffffff';
   }, [theme]);
   
   return (

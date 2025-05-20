@@ -23,7 +23,7 @@ export const WalletConnectButton = () => {
           isDark 
             ? "bg-white text-black hover:bg-white/90" 
             : "bg-black text-white hover:bg-black/90"
-        }`}
+        } transition-colors`}
         disabled={connecting}
       >
         {connecting ? (

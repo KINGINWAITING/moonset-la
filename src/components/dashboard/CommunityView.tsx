@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -99,8 +100,6 @@ export const CommunityView = () => {
           profiles: profile || { error: true }
         };
       });
-
-      console.log("Posts fetched with profiles:", postsWithProfiles);
       
       setPosts(postsWithProfiles as ForumPostWithDetails[]);
     } catch (error) {
@@ -129,7 +128,7 @@ export const CommunityView = () => {
   };
 
   return (
-    <div className={`p-6 ${isDark ? "bg-black" : "bg-white"}`}>
+    <div className={`p-6 ${isDark ? "bg-black text-white" : "bg-white text-black"} transition-colors`}>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">
           Community <span className="text-primary">Forum</span>
@@ -200,3 +199,6 @@ export const CommunityView = () => {
     </div>
   );
 };
+
+// For lazy loading
+export default { CommunityView };

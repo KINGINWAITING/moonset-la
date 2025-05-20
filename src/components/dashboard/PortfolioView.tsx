@@ -22,14 +22,14 @@ export const PortfolioView = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className={`p-6 md:p-8 ${isDark ? "bg-black" : "bg-white"} min-h-screen`}
+      transition={{ duration: 0.3 }}
+      className={`p-6 md:p-8 ${isDark ? "bg-black text-white" : "bg-white text-black"} min-h-screen transition-colors`}
     >
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold mb-1">Welcome back, {session.user?.username || 'User'}</h1>
-            <p className={isDark ? "text-gray-400" : "text-gray-600"}>Here's take a look at your performance and analytics.</p>
+            <p className={isDark ? "text-gray-400" : "text-gray-600"}>Here's a look at your performance and analytics.</p>
           </div>
           
           <div className="flex items-center gap-4 mt-4 md:mt-0">

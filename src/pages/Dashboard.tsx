@@ -1,14 +1,23 @@
 
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { PortfolioView } from "@/components/dashboard/PortfolioView";
-import { MoonsetTokenView } from "@/components/dashboard/MoonsetTokenView";
-import { CommunityView } from "@/components/dashboard/CommunityView";
-import { PostDetail } from "@/components/forum/PostDetail";
-import { SettingsView } from "@/components/dashboard/SettingsView";
-import { MoonChatView } from "@/components/dashboard/MoonChatView";
 import { useTheme } from "@/context/ThemeContext";
+
+// Lazy load components for better performance
+const MoonsetTokenView = lazy(() => import("@/components/dashboard/MoonsetTokenView").then(module => ({ default: module.MoonsetTokenView })));
+const CommunityView = lazy(() => import("@/components/dashboard/CommunityView").then(module => ({ default: module.CommunityView })));
+const PostDetail = lazy(() => import("@/components/forum/PostDetail").then(module => ({ default: module.PostDetail })));
+const SettingsView = lazy(() => import("@/components/dashboard/SettingsView").then(module => ({ default: module.SettingsView })));
+const MoonChatView = lazy(() => import("@/components/dashboard/MoonChatView").then(module => ({ default: module.MoonChatView })));
+
+// Loading fallback
+const PageLoading = () => (
+  <div className="flex items-center justify-center h-screen w-full">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+  </div>
+);
 
 export const Dashboard = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -16,22 +25,24 @@ export const Dashboard = () => {
   const isDark = theme === "dark";
   
   return (
-    <div className={`flex min-h-screen ${isDark ? "bg-black" : "bg-white"}`}>
+    <div className={`flex min-h-screen ${isDark ? "bg-black text-white" : "bg-white text-black"} transition-colors duration-300`}>
       <Sidebar 
         isMobileOpen={isMobileSidebarOpen} 
         setIsMobileOpen={setIsMobileSidebarOpen} 
       />
       
-      <div className={`flex-1 overflow-auto ${isDark ? "bg-black" : "bg-white"}`}>
-        <Routes>
-          <Route path="/" element={<PortfolioView />} />
-          <Route path="/portfolio" element={<PortfolioView />} />
-          <Route path="/moonset-token" element={<MoonsetTokenView />} />
-          <Route path="/community" element={<CommunityView />} />
-          <Route path="/community/post/:postId" element={<PostDetail />} />
-          <Route path="/moonchat" element={<MoonChatView />} />
-          <Route path="/settings" element={<SettingsView />} />
-        </Routes>
+      <div className={`flex-1 overflow-auto ${isDark ? "bg-black" : "bg-white"} transition-colors duration-300`}>
+        <Suspense fallback={<PageLoading />}>
+          <Routes>
+            <Route path="/" element={<PortfolioView />} />
+            <Route path="/portfolio" element={<PortfolioView />} />
+            <Route path="/moonset-token" element={<MoonsetTokenView />} />
+            <Route path="/community" element={<CommunityView />} />
+            <Route path="/community/post/:postId" element={<PostDetail />} />
+            <Route path="/moonchat" element={<MoonChatView />} />
+            <Route path="/settings" element={<SettingsView />} />
+          </Routes>
+        </Suspense>
       </div>
     </div>
   );

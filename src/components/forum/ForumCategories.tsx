@@ -17,9 +17,10 @@ export const ForumCategories = ({
   onCategorySelect 
 }: ForumCategoriesProps) => {
   const { theme } = useTheme();
+  const isDark = theme === "dark";
   
   return (
-    <Card className={theme === "dark" ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"}>
+    <Card className={isDark ? "bg-[#121212] border-gray-800 text-white" : "bg-white border-gray-200 text-black"}>
       <CardHeader>
         <CardTitle>Categories</CardTitle>
       </CardHeader>
@@ -33,14 +34,14 @@ export const ForumCategories = ({
                 className={`flex justify-between items-center p-3 rounded-lg cursor-pointer transition-colors ${
                   selectedCategory === category.id 
                     ? 'bg-primary/20 border border-primary/30' 
-                    : theme === "dark"
+                    : isDark
                       ? 'border border-gray-800 hover:bg-gray-900'
                       : 'border border-gray-200 hover:bg-gray-100'
                 }`}
               >
                 <span className="font-medium">{category.name}</span>
                 {category.post_count > 0 && (
-                  <Badge variant="outline" className={theme === "dark" ? "bg-gray-800" : "bg-gray-100"}>
+                  <Badge variant="outline" className={isDark ? "bg-gray-800 text-white" : "bg-gray-100 text-black"}>
                     {category.post_count}
                   </Badge>
                 )}

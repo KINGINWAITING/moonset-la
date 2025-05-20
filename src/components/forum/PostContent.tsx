@@ -16,7 +16,7 @@ export const PostContent = ({ post }: PostContentProps) => {
     <CardContent>
       <div className={`${isDark ? "prose-invert" : "prose"} max-w-none`}>
         {post.content.split('\n').map((paragraph: string, i: number) => (
-          <p key={i}>{paragraph}</p>
+          <p key={i} className={isDark ? "text-gray-200" : "text-gray-800"}>{paragraph}</p>
         ))}
       </div>
     </CardContent>

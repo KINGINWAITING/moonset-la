@@ -12,6 +12,8 @@ interface CommentProps {
 
 export const Comment = ({ comment }: CommentProps) => {
   const { theme } = useTheme();
+  const isDark = theme === "dark";
+  
   // Check if profiles exists and has an error property
   const hasProfileError = !comment.profiles || (comment.profiles && 'error' in comment.profiles);
   
@@ -27,7 +29,7 @@ export const Comment = ({ comment }: CommentProps) => {
   const usernameInitial = username.charAt(0).toUpperCase();
 
   return (
-    <Card className={theme === "dark" ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"}>
+    <Card className={isDark ? "bg-[#121212] border-gray-800 text-white" : "bg-white border-gray-200 text-black"}>
       <CardContent className="pt-4">
         <div className="flex items-start gap-3">
           <Avatar className="h-8 w-8">
@@ -39,11 +41,11 @@ export const Comment = ({ comment }: CommentProps) => {
           <div className="flex-1">
             <div className="flex items-center justify-between mb-1">
               <span className="font-medium">{username}</span>
-              <span className={`text-xs ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}>
+              <span className={`text-xs ${isDark ? "text-gray-400" : "text-gray-500"}`}>
                 {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
               </span>
             </div>
-            <p className="text-sm">{comment.content}</p>
+            <p className={`text-sm ${isDark ? "text-gray-200" : "text-gray-800"}`}>{comment.content}</p>
           </div>
         </div>
       </CardContent>

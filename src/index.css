@@ -69,7 +69,7 @@
   }
   
   html.light {
-    background-color: #f8f8f8;
+    background-color: #ffffff;
   }
 }
 
@@ -89,7 +89,7 @@
   
   /* Add a helper class for theme transitions */
   .theme-transition {
-    transition: background-color 0.3s ease;
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
   }
 }
 
@@ -119,10 +119,18 @@
 }
 
 .glass {
-  @apply backdrop-blur-lg dark:bg-black/70 bg-white/90 relative z-10;
+  @apply backdrop-blur-lg relative z-10 transition-colors duration-300;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background-clip: padding-box;
   position: relative;
+}
+
+.dark .glass {
+  @apply bg-black/70;
+}
+
+.light .glass {
+  @apply bg-white/90;
 }
 
 .glass::before {
@@ -140,7 +148,15 @@
 }
 
 .glass-hover {
-  @apply transition-all duration-300 hover:bg-white/10;
+  @apply transition-all duration-300;
+}
+
+.dark .glass-hover:hover {
+  @apply bg-white/10;
+}
+
+.light .glass-hover:hover {
+  @apply bg-black/5;
 }
 
 .text-gradient {
@@ -157,16 +173,16 @@
   height: 6px;
 }
 
-::-webkit-scrollbar-track {
+.dark ::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.4);
 }
 
-::-webkit-scrollbar-thumb {
+.dark ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
 }
 
-::-webkit-scrollbar-thumb:hover {
+.dark ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
