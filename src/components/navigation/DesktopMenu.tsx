@@ -19,19 +19,19 @@ export const DesktopMenu = ({
   isScrolled = false,
 }: DesktopMenuProps) => {
   return (
-    <div className="hidden md:flex items-center gap-6 transition-all duration-300 ease-in-out">
+    <div className="hidden md:flex items-center gap-6">
       <NavigationItems 
         scrollToSection={scrollToSection} 
         isScrolled={isScrolled}
       />
       
-      <div className="flex items-center gap-4 transition-all duration-300 ease-in-out">
+      <div className="flex items-center gap-4">
         <ThemeToggle />
         
         <Button 
           size="sm" 
           variant="outline" 
-          className="mr-2 transition-all duration-300 ease-in-out" 
+          className="mr-2" 
           onClick={handleDashboardClick}
         >
           Dashboard
@@ -42,7 +42,6 @@ export const DesktopMenu = ({
             onClick={handleSignOut}
             size="sm"
             variant="destructive"
-            className="transition-all duration-300 ease-in-out"
           >
             Sign Out
           </Button>
@@ -50,7 +49,7 @@ export const DesktopMenu = ({
           <Button 
             onClick={() => scrollToSection('cta')}
             size="sm"
-            className="button-gradient transition-all duration-300 ease-in-out"
+            className="button-gradient"
           >
             Start Trading
           </Button>

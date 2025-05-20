@@ -44,7 +44,7 @@ export const NavigationItems: React.FC<NavigationItemProps> = ({
   }
 
   return (
-    <div className="flex items-center gap-5 transition-all duration-300 ease-in-out">
+    <div className="flex items-center gap-5">
       {navItems.map((item) => (
         <a
           key={item.name}
@@ -55,7 +55,7 @@ export const NavigationItems: React.FC<NavigationItemProps> = ({
               item.onClick();
             }
           }}
-          className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300"
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           {item.name}
         </a>

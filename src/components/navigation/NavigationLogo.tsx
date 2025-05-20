@@ -9,8 +9,8 @@ interface NavigationLogoProps {
 export const NavigationLogo = ({ className = "" }: NavigationLogoProps) => {
   return (
     <Link to="/" className={`flex items-center gap-2 mr-6 ${className}`}>
-      <Command className="w-5 h-5 text-primary transition-all duration-300 ease-in-out" />
-      <span className="font-bold text-base transition-all duration-300 ease-in-out">MOONSET</span>
+      <Command className="w-5 h-5 text-primary" />
+      <span className="font-bold text-base">MOONSET</span>
     </Link>
   );
 };

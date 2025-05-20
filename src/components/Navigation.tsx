@@ -34,15 +34,15 @@ const Navigation = () => {
 
   return (
     <header
-      className={`fixed top-3.5 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ease-in-out rounded-full ${
+      className={`fixed top-3.5 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ease-in-out ${
         isScrolled 
-          ? `h-14 ${theme === "dark" ? "bg-[#1B1B1B]/40" : "bg-white/40"} backdrop-blur-xl border ${theme === "dark" ? "border-white/10" : "border-gray-300/20"} w-auto min-w-[650px] max-w-[800px] transform scale-[0.98]` 
-          : `h-14 ${theme === "dark" ? "bg-[#1B1B1B]" : "bg-white"} w-full max-w-7xl`
+          ? `h-14 ${theme === "dark" ? "bg-[#1B1B1B]/40" : "bg-white/40"} backdrop-blur-xl border ${theme === "dark" ? "border-white/10" : "border-gray-300/20"} rounded-full w-auto min-w-[650px] max-w-[800px]` 
+          : `h-14 ${theme === "dark" ? "bg-[#1B1B1B]" : "bg-white"} rounded-full w-full max-w-7xl`
       }`}
     >
       <div className="mx-auto h-full px-5 md:px-8">
         <nav className="flex items-center justify-between h-full">
-          <NavigationLogo className="transition-all duration-300 ease-in-out" />
+          <NavigationLogo />
 
           {/* Desktop Navigation */}
           <DesktopMenu 
