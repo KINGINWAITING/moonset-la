@@ -18,9 +18,15 @@ interface PriceChartProps {
   priceData: Array<{timestamp: string; price: number}>;
   loading: boolean;
   onTimeframeChange?: (timeframe: string) => void;
+  height?: number; // New prop for customizable height
 }
 
-export const PriceChart = ({ priceData, loading, onTimeframeChange }: PriceChartProps) => {
+export const PriceChart = ({ 
+  priceData, 
+  loading, 
+  onTimeframeChange,
+  height = 320 // Default height if not provided
+}: PriceChartProps) => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   
@@ -47,12 +53,13 @@ export const PriceChart = ({ priceData, loading, onTimeframeChange }: PriceChart
       </CardHeader>
       <CardContent>
         {loading ? (
-          <div className="w-full h-80 flex items-center justify-center">
+          <div className={`w-full flex items-center justify-center`} style={{ height: `${height}px` }}>
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
           </div>
         ) : (
           <ChartContainer 
-            className="h-80" 
+            className="w-full" 
+            style={{ height: `${height}px` }}
             config={{
               price: { 
                 theme: { 

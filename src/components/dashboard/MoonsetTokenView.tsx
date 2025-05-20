@@ -20,21 +20,23 @@ export const MoonsetTokenView = () => {
         {tokenConfig.symbol} <span className="text-primary">Token</span>
       </h1>
       
+      {/* Token stats at top */}
+      <div className="mb-6">
+        <TokenStats tokenStats={tokenStats} />
+      </div>
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left column - Token stats and chart */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Price stats */}
-          <TokenStats tokenStats={tokenStats} />
-          
-          {/* Price chart */}
+        {/* Larger Price chart */}
+        <div className="lg:col-span-2">
           <PriceChart 
             priceData={priceData} 
             loading={tokenStats.loading}
             onTimeframeChange={setTimeframe}
+            height={400} // Increased height for larger chart
           />
         </div>
 
-        {/* Right column - Swap widget */}
+        {/* Swap widget */}
         <div>
           <SwapWidget tokenAddress={tokenConfig.address} />
         </div>
