@@ -54,7 +54,7 @@ export const DesktopMenu = ({
             size="sm"
             className="button-gradient"
           >
-            Start Trading
+            Sign In
           </Button>
         )}
       </div>

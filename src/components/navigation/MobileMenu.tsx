@@ -74,7 +74,7 @@ export const MobileMenu = ({
                 }}
                 className="button-gradient mt-4"
               >
-                Start Trading
+                Sign In
               </Button>
             )}
           </div>
