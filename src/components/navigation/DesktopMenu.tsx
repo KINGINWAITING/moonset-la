@@ -10,6 +10,7 @@ interface DesktopMenuProps {
   scrollToSection: (sectionId: string) => void;
   isLoggedIn: boolean;
   isScrolled?: boolean;
+  onOpenAuthModal: () => void;
 }
 
 export const DesktopMenu = ({
@@ -18,6 +19,7 @@ export const DesktopMenu = ({
   scrollToSection,
   isLoggedIn,
   isScrolled = false,
+  onOpenAuthModal,
 }: DesktopMenuProps) => {
   const navigate = useNavigate();
 
@@ -50,7 +52,7 @@ export const DesktopMenu = ({
           </Button>
         ) : (
           <Button 
-            onClick={() => scrollToSection('cta')}
+            onClick={onOpenAuthModal}
             size="sm"
             className="button-gradient"
           >

@@ -2,11 +2,14 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
 
-export const CTASection = () => {
+interface CTASectionProps {
+  onOpenAuthModal: () => void;
+}
+
+export const CTASection = ({ onOpenAuthModal }: CTASectionProps) => {
   const { session } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -36,12 +39,17 @@ export const CTASection = () => {
         <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
           Be part of a community committed to evidence-based reasoning and technological innovation.
         </p>
-        <Link to={session.isLoggedIn ? "/dashboard" : "/auth"}>
-          <Button size="lg" className="button-gradient">
-            {session.isLoggedIn ? "Go to Dashboard" : "Join MoonSet"}
+        {session.isLoggedIn ? (
+          <Button size="lg" className="button-gradient" onClick={() => window.location.href = "/dashboard"}>
+            Go to Dashboard
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
-        </Link>
+        ) : (
+          <Button size="lg" className="button-gradient" onClick={onOpenAuthModal}>
+            Join MoonSet
+            <ArrowRight className="ml-2 w-4 h-4" />
+          </Button>
+        )}
       </motion.div>
     </section>
   );

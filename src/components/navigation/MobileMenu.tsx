@@ -14,6 +14,7 @@ interface MobileMenuProps {
   handleSignOut: (e: React.MouseEvent) => void;
   scrollToSection: (sectionId: string) => void;
   isLoggedIn: boolean;
+  onOpenAuthModal: () => void;
 }
 
 export const MobileMenu = ({
@@ -23,6 +24,7 @@ export const MobileMenu = ({
   handleSignOut,
   scrollToSection,
   isLoggedIn,
+  onOpenAuthModal,
 }: MobileMenuProps) => {
   const { theme } = useTheme();
 
@@ -70,7 +72,7 @@ export const MobileMenu = ({
               <Button 
                 onClick={() => {
                   setIsMobileMenuOpen(false);
-                  scrollToSection('cta');
+                  onOpenAuthModal();
                 }}
                 className="button-gradient mt-4"
               >

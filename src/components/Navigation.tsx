@@ -17,12 +17,16 @@ const Navigation = () => {
   const { isScrolled, scrollToSection } = useNavigationScroll();
   const { theme } = useTheme();
 
+  const handleOpenAuthModal = () => {
+    setIsAuthModalOpen(true);
+  };
+
   const handleDashboardClick = (e: React.MouseEvent) => {
     e.preventDefault();
     if (session.isLoggedIn) {
       navigate("/dashboard");
     } else {
-      setIsAuthModalOpen(true);
+      handleOpenAuthModal();
     }
   };
 
@@ -51,6 +55,7 @@ const Navigation = () => {
             scrollToSection={scrollToSection}
             isLoggedIn={session.isLoggedIn}
             isScrolled={isScrolled}
+            onOpenAuthModal={handleOpenAuthModal}
           />
 
           {/* Mobile Navigation */}
@@ -61,6 +66,7 @@ const Navigation = () => {
             handleSignOut={handleSignOut}
             scrollToSection={scrollToSection}
             isLoggedIn={session.isLoggedIn}
+            onOpenAuthModal={handleOpenAuthModal}
           />
         </nav>
       </div>

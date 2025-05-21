@@ -19,6 +19,7 @@ const Index = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   
   // Enhanced performance optimization
   useEffect(() => {
@@ -31,6 +32,10 @@ const Index = () => {
       return () => clearTimeout(timer);
     }
   }, [isLoaded]);
+
+  const handleOpenAuthModal = () => {
+    setIsAuthModalOpen(true);
+  };
   
   return (
     <div className={`min-h-screen ${isDark ? "bg-[#060606]" : "bg-[#f8f8f8]"} text-foreground relative`}>
@@ -59,7 +64,7 @@ const Index = () => {
       <FrameworkSection />
 
       {/* CTA Section */}
-      <CTASection />
+      <CTASection onOpenAuthModal={handleOpenAuthModal} />
 
       {/* Footer */}
       <div className={isDark ? "bg-black/70 backdrop-blur-md relative z-10" : "bg-white/70 backdrop-blur-md relative z-10"}>
