@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
-import { Command, Github, Twitter } from "lucide-react";
+import { Command, Github, Apple } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { Separator } from "@/components/ui/separator";
@@ -174,18 +174,18 @@ export const AuthPage = () => {
                   <Button
                     variant="outline"
                     className="w-full bg-[#111111] hover:bg-[#222222]"
-                    onClick={() => handleSocialAuth("X (Twitter)")}
-                  >
-                    <Twitter className="h-4 w-4 mr-2" />
-                    X
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full bg-[#111111] hover:bg-[#222222]"
                     onClick={() => handleSocialAuth("GitHub")}
                   >
                     <Github className="h-4 w-4 mr-2" />
                     GitHub
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full bg-[#111111] hover:bg-[#222222]"
+                    onClick={() => handleSocialAuth("Apple")}
+                  >
+                    <Apple className="h-4 w-4 mr-2" />
+                    Apple
                   </Button>
                 </div>
               </CardContent>
@@ -264,18 +264,18 @@ export const AuthPage = () => {
                   <Button
                     variant="outline"
                     className="w-full bg-[#111111] hover:bg-[#222222]"
-                    onClick={() => handleSocialAuth("X (Twitter)")}
-                  >
-                    <Twitter className="h-4 w-4 mr-2" />
-                    X
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full bg-[#111111] hover:bg-[#222222]"
                     onClick={() => handleSocialAuth("GitHub")}
                   >
                     <Github className="h-4 w-4 mr-2" />
                     GitHub
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full bg-[#111111] hover:bg-[#222222]"
+                    onClick={() => handleSocialAuth("Apple")}
+                  >
+                    <Apple className="h-4 w-4 mr-2" />
+                    Apple
                   </Button>
                 </div>
               </CardContent>

@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { X, Github, Twitter } from "lucide-react";
+import { X, Github, Apple } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -171,18 +171,18 @@ const AuthModal = ({ isOpen, onClose, defaultTab = "login" }: AuthModalProps) =>
               <Button
                 variant="outline"
                 className="w-full bg-[#111111] hover:bg-[#222222]"
-                onClick={() => handleSocialAuth("X (Twitter)")}
-              >
-                <Twitter className="h-4 w-4 mr-2" />
-                X
-              </Button>
-              <Button
-                variant="outline"
-                className="w-full bg-[#111111] hover:bg-[#222222]"
                 onClick={() => handleSocialAuth("GitHub")}
               >
                 <Github className="h-4 w-4 mr-2" />
                 GitHub
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full bg-[#111111] hover:bg-[#222222]"
+                onClick={() => handleSocialAuth("Apple")}
+              >
+                <Apple className="h-4 w-4 mr-2" />
+                Apple
               </Button>
             </div>
           </TabsContent>
@@ -258,18 +258,18 @@ const AuthModal = ({ isOpen, onClose, defaultTab = "login" }: AuthModalProps) =>
               <Button
                 variant="outline"
                 className="w-full bg-[#111111] hover:bg-[#222222]"
-                onClick={() => handleSocialAuth("X (Twitter)")}
-              >
-                <Twitter className="h-4 w-4 mr-2" />
-                X
-              </Button>
-              <Button
-                variant="outline"
-                className="w-full bg-[#111111] hover:bg-[#222222]"
                 onClick={() => handleSocialAuth("GitHub")}
               >
                 <Github className="h-4 w-4 mr-2" />
                 GitHub
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full bg-[#111111] hover:bg-[#222222]"
+                onClick={() => handleSocialAuth("Apple")}
+              >
+                <Apple className="h-4 w-4 mr-2" />
+                Apple
               </Button>
             </div>
           </TabsContent>
