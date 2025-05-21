@@ -82,7 +82,7 @@ const LogoCarousel = () => {
         transition={{
           opacity: { duration: 0.5 },
           x: {
-            duration: 15, // 15 second animation duration
+            duration: 30, // Changed from 15 to 30 seconds to make it slower
             repeat: Infinity,
             ease: "linear",
             delay: 0.5
