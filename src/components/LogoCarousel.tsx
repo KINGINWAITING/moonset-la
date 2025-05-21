@@ -1,16 +1,33 @@
 
 import { motion } from "framer-motion";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const LogoCarousel = () => {
-  const logos = [
-    "/images/partner-logo-1.png",
-    "/images/partner-logo-2.png",
-    "/images/partner-logo-3.png",
-    "/images/partner-logo-4.png",
-    "/images/partner-logo-5.png",
+  // Replace logos with avatar images using unsplash placeholder images
+  const avatars = [
+    {
+      src: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1000&auto=format&fit=crop",
+      name: "Alex",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1000&auto=format&fit=crop",
+      name: "Sofia",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1000&auto=format&fit=crop",
+      name: "Michael",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop",
+      name: "Emma",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=1000&auto=format&fit=crop",
+      name: "James",
+    },
   ];
 
-  const extendedLogos = [...logos, ...logos, ...logos];
+  const extendedAvatars = [...avatars, ...avatars, ...avatars];
 
   return (
     <div className="w-full overflow-hidden bg-background/50 backdrop-blur-sm py-12 mt-20">
@@ -24,7 +41,7 @@ const LogoCarousel = () => {
         transition={{
           opacity: { duration: 0.5 },
           x: {
-            duration: 15, // Reduced from 25 to 15 seconds
+            duration: 15, // 15 second animation duration
             repeat: Infinity,
             ease: "linear",
             delay: 0.5
@@ -36,19 +53,23 @@ const LogoCarousel = () => {
           gap: "4rem"
         }}
       >
-        {extendedLogos.map((logo, index) => (
-          <motion.img
-            key={`logo-${index}`}
-            src={logo}
-            alt={`Partner logo ${index + 1}`}
-            className="h-8 object-contain"
+        {extendedAvatars.map((avatar, index) => (
+          <motion.div
+            key={`avatar-${index}`}
+            className="flex flex-col items-center"
             initial={{ opacity: 0.5 }}
             whileHover={{ 
               opacity: 1,
               scale: 1.05,
               transition: { duration: 0.2 }
             }}
-          />
+          >
+            <Avatar className="h-16 w-16">
+              <AvatarImage src={avatar.src} alt={`${avatar.name}'s avatar`} />
+              <AvatarFallback>{avatar.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+            </Avatar>
+            <span className="mt-2 text-sm font-medium">{avatar.name}</span>
+          </motion.div>
         ))}
       </motion.div>
     </div>
