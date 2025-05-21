@@ -25,6 +25,47 @@ const LogoCarousel = () => {
       src: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=1000&auto=format&fit=crop",
       name: "James",
     },
+    // Adding 10 more unique faces
+    {
+      src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop",
+      name: "Nathan",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1000&auto=format&fit=crop",
+      name: "Olivia",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop",
+      name: "Daniel",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=1000&auto=format&fit=crop",
+      name: "Mia",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1000&auto=format&fit=crop",
+      name: "Thomas",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?q=80&w=1000&auto=format&fit=crop",
+      name: "Sophia",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?q=80&w=1000&auto=format&fit=crop",
+      name: "William",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1546961329-78bef0414d7c?q=80&w=1000&auto=format&fit=crop",
+      name: "Ava",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?q=80&w=1000&auto=format&fit=crop",
+      name: "Lucas",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1593529467220-9d721ceb9a78?q=80&w=1000&auto=format&fit=crop",
+      name: "Isabella",
+    },
   ];
 
   const extendedAvatars = [...avatars, ...avatars, ...avatars];
