@@ -20,10 +20,7 @@ export const FrameworkSection = () => {
           
           <div className="flex justify-center mb-8">
             <img
-              src={isDark 
-                ? "/lovable-uploads/0dbe1b75-2c74-4ff8-ba55-4be4d74abe72.png"
-                : "/lovable-uploads/7335619d-58a9-41ad-a233-f7826f56f3e9.png"
-              }
+              src="/lovable-uploads/0dbe1b75-2c74-4ff8-ba55-4be4d74abe72.png"
               alt="Evidence framework"
               className="w-full max-w-2xl h-auto rounded-lg"
             />
