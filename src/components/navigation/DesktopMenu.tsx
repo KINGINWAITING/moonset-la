@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { NavigationItems } from "./NavigationItems";
+import { useNavigate } from "react-router-dom";
 
 interface DesktopMenuProps {
   handleDashboardClick: (e: React.MouseEvent) => void;
@@ -18,6 +19,8 @@ export const DesktopMenu = ({
   isLoggedIn,
   isScrolled = false,
 }: DesktopMenuProps) => {
+  const navigate = useNavigate();
+
   return (
     <div className="hidden md:flex items-center gap-6">
       <NavigationItems 

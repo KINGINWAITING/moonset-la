@@ -1,5 +1,6 @@
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface NavigationItemProps {
   isMobile?: boolean;
@@ -14,10 +15,12 @@ export const NavigationItems: React.FC<NavigationItemProps> = ({
   scrollToSection,
   isScrolled = false
 }) => {
+  const navigate = useNavigate();
+
   const navItems = [
     { name: "Features", href: "#features", onClick: () => scrollToSection('features') },
-    { name: "Prices", href: "#pricing", onClick: () => scrollToSection('pricing') },
-    { name: "Testimonials", href: "#testimonials", onClick: () => scrollToSection('testimonials') },
+    { name: "Whitepaper", href: "/whitepaper", onClick: () => navigate('/whitepaper') },
+    { name: "Contact", href: "/contact", onClick: () => navigate('/contact') },
   ];
 
   if (isMobile) {
