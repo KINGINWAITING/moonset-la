@@ -23,6 +23,12 @@ const cleanupAuthState = () => {
       localStorage.removeItem(key);
     }
   });
+  // Also clean sessionStorage if used
+  Object.keys(sessionStorage || {}).forEach((key) => {
+    if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+      sessionStorage.removeItem(key);
+    }
+  });
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -48,6 +54,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             isLoggedIn: true,
             isLoading: false,
           });
+          
+          // Defer data fetching to prevent deadlocks
+          if (event === 'SIGNED_IN') {
+            setTimeout(() => {
+              // Here you could fetch additional user data if needed
+              console.log('User signed in, session established');
+            }, 0);
+          }
         } else {
           setSession({
             user: null,
@@ -146,6 +160,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
         throw error;
       }
+      
+      // Consider using a page refresh for a clean state
+      // window.location.href = '/dashboard';
     } catch (error: any) {
       console.error("Sign in error:", error);
       throw error;
@@ -164,6 +181,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         title: "Signed out",
         description: "You've been successfully signed out.",
       });
+      
+      // Consider using a page refresh for a clean state
+      // window.location.href = '/auth';
     } catch (error: any) {
       console.error("Sign out error:", error);
       toast({
