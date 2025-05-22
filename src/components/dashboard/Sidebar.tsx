@@ -1,11 +1,12 @@
 
 import { NavLink, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Menu, X, Command, Wallet, BarChart3, Settings, LogOut, Users, Bot, DollarSign } from "lucide-react";
+import { Menu, X, Wallet, BarChart3, Settings, LogOut, Users, Bot, DollarSign } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/context/ThemeContext";
+import { MoonLogo } from "@/components/navigation/MoonLogo";
 
 interface SidebarProps {
   isMobileOpen: boolean;
@@ -60,7 +61,7 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
         {/* Logo and Theme Toggle */}
         <div className="flex items-center justify-between p-6">
           <Link to="/" className="flex items-center gap-2">
-            <Command className="h-6 w-6 text-primary" />
+            <MoonLogo className="h-6 w-6 filter drop-shadow-[0_0_3px_#4ADE80]" />
             <span className="text-xl font-bold">MOONSET</span>
           </Link>
           <ThemeToggle />
