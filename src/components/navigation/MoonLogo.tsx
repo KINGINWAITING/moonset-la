@@ -32,14 +32,13 @@ export const MoonLogo = ({ className = "" }: MoonLogoProps) => {
       <circle cx="14" cy="10" r="1.5" fill="#4ADE80" opacity="0.5" />
       <circle cx="11" cy="14" r="1" fill="#4ADE80" opacity="0.6" />
       
-      {/* Neon glow effect */}
-      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="1.5" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
+      {/* Enhanced neon glow effect with proper SVG filter */}
+      <defs>
+        <filter id="moonGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="1.5" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+      </defs>
     </svg>
   );
 };
