@@ -9,15 +9,11 @@ const Whitepaper = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  // Helper for list titles, if prose doesn't style them distinctly enough
-  // You can apply this with <span className={listTitleStyle}>Title:</span>
-  // const listTitleStyle = "font-semibold mr-1";
-
   return (
     <div className={`min-h-screen ${isDark ? "bg-[#060606]" : "bg-[#f8f8f8]"}`}>
       <Navigation />
 
-      <div className="container mx-auto pt-32 pb-20"> {/* Added mx-auto for centering container */}
+      <div className="container mx-auto pt-32 pb-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -32,11 +28,11 @@ const Whitepaper = () => {
             </p>
           </div>
 
-          <div className="glass p-6 md:p-10 rounded-2xl"> {/* Adjusted padding slightly */}
-            <div className="prose prose-lg dark:prose-invert max-w-none mx-auto"> {/* max-w-none for prose to take full width of its parent */}
+          <div className="glass p-6 md:p-10 rounded-2xl">
+            <div className="prose prose-lg dark:prose-invert max-w-none mx-auto">
               
               {/* --- TABLE OF CONTENTS --- */}
-              <nav id="toc" className="mb-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg not-prose"> {/* Added not-prose to prevent prose styling conflicts */}
+              <nav id="toc" className="mb-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg not-prose">
                 <h2 className="text-2xl font-semibold mt-0 mb-3">Table of Contents</h2>
                 <ul className="list-none p-0 m-0">
                     <li><a href="#executive-summary" className="hover:underline">Executive Summary</a></li>
@@ -164,271 +160,274 @@ const Whitepaper = () => {
 
               {/* --- Core Technology Suite --- */}
               <section id="core-technology">
-                  <h2>Core Technology Suite</h2>
-                  <p>The MoonSet platform is built upon three integrated technological pillars, each designed to address critical aspects of collaborative truth discovery. Together, they form a comprehensive ecosystem for evidence gathering, analysis, verification, and consensus building.</p>
-                  
-                  <article id="mare">
-                      <h3>MoonSet AI Research Engine (MARE)</h3>
-                      <p>MARE represents the analytical heart of the MoonSet platform—a sophisticated artificial intelligence system specifically designed for evidence analysis and anomaly detection. Unlike general-purpose AI tools, MARE is optimized for the unique challenges of historical investigation and forensic analysis.</p>
-                      <h4>Key Capabilities:</h4>
+                <h2>Core Technology Suite</h2>
+                <p>The MoonSet platform is built upon three integrated technological pillars, each designed to address critical aspects of collaborative truth discovery. Together, they form a comprehensive ecosystem for evidence gathering, analysis, verification, and consensus building.</p>
+                
+                <article id="mare">
+                  <h3>MoonSet AI Research Engine (MARE)</h3>
+                  <p>MARE represents the analytical heart of the MoonSet platform—a sophisticated artificial intelligence system specifically designed for evidence analysis and anomaly detection. Unlike general-purpose AI tools, MARE is optimized for the unique challenges of historical investigation and forensic analysis.</p>
+                  <h4>Key Capabilities:</h4>
+                  <ul>
+                    <li><strong className="mr-1">Multi-modal Data Processing</strong>
                       <ul>
-                          <li><strong className="mr-1">Multi-modal Data Processing</strong>
-                              <ul>
-                                  <li>Ingest and analyze text, images, video, audio, and structured data</li>
-                                  <li>Support for legacy formats often found in historical archives</li>
-                                  <li>Cross-format analysis for inconsistency detection</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Advanced Visual Analysis</strong>
-                              <ul>
-                                  <li>Photogrammetric reconstruction from multiple images</li>
-                                  <li>Shadow and lighting consistency verification</li>
-                                  <li>Object proportion and perspective analysis</li>
-                                  <li>Detection of image manipulation and anachronistic elements</li>
-                                  <li>3D scene reconstruction for physical plausibility testing</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Natural Language Processing Suite</strong>
-                              <ul>
-                                  <li>Semantic analysis of testimonies and documents</li>
-                                  <li>Cross-reference engine for statement consistency</li>
-                                  <li>Specialized models for technical and scientific content</li>
-                                  <li>Temporal contextualization of historical language</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Anomaly Detection Systems</strong>
-                              <ul>
-                                  <li>Statistical pattern deviation identification</li>
-                                  <li>Physical impossibility flagging</li>
-                                  <li>Temporal and causal inconsistency detection</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Research Assistance Features</strong>
-                              <ul>
-                                  <li>Automated source connection suggestions</li>
-                                  <li>Hypothesis testing frameworks</li>
-                                  <li>Evidence correlation mapping</li>
-                                  <li>Dynamic knowledge graphs with confidence scoring</li>
-                              </ul>
-                          </li>
+                        <li>Ingest and analyze text, images, video, audio, and structured data</li>
+                        <li>Support for legacy formats often found in historical archives</li>
+                        <li>Cross-format analysis for inconsistency detection</li>
                       </ul>
-                      <h4>Technical Implementation:</h4>
-                      <p>MARE is built as a modular system comprising specialized neural networks, transformers, computer vision algorithms, and traditional rule-based analytical systems. The architecture emphasizes:</p>
+                    </li>
+                    <li><strong className="mr-1">Advanced Visual Analysis</strong>
                       <ul>
-                          <li>Explainability of results to prevent "black box" analysis</li>
-                          <li>Confidence scoring with explicit uncertainty quantification</li>
-                          <li>Human-in-the-loop design for collaborative intelligence</li>
-                          <li>Continuous learning from researcher feedback and new evidence</li>
-                          <li>Computational efficiency to enable complex analysis on consumer hardware</li>
+                        <li>Photogrammetric reconstruction from multiple images</li>
+                        <li>Shadow and lighting consistency verification</li>
+                        <li>Object proportion and perspective analysis</li>
+                        <li>Detection of image manipulation and anachronistic elements</li>
+                        <li>3D scene reconstruction for physical plausibility testing</li>
                       </ul>
-                      <p>Importantly, MARE is not designed to reach conclusions independently but to augment human analytical capabilities, highlight potential areas of interest, and provide computational support for complex analyses that would be impractical to perform manually.</p>
-                  </article>
+                    </li>
+                    <li><strong className="mr-1">Natural Language Processing Suite</strong>
+                      <ul>
+                        <li>Semantic analysis of testimonies and documents</li>
+                        <li>Cross-reference engine for statement consistency</li>
+                        <li>Specialized models for technical and scientific content</li>
+                        <li>Temporal contextualization of historical language</li>
+                      </ul>
+                    </li>
+                    <li><strong className="mr-1">Anomaly Detection Systems</strong>
+                      <ul>
+                        <li>Statistical pattern deviation identification</li>
+                        <li>Physical impossibility flagging</li>
+                        <li>Temporal and causal inconsistency detection</li>
+                      </ul>
+                    </li>
+                    <li><strong className="mr-1">Research Assistance Features</strong>
+                      <ul>
+                        <li>Automated source connection suggestions</li>
+                        <li>Hypothesis testing frameworks</li>
+                        <li>Evidence correlation mapping</li>
+                        <li>Dynamic knowledge graphs with confidence scoring</li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <h4>Technical Implementation:</h4>
+                  <p>MARE is built as a modular system comprising specialized neural networks, transformers, computer vision algorithms, and traditional rule-based analytical systems. The architecture emphasizes:</p>
+                  <ul>
+                    <li>Explainability of results to prevent "black box" analysis</li>
+                    <li>Confidence scoring with explicit uncertainty quantification</li>
+                    <li>Human-in-the-loop design for collaborative intelligence</li>
+                    <li>Continuous learning from researcher feedback and new evidence</li>
+                    <li>Computational efficiency to enable complex analysis on consumer hardware</li>
+                  </ul>
+                  <p>Importantly, MARE is not designed to reach conclusions independently but to augment human analytical capabilities, highlight potential areas of interest, and provide computational support for complex analyses that would be impractical to perform manually.</p>
+                </article>
 
-                  <article id="del">
-                      <h3>Decentralized Evidence Ledger (DEL)</h3>
-                      <p>The DEL forms the immutable foundation of the MoonSet platform, ensuring that all evidence, analyses, and methodologies are permanently recorded, verifiable, and resistant to tampering or censorship. This blockchain-based system creates a chain of custody for digital evidence that is unprecedented in traditional research.</p>
-                      <h4>Key Features:</h4>
+                <article id="del">
+                  <h3>Decentralized Evidence Ledger (DEL)</h3>
+                  <p>The DEL forms the immutable foundation of the MoonSet platform, ensuring that all evidence, analyses, and methodologies are permanently recorded, verifiable, and resistant to tampering or censorship. This blockchain-based system creates a chain of custody for digital evidence that is unprecedented in traditional research.</p>
+                  <h4>Key Features:</h4>
+                  <ul>
+                    <li><strong className="mr-1">Immutable Evidence Repository</strong>
                       <ul>
-                          <li><strong className="mr-1">Immutable Evidence Repository</strong>
-                              <ul>
-                                  <li>Permanent storage of primary source materials</li>
-                                  <li>Cryptographic verification of digital assets</li>
-                                  <li>Tamper-evident storage with version history</li>
-                                  <li>Distributed redundancy across network participants</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Provenance Tracking</strong>
-                              <ul>
-                                  <li>Chain of custody documentation for all evidence</li>
-                                  <li>Source attribution with verification mechanisms</li>
-                                  <li>Metadata enrichment with acquisition context</li>
-                                  <li>Authentication protocols for submitted materials</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Transparent Analysis Registry</strong>
-                              <ul>
-                                  <li>Permanent record of analytical methods applied</li>
-                                  <li>Documentation of parameter selections and configurations</li>
-                                  <li>Reproducible analysis workflows</li>
-                                  <li>Attribution of analytical contributions</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Consensus Mechanisms</strong>
-                              <ul>
-                                  <li>Multi-stage peer review protocols</li>
-                                  <li>Stake-weighted evaluation systems</li>
-                                  <li>Expertise-based verification hierarchies</li>
-                                  <li>Transparent aggregation of evaluator judgments</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Access Control Layer</strong>
-                              <ul>
-                                  <li>Granular permissions for sensitive materials</li>
-                                  <li>Cryptographic access management</li>
-                                  <li>Reveal mechanisms for time-locked content</li>
-                                  <li>Governance-defined access policies</li>
-                              </ul>
-                          </li>
+                        <li>Permanent storage of primary source materials</li>
+                        <li>Cryptographic verification of digital assets</li>
+                        <li>Tamper-evident storage with version history</li>
+                        <li>Distributed redundancy across network participants</li>
                       </ul>
-                      <h4>Technical Implementation:</h4>
-                      <p>The DEL is built on a dedicated Layer 2 blockchain solution optimized for data integrity and verification rather than transaction throughput. This approach emphasizes:</p>
+                    </li>
+                    <li><strong className="mr-1">Provenance Tracking</strong>
                       <ul>
-                          <li>Content-addressable storage with distributed file system integration</li>
-                          <li>Efficient on-chain verification with off-chain storage where appropriate</li>
-                          <li>Cryptographic commitment schemes for large dataset verification</li>
-                          <li>Zero-knowledge proof systems for sensitive content verification</li>
-                          <li>Cross-chain anchoring for additional security</li>
+                        <li>Chain of custody documentation for all evidence</li>
+                        <li>Source attribution with verification mechanisms</li>
+                        <li>Metadata enrichment with acquisition context</li>
+                        <li>Authentication protocols for submitted materials</li>
                       </ul>
-                      <p>The DEL's architecture ensures that researchers can trust the authenticity and completeness of the evidence they're examining, while maintaining an immutable record of the entire investigative process. This infrastructure is critical not only for the integrity of individual investigations but for the long-term credibility of the MoonSet platform itself.</p>
-                  </article>
+                    </li>
+                    <li><strong className="mr-1">Transparent Analysis Registry</strong>
+                      <ul>
+                        <li>Permanent record of analytical methods applied</li>
+                        <li>Documentation of parameter selections and configurations</li>
+                        <li>Reproducible analysis workflows</li>
+                        <li>Attribution of analytical contributions</li>
+                      </ul>
+                    </li>
+                    <li><strong className="mr-1">Consensus Mechanisms</strong>
+                      <ul>
+                        <li>Multi-stage peer review protocols</li>
+                        <li>Stake-weighted evaluation systems</li>
+                        <li>Expertise-based verification hierarchies</li>
+                        <li>Transparent aggregation of evaluator judgments</li>
+                      </ul>
+                    </li>
+                    <li><strong className="mr-1">Access Control Layer</strong>
+                      <ul>
+                        <li>Granular permissions for sensitive materials</li>
+                        <li>Cryptographic access management</li>
+                        <li>Reveal mechanisms for time-locked content</li>
+                        <li>Governance-defined access policies</li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <h4>Technical Implementation:</h4>
+                  <p>The DEL is built on a dedicated Layer 2 blockchain solution optimized for data integrity and verification rather than transaction throughput. This approach emphasizes:</p>
+                  <ul>
+                    <li>Content-addressable storage with distributed file system integration</li>
+                    <li>Efficient on-chain verification with off-chain storage where appropriate</li>
+                    <li>Cryptographic commitment schemes for large dataset verification</li>
+                    <li>Zero-knowledge proof systems for sensitive content verification</li>
+                    <li>Cross-chain anchoring for additional security</li>
+                  </ul>
+                  <p>The DEL's architecture ensures that researchers can trust the authenticity and completeness of the evidence they're examining, while maintaining an immutable record of the entire investigative process. This infrastructure is critical not only for the integrity of individual investigations but for the long-term credibility of the MoonSet platform itself.</p>
+                </article>
 
-                  <article id="token-ecosystem">
-                      <h3>MOONSET Token Ecosystem</h3>
-                      <p>The MOONSET token is the economic engine of the platform, designed to align incentives among all participants and sustain the ongoing development and maintenance of the ecosystem. Unlike many token systems, MOONSET is crafted specifically to reward quality contributions rather than mere participation.</p>
-                      <h4>Token Functionality:</h4>
+                <article id="token-ecosystem">
+                  <h3>MOONSET Token Ecosystem</h3>
+                  <p>The MOONSET token is the economic engine of the platform, designed to align incentives among all participants and sustain the ongoing development and maintenance of the ecosystem. Unlike many token systems, MOONSET is crafted specifically to reward quality contributions rather than mere participation.</p>
+                  <h4>Token Functionality:</h4>
+                  <ul>
+                    <li><strong className="mr-1">Contribution Rewards</strong>
                       <ul>
-                          <li><strong className="mr-1">Contribution Rewards</strong>
-                              <ul>
-                                  <li>Evidence submission incentives</li>
-                                  <li>Analysis quality bonuses</li>
-                                  <li>Peer review compensation</li>
-                                  <li>Computational resource provision rewards</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Platform Governance</strong>
-                              <ul>
-                                  <li>Protocol upgrade voting</li>
-                                  <li>Research direction prioritization</li>
-                                  <li>Resource allocation decisions</li>
-                                  <li>Validator selection for consensus mechanisms</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Service Access</strong>
-                              <ul>
-                                  <li>Computational resource allocation</li>
-                                  <li>Premium analysis tool usage</li>
-                                  <li>Priority evidence processing</li>
-                                  <li>Advanced visualization capabilities</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Staking Mechanisms</strong>
-                              <ul>
-                                  <li>Confidence-weighted assertions</li>
-                                  <li>Claim validation backing</li>
-                                  <li>Long-term protocol support incentives</li>
-                                  <li>Reputation-based staking multipliers</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Value Accrual</strong>
-                              <ul>
-                                  <li>Fee distribution to stakeholders</li>
-                                  <li>Treasury-funded buyback mechanisms</li>
-                                  <li>Service demand-driven token utilization</li>
-                                  <li>Protocol revenue sharing</li>
-                              </ul>
-                          </li>
+                        <li>Evidence submission incentives</li>
+                        <li>Analysis quality bonuses</li>
+                        <li>Peer review compensation</li>
+                        <li>Computational resource provision rewards</li>
                       </ul>
-                      <h4>Technical Implementation:</h4>
-                      <p>The MOONSET token is implemented as an ERC-20 compatible token with additional functionalities to support sophisticated governance and staking mechanics. Key features include:</p>
+                    </li>
+                    <li><strong className="mr-1">Platform Governance</strong>
                       <ul>
-                          <li>Quadratic voting for governance proposals</li>
-                          <li>Time-locked staking with conviction scaling</li>
-                          <li>Reputation-weighted influence mechanisms</li>
-                          <li>Automated distribution systems for contribution rewards</li>
-                          <li>Cross-chain interoperability for ecosystem expansion</li>
+                        <li>Protocol upgrade voting</li>
+                        <li>Research direction prioritization</li>
+                        <li>Resource allocation decisions</li>
+                        <li>Validator selection for consensus mechanisms</li>
                       </ul>
-                      <p>The tokenomics design intentionally prevents value extraction without contribution, ensures long-term alignment between token holders and platform quality, and creates sustainable funding for ongoing development. The specifics of token distribution, supply mechanisms, and economic parameters are detailed in the Token Economics section of this whitepaper.</p>
-                  </article>
+                    </li>
+                    <li><strong className="mr-1">Service Access</strong>
+                      <ul>
+                        <li>Computational resource allocation</li>
+                        <li>Premium analysis tool usage</li>
+                        <li>Priority evidence processing</li>
+                        <li>Advanced visualization capabilities</li>
+                      </ul>
+                    </li>
+                    <li><strong className="mr-1">Staking Mechanisms</strong>
+                      <ul>
+                        <li>Confidence-weighted assertions</li>
+                        <li>Claim validation backing</li>
+                        <li>Long-term protocol support incentives</li>
+                        <li>Reputation-based staking multipliers</li>
+                      </ul>
+                    </li>
+                    <li><strong className="mr-1">Value Accrual</strong>
+                      <ul>
+                        <li>Fee distribution to stakeholders</li>
+                        <li>Treasury-funded buyback mechanisms</li>
+                        <li>Service demand-driven token utilization</li>
+                        <li>Protocol revenue sharing</li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <h4>Technical Implementation:</h4>
+                  <p>The MOONSET token is implemented as an ERC-20 compatible token with additional functionalities to support sophisticated governance and staking mechanics. Key features include:</p>
+                  <ul>
+                    <li>Quadratic voting for governance proposals</li>
+                    <li>Time-locked staking with conviction scaling</li>
+                    <li>Reputation-weighted influence mechanisms</li>
+                    <li>Automated distribution systems for contribution rewards</li>
+                    <li>Cross-chain interoperability for ecosystem expansion</li>
+                  </ul>
+                  <p>The tokenomics design intentionally prevents value extraction without contribution, ensures long-term alignment between token holders and platform quality, and creates sustainable funding for ongoing development. The specifics of token distribution, supply mechanisms, and economic parameters are detailed in the Token Economics section of this whitepaper.</p>
+                </article>
               </section>
 
               {/* --- The Apollo Missions Case Study --- */}
               <section id="apollo-case-study">
-                  <h2>The Apollo Missions Case Study</h2>
-                  <p>The MoonSet platform's inaugural investigation focuses on the Apollo lunar missions—one of humanity's greatest claimed technological achievements and a subject of ongoing public fascination and debate.</p>
-                  
-                  <article id="why-apollo">
-                      <h3>Why the Apollo Missions?</h3>
-                      <p>The Apollo program represents an ideal case study for the MoonSet platform for several compelling reasons:</p>
+                <h2>The Apollo Missions Case Study</h2>
+                <p>The MoonSet platform's inaugural investigation focuses on the Apollo lunar missions—one of humanity's greatest claimed technological achievements and a subject of ongoing public fascination and debate.</p>
+                
+                <article id="why-apollo">
+                  <h3>Why the Apollo Missions?</h3>
+                  <p>The Apollo program represents an ideal case study for the MoonSet platform for several compelling reasons:</p>
+                  <ul>
+                    <li><strong className="mr-1">Historical Significance:</strong> The lunar landings represent a pivotal moment in human history and technological development, with implications that continue to shape space exploration today.</li>
+                    <li><strong className="mr-1">Rich Evidence Base:</strong> The missions generated vast amounts of varied data—photographs, video footage, telemetry, geological samples, technical documentation, and personal testimonies—providing abundant material for multi-modal analysis.</li>
+                    <li><strong className="mr-1">Technical Complexity:</strong> The Apollo missions involved cutting-edge engineering across multiple disciplines, creating an ideal test case for MARE's ability to analyze complex technical systems and physical scenarios.</li>
+                    <li><strong className="mr-1">Ongoing Public Interest:</strong> Despite occurring over five decades ago, the Apollo missions continue to generate significant public interest and discussion, ensuring a motivated community of contributors.</li>
+                    <li><strong className="mr-1">Methodological Blueprint:</strong> Establishing rigorous investigative protocols for the Apollo case study will create a replicable framework for future MoonSet investigations across other domains.</li>
+                  </ul>
+                  <p>Importantly, MoonSet approaches this investigation without predetermined conclusions. The platform is designed to facilitate evidence-based analysis regardless of where that evidence leads, employing consistent methodological standards across all hypotheses.</p>
+                </article>
+                
+                <article id="preliminary-research">
+                  <h3>Preliminary Research Areas</h3>
+                  <p>The Apollo investigation will initially focus on several key areas where the MoonSet platform's capabilities can be most effectively demonstrated:</p>
+                  <ul>
+                    <li><strong className="mr-1">Photographic Analysis</strong>
                       <ul>
-                          <li><strong className="mr-1">Historical Significance:</strong> The lunar landings represent a pivotal moment in human history and technological development, with implications that continue to shape space exploration today.</li>
-                          <li><strong className="mr-1">Rich Evidence Base:</strong> The missions generated vast amounts of varied data—photographs, video footage, telemetry, geological samples, technical documentation, and personal testimonies—providing abundant material for multi-modal analysis.</li>
-                          <li><strong className="mr-1">Technical Complexity:</strong> The Apollo missions involved cutting-edge engineering across multiple disciplines, creating an ideal test case for MARE's ability to analyze complex technical systems and physical scenarios.</li>
-                          <li><strong className="mr-1">Ongoing Public Interest:</strong> Despite occurring over five decades ago, the Apollo missions continue to generate significant public interest and discussion, ensuring a motivated community of contributors.</li>
-                          <li><strong className="mr-1">Methodological Blueprint:</strong> Establishing rigorous investigative protocols for the Apollo case study will create a replicable framework for future MoonSet investigations across other domains.</li>
+                        <li>Comprehensive photogrammetric reconstruction of landing sites</li>
+                        <li>Advanced shadow analysis using 3D environmental modeling</li>
+                        <li>Cross-comparison of imagery with modern lunar reconnaissance data</li>
+                        <li>Authentication assessment of original film materials</li>
                       </ul>
-                      <p>Importantly, MoonSet approaches this investigation without predetermined conclusions. The platform is designed to facilitate evidence-based analysis regardless of where that evidence leads, employing consistent methodological standards across all hypotheses.</p>
-                  </article>
-                  
-                  <article id="preliminary-research">
-                      <h3>Preliminary Research Areas</h3>
-                      <p>The Apollo investigation will initially focus on several key areas where the MoonSet platform's capabilities can be most effectively demonstrated:</p>
+                    </li>
+                    <li><strong className="mr-1">Technical Feasibility Assessment</strong>
                       <ul>
-                          <li><strong className="mr-1">Photographic Analysis</strong>
-                              <ul>
-                                  <li>Comprehensive photogrammetric reconstruction of landing sites</li>
-                                  <li>Advanced shadow analysis using 3D environmental modeling</li>
-                                  <li>Cross-comparison of imagery with modern lunar reconnaissance data</li>
-                                  <li>Authentication assessment of original film materials</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Technical Feasibility Assessment</strong>
-                              <ul>
-                                  <li>Computational fluid dynamics analysis of lunar module descent</li>
-                                  <li>Radiation exposure modeling for transit and surface operations</li>
-                                  <li>Engineering capability assessment relative to documented technology</li>
-                                  <li>Communications systems analysis under lunar conditions</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Material Evidence Evaluation</strong>
-                              <ul>
-                                  <li>Comprehensive cataloging of lunar samples and their chain of custody</li>
-                                  <li>Comparison of sample properties with theoretical predictions</li>
-                                  <li>Analysis of artifact preservation and degradation patterns</li>
-                                  <li>Documentation of physical evidence accessibility</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Testimony and Documentation Review</strong>
-                              <ul>
-                                  <li>Systematic comparison of accounts across mission personnel</li>
-                                  <li>Temporal analysis of documentation revisions and updates</li>
-                                  <li>Identification of consistency patterns across independent sources</li>
-                                  <li>Assessment of information availability and transparency</li>
-                              </ul>
-                          </li>
-                          <li><strong className="mr-1">Alternative Hypothesis Testing</strong>
-                              <ul>
-                                  <li>Formalization of testable predictions from major hypotheses</li>
-                                  <li>Bayesian probability assessment framework for competing explanations</li>
-                                  <li>Simulation of expected evidence patterns under various scenarios</li>
-                                  <li>Identification of critical differentiating evidence</li>
-                              </ul>
-                          </li>
+                        <li>Computational fluid dynamics analysis of lunar module descent</li>
+                        <li>Radiation exposure modeling for transit and surface operations</li>
+                        <li>Engineering capability assessment relative to documented technology</li>
+                        <li>Communications systems analysis under lunar conditions</li>
                       </ul>
-                  </article>
-                  
-                  <article id="expected-outcomes">
-                      <h3>Expected Outcomes</h3>
-                      <p>Through this comprehensive investigation, MoonSet aims to produce several valuable outcomes:</p>
+                    </li>
+                    <li><strong className="mr-1">Material Evidence Evaluation</strong>
                       <ul>
-                          <li>A complete, immutable, and transparent evidence repository for the Apollo missions, accessible to researchers worldwide</li>
-                          <li>Advanced analytical tools specifically calibrated for space mission investigation, applicable to both historical and future missions</li>
-                          <li>A methodological framework for evaluating complex technical achievements that can be applied across domains</li>
-                          <li>A demonstration of collaborative, decentralized investigation that prioritizes evidence quality over institutional authority</li>
-                          <li>A proof of concept for the MoonSet platform's ability to foster rigorous, transparent investigation of significant historical events</li>
+                        <li>Comprehensive cataloging of lunar samples and their chain of custody</li>
+                        <li>Comparison of sample properties with theoretical predictions</li>
+                        <li>Analysis of artifact preservation and degradation patterns</li>
+                        <li>Documentation of physical evidence accessibility</li>
                       </ul>
-                      <p>While the investigation's specific conclusions will emerge from the evidence analysis rather than predetermined assumptions, the procedural integrity of the investigation itself represents a significant advancement in collaborative truth discovery.</p>
-                  </article>
+                    </li>
+                    <li><strong className="mr-1">Testimony and Documentation Review</strong>
+                      <ul>
+                        <li>Systematic comparison of accounts across mission personnel</li>
+                        <li>Temporal analysis of documentation revisions and updates</li>
+                        <li>Identification of consistency patterns across independent sources</li>
+                        <li>Assessment of information availability and transparency</li>
+                      </ul>
+                    </li>
+                    <li><strong className="mr-1">Alternative Hypothesis Testing</strong>
+                      <ul>
+                        <li>Formalization of testable predictions from major hypotheses</li>
+                        <li>Bayesian probability assessment framework for competing explanations</li>
+                        <li>Simulation of expected evidence patterns under various scenarios</li>
+                        <li>Identification of critical differentiating evidence</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </article>
+                
+                <article id="expected-outcomes">
+                  <h3>Expected Outcomes</h3>
+                  <p>Through this comprehensive investigation, MoonSet aims to produce several valuable outcomes:</p>
+                  <ul>
+                    <li>A complete, immutable, and transparent evidence repository for the Apollo missions, accessible to researchers worldwide</li>
+                    <li>Advanced analytical tools specifically calibrated for space mission investigation, applicable to both historical and future missions</li>
+                    <li>A methodological framework for evaluating complex technical achievements that can be applied across domains</li>
+                    <li>A demonstration of collaborative, decentralized investigation that prioritizes evidence quality over institutional authority</li>
+                    <li>A proof of concept for the MoonSet platform's ability to foster rigorous, transparent investigation of significant historical events</li>
+                  </ul>
+                  <p>While the investigation's specific conclusions will emerge from the evidence analysis rather than predetermined assumptions, the procedural integrity of the investigation itself represents a significant advancement in collaborative truth discovery.</p>
+                </article>
               </section>
 
               {/* Add Footer at the bottom of the content */}
               <div className="mt-12 p-5 border-t border-gray-200 dark:border-gray-800">
-                <Footer />
+                <p className="text-center text-sm text-muted-foreground">
+                  © {new Date().getFullYear()} MoonSet Protocol. All rights reserved.
+                </p>
               </div>
-
             </div>
           </div>
         </motion.div>
       </div>
+      
+      <Footer />
     </div>
   );
 };
