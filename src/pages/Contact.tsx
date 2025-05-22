@@ -186,10 +186,10 @@ const Contact = () => {
               <h3 className="text-xl font-semibold mb-2">Email Us</h3>
               <p className="text-muted-foreground mb-4">Our support team is here to help</p>
               <a 
-                href="mailto:contact@moonset.io" 
+                href="mailto:contact@moonset.la" 
                 className="text-primary hover:underline font-medium"
               >
-                contact@moonset.io
+                contact@moonset.la
               </a>
             </div>
             
