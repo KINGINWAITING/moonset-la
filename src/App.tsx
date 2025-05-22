@@ -15,6 +15,7 @@ const Index = lazy(() => import("./pages/Index"));
 const Dashboard = lazy(() => import("./pages/Dashboard").then(module => ({ default: module.Dashboard })));
 const Contact = lazy(() => import("./pages/Contact"));
 const Whitepaper = lazy(() => import("./pages/Whitepaper"));
+const PreviewPage = lazy(() => import("./pages/PreviewPage"));
 const AuthPage = lazy(() => import("./pages/AuthPage").then(module => ({ default: module.AuthPage })));
 
 // Loading indicator
@@ -50,6 +51,7 @@ const App = () => (
                     <Route path="/" element={<Index />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/whitepaper" element={<Whitepaper />} />
+                    <Route path="/preview" element={<PreviewPage />} />
                     <Route path="/auth" element={<AuthPage />} />
                     <Route 
                       path="/dashboard/*" 

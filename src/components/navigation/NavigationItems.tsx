@@ -20,6 +20,7 @@ export const NavigationItems: React.FC<NavigationItemProps> = ({
   const navItems = [
     { name: "Features", href: "#features", onClick: () => scrollToSection('features') },
     { name: "Whitepaper", href: "/whitepaper", onClick: () => navigate('/whitepaper') },
+    { name: "Preview", href: "/preview", onClick: () => navigate('/preview') },
     { name: "Contact", href: "/contact", onClick: () => navigate('/contact') },
   ];
 
