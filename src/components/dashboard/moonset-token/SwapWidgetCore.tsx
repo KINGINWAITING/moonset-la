@@ -1,6 +1,5 @@
 
 import React, { useEffect } from 'react';
-import { SwapWidget as UniswapWidget } from "@uniswap/widgets";
 import { useWeb3 } from '@/context/Web3Context';
 
 // Define supported chains (mainnet, goerli, etc)
@@ -19,10 +18,12 @@ interface SwapWidgetCoreProps {
   tokenAddress: string;
 }
 
+// This component will dynamically import the heavy Uniswap widget only when rendered
 const SwapWidgetCore = ({ provider, tokenAddress }: SwapWidgetCoreProps) => {
   const { chainId } = useWeb3();
+  const [UniswapWidget, setUniswapWidget] = React.useState<any>(null);
 
-  // Ensure required globals are available
+  // Ensure required globals are available and load the widget dynamically
   useEffect(() => {
     if (typeof window !== 'undefined') {
       // Make global available
@@ -30,8 +31,24 @@ const SwapWidgetCore = ({ provider, tokenAddress }: SwapWidgetCoreProps) => {
       
       // Setup Buffer for IPFS operations
       (window as any).Buffer = window.Buffer || require("buffer").Buffer;
+      
+      // Dynamically import the Uniswap widget
+      import("@uniswap/widgets").then(module => {
+        setUniswapWidget(() => module.SwapWidget);
+      }).catch(err => {
+        console.error("Failed to load Uniswap widget:", err);
+      });
     }
   }, []);
+
+  // If the widget hasn't loaded yet, show a loading indicator
+  if (!UniswapWidget) {
+    return (
+      <div className="h-full w-full flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <UniswapWidget 

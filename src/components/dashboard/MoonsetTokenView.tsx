@@ -1,6 +1,5 @@
 
 import { useState } from "react";
-import { Card } from "@/components/ui/card";
 import { tokenConfig } from "@/config/tokenConfig";
 import { TokenStats } from "./moonset-token/TokenStats";
 import { PriceChart } from "./moonset-token/PriceChart";
@@ -46,4 +45,4 @@ export const MoonsetTokenView = () => {
 };
 
 // For lazy loading
-export default { MoonsetTokenView };
+export default MoonsetTokenView;
