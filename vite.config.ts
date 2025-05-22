@@ -22,7 +22,12 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     sourcemap: true,
-    chunkSizeWarningLimit: 1000, // Increase the chunk size warning limit
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      // Optimize build to avoid timeouts
+      maxParallelFileOps: 2,
+      cache: false
+    }
   },
   define: {
     // Polyfill for global, process, and Buffer to work with web3 libraries
@@ -35,6 +40,7 @@ export default defineConfig(({ mode }) => ({
       define: {
         global: 'globalThis'
       },
+      target: 'es2020'
     }
   }
 }));
