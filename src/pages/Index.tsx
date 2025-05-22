@@ -38,7 +38,7 @@ const Index = () => {
   };
   
   return (
-    <div className={`min-h-screen ${isDark ? "bg-[#060606]" : "bg-[#f8f8f8]"} text-foreground relative`}>
+    <div className="min-h-screen bg-transparent text-foreground relative">
       {/* Background animation */}
       <OptimizedBackground />
       
@@ -67,7 +67,7 @@ const Index = () => {
       <CTASection onOpenAuthModal={handleOpenAuthModal} />
 
       {/* Footer */}
-      <div className={isDark ? "bg-black/70 backdrop-blur-md relative z-10" : "bg-white/70 backdrop-blur-md relative z-10"}>
+      <div className="bg-transparent backdrop-blur-md relative z-10">
         <Footer />
       </div>
     </div>

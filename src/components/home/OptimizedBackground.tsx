@@ -12,8 +12,8 @@ export const OptimizedBackground = () => {
   useEffect(() => {
     if (prevTheme.current !== theme) {
       // Only update if theme actually changed
-      document.documentElement.style.backgroundColor = isDark ? '#060606' : '#f8f8f8';
-      document.body.style.backgroundColor = isDark ? '#060606' : '#f8f8f8';
+      document.documentElement.style.backgroundColor = 'transparent';
+      document.body.style.backgroundColor = 'transparent';
       
       // Update ref for future comparisons
       prevTheme.current = theme;
@@ -22,8 +22,8 @@ export const OptimizedBackground = () => {
 
   return (
     <div className="fixed inset-0 z-[-1] overflow-hidden">
-      {/* Base background color */}
-      <div className={`absolute inset-0 ${isDark ? "bg-[#060606]" : "bg-[#f8f8f8]"}`} />
+      {/* Base background color - fully transparent */}
+      <div className="absolute inset-0 bg-transparent" />
       
       {/* Grid overlay with proper contrast */}
       <div className={`absolute inset-0 ${isDark ? "bg-grid-dark" : "bg-grid-light"} opacity-30`} />
@@ -97,14 +97,8 @@ export const OptimizedBackground = () => {
         />
       </div>
       
-      {/* Subtle gradient overlay */}
-      <div 
-        className={`absolute inset-0 ${
-          isDark 
-            ? "bg-gradient-to-b from-black/10 via-transparent to-black/5" 
-            : "bg-gradient-to-b from-white/10 via-transparent to-white/5"
-        }`}
-      />
+      {/* Subtle gradient overlay - fully transparent */}
+      <div className="absolute inset-0 bg-transparent" />
     </div>
   );
 };

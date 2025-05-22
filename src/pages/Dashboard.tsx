@@ -25,13 +25,13 @@ export const Dashboard = () => {
   const isDark = theme === "dark";
   
   return (
-    <div className={`flex min-h-screen ${isDark ? "bg-black text-white" : "bg-white text-black"} transition-colors duration-300`}>
+    <div className="flex min-h-screen bg-transparent transition-colors duration-300">
       <Sidebar 
         isMobileOpen={isMobileSidebarOpen} 
         setIsMobileOpen={setIsMobileSidebarOpen} 
       />
       
-      <div className={`flex-1 overflow-auto ${isDark ? "bg-black" : "bg-white"} transition-colors duration-300`}>
+      <div className="flex-1 overflow-auto bg-transparent transition-colors duration-300">
         <Suspense fallback={<PageLoading />}>
           <Routes>
             <Route path="/" element={<PortfolioView />} />
