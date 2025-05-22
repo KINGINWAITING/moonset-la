@@ -10,7 +10,7 @@ const Whitepaper = () => {
   const isDark = theme === "dark";
   
   return (
-    <div className={`min-h-screen ${isDark ? "bg-[#060606]" : "bg-[#f8f8f8]"}`}>
+    <div className="min-h-screen bg-transparent">
       <Navigation />
       
       <div className="container pt-32 pb-20">
