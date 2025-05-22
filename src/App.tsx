@@ -41,7 +41,7 @@ const App = () => (
       <Web3Provider>
         <ThemeProvider>
           <TooltipProvider>
-            <div className="min-h-screen bg-background theme-transition">
+            <div className="min-h-screen bg-transparent theme-transition">
               <Toaster />
               <Sonner />
               <BrowserRouter>
