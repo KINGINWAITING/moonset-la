@@ -1,4 +1,3 @@
-
 import { NavLink, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Menu, X, Wallet, BarChart3, Settings, LogOut, Users, Bot, DollarSign } from "lucide-react";
@@ -7,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/context/ThemeContext";
 import { MoonLogo } from "@/components/navigation/MoonLogo";
+import { AnimatedTextLogo } from "@/components/navigation/AnimatedTextLogo";
 
 interface SidebarProps {
   isMobileOpen: boolean;
@@ -58,11 +58,17 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.3 }}
       >
-        {/* Logo and Theme Toggle */}
+        {/* Logo and Theme Toggle with larger logos */}
         <div className="flex items-center justify-between p-6">
-          <Link to="/" className="flex items-center gap-2">
-            <MoonLogo className="h-6 w-6 filter drop-shadow-[0_0_3px_#4ADE80]" />
-            <span className="text-xl font-bold">MOONSET</span>
+          <Link to="/" className="flex items-center gap-6 group no-underline hover:no-underline decoration-none hover:decoration-none">
+            <MoonLogo 
+              className="h-24 w-24 filter drop-shadow-[0_0_12px_rgba(139,69,255,0.8)] transition-all duration-300 group-hover:scale-110" 
+              animated={true}
+            />
+            <AnimatedTextLogo 
+              size="lg-plus"
+              className="group"
+            />
           </Link>
           <ThemeToggle />
         </div>
@@ -75,7 +81,7 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }: SidebarProps) => {
                 <NavLink
                   to={item.path}
                   className={({ isActive }) =>
-                    `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                    `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors no-underline hover:no-underline decoration-none hover:decoration-none ${
                       isActive
                         ? isDark 
                           ? "bg-gray-800/50 text-primary" 

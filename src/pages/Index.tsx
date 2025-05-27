@@ -1,77 +1,152 @@
-
+import { useState, useEffect, memo, useCallback } from "react";
 import Navigation from "@/components/Navigation";
-import { FeaturesSection } from "@/components/features/FeaturesSection";
-import { PricingSection } from "@/components/pricing/PricingSection";
-import LogoCarousel from "@/components/LogoCarousel";
-import TestimonialsSection from "@/components/TestimonialsSection";
 import Footer from "@/components/Footer";
-import { useTheme } from "@/context/ThemeContext";
 import { HeroSection } from "@/components/home/HeroSection";
-import { FeaturesHighlight } from "@/components/home/FeaturesHighlight";
-import { TokenSection } from "@/components/home/TokenSection";
-import { ApolloMissionSection } from "@/components/home/ApolloMissionSection";
-import { FrameworkSection } from "@/components/home/FrameworkSection";
-import { CTASection } from "@/components/home/CTASection";
-import { OptimizedBackground } from "@/components/home/OptimizedBackground";
-import { useEffect, useState } from "react";
+import AuthModal from "@/components/AuthModal";
+import { motion } from "framer-motion";
+import { usePerformanceMonitor, useOptimizedInView, SectionSeparator, sectionVariants } from "@/utils/performance";
+import { addCriticalResourceHints, applyNetworkAwarePreloading } from "@/utils/preload";
+import { 
+  TokenSectionWithSuspense,
+  FrameworkSectionWithSuspense,
+  FeaturesHighlightWithSuspense,
+  CTASectionWithSuspense,
+  ApolloMissionSectionWithSuspense
+} from "@/components/home/LazyComponents";
 
-const Index = () => {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [isLoaded, setIsLoaded] = useState(false);
+const Index = memo(() => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   
-  // Enhanced performance optimization
-  useEffect(() => {
-    // Mark page as loaded once it's fully rendered
-    if (!isLoaded) {
-      const timer = setTimeout(() => {
-        setIsLoaded(true);
-      }, 100);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [isLoaded]);
+  // Performance monitoring
+  usePerformanceMonitor('IndexPage');
 
-  const handleOpenAuthModal = () => {
+  // Optimized section visibility
+  const { ref: heroRef, isInView: heroInView } = useOptimizedInView({ 
+    threshold: 0.1, 
+    triggerOnce: true 
+  });
+
+  const handleOpenAuthModal = useCallback(() => {
     setIsAuthModalOpen(true);
-  };
-  
+  }, []);
+
+  const handleCloseAuthModal = useCallback(() => {
+    setIsAuthModalOpen(false);
+  }, []);
+
+  // Critical resource loading
+  useEffect(() => {
+    addCriticalResourceHints();
+    applyNetworkAwarePreloading();
+  }, []);
+
   return (
-    <div className="min-h-screen bg-transparent text-foreground relative">
-      {/* Background animation */}
-      <OptimizedBackground />
-      
-      {/* Navigation */}
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/95 relative">
+      {/* Navigation that scrolls with content */}
       <Navigation />
       
-      {/* Hero Section */}
-      <HeroSection />
+      {/* Main content without top padding */}
+      <main className="relative">
+        {/* Hero Section */}
+        <motion.section
+          ref={heroRef}
+          initial="hidden"
+          animate={heroInView ? "visible" : "hidden"}
+          variants={sectionVariants}
+          custom={0}
+          className="relative z-10"
+        >
+          <HeroSection />
+        </motion.section>
 
-      {/* Logo Carousel */}
-      <LogoCarousel />
+        {/* Section Separator */}
+        <SectionSeparator variant="gradient" className="my-8" />
 
-      {/* Features Highlight Section */}
-      <FeaturesHighlight />
+        {/* Token Section */}
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={sectionVariants}
+          custom={1}
+          className="relative z-10"
+        >
+          <TokenSectionWithSuspense />
+        </motion.section>
 
-      {/* MOONSET Token Section */}
-      <TokenSection />
+        {/* Section Separator */}
+        <SectionSeparator variant="glow" className="my-12" />
 
-      {/* Apollo Mission Case Study */}
-      <ApolloMissionSection />
+        {/* Framework Section */}
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={sectionVariants}
+          custom={2}
+          className="relative z-10"
+        >
+          <FrameworkSectionWithSuspense />
+        </motion.section>
 
-      {/* Framework Section */}
-      <FrameworkSection />
+        {/* Section Separator */}
+        <SectionSeparator variant="dots" className="my-12" />
 
-      {/* CTA Section */}
-      <CTASection onOpenAuthModal={handleOpenAuthModal} />
+        {/* Features Section */}
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={sectionVariants}
+          custom={3}
+          className="relative z-10"
+        >
+          <FeaturesHighlightWithSuspense />
+        </motion.section>
+
+        {/* Section Separator */}
+        <SectionSeparator variant="gradient" className="my-12" />
+
+        {/* Apollo Mission Section */}
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={sectionVariants}
+          custom={4}
+          className="relative z-10"
+        >
+          <ApolloMissionSectionWithSuspense />
+        </motion.section>
+
+        {/* Section Separator */}
+        <SectionSeparator variant="glow" className="my-12" />
+
+        {/* CTA Section */}
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={sectionVariants}
+          custom={5}
+          className="relative z-10"
+        >
+          <CTASectionWithSuspense onOpenAuthModal={handleOpenAuthModal} />
+        </motion.section>
+      </main>
 
       {/* Footer */}
-      <div className="bg-transparent backdrop-blur-md relative z-10">
-        <Footer />
-      </div>
+      <Footer />
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={handleCloseAuthModal} 
+      />
     </div>
   );
-};
+});
+
+Index.displayName = 'Index';
 
 export default Index;

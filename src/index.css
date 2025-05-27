@@ -1,94 +1,429 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.geist-ui.dev/font.css');
+
+/* Import our comprehensive design system */
+@import './design-system/styles/globals.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 10%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
-    --primary: 142 84% 58%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 10%;
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 10%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 142 84% 58%;
-    --radius: 0.75rem;
-  }
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
 
-  .dark {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 100%;
-    --card: 0 0% 4%;
-    --card-foreground: 0 0% 100%;
-    --popover: 0 0% 4%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 142 84% 58%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 9%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 9%;
-    --muted-foreground: 0 0% 64%;
-    --accent: 0 0% 9%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 12%;
-    --input: 0 0% 12%;
-    --ring: 142 84% 58%;
+html {
+  scroll-behavior: auto; /* Disable smooth scroll by default for performance */
+}
+
+/* Optimized scroll behavior when page is loaded */
+html.optimized-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Performance optimizations for scrolling */
+html.is-scrolling * {
+  pointer-events: none !important;
+}
+
+/* Better animation performance */
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
 }
 
+/* Optimize for better paint performance */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-scroll {
+  will-change: scroll-position;
+}
+
+/* GPU acceleration for animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Base layer styles with performance optimizations */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 142 86% 28%;
+    --primary-foreground: 356 29% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 142 86% 28%;
+    --radius: 0.75rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 142 86% 28%;
+    --primary-foreground: 356 29% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 142 86% 28%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+
+  /* Light mode specific overrides */
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 142 86% 28%;
+    --primary-foreground: 356 29% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 142 86% 28%;
+    --radius: 0.75rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+}
+
+/* Optimized base styles */
 @layer base {
   * {
     @apply border-border;
   }
-  
-  html, body {
-    @apply bg-transparent text-foreground font-sans antialiased min-h-screen;
+
+  body {
+    @apply bg-background text-foreground font-sans;
     font-feature-settings: "rlig" 1, "calt" 1;
+    /* Better font rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Optimize for performance */
+    will-change: scroll-position;
   }
-  
-  /* Ensure HTML has a transparent background for direct loads */
+
+  /* Ensure proper theme application */
   html {
-    background-color: transparent;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
   }
-  
+
   html.light {
-    background-color: transparent;
+    background-color: #ffffff;
+    color: #0f172a;
+  }
+
+  html.dark {
+    background-color: #0f172a;
+    color: #f8fafc;
   }
 }
 
+/* Enhanced gradient animations with better performance */
+@keyframes gradient-x {
+  0%, 100% {
+    transform: translateX(0%);
+  }
+  50% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease infinite;
+  will-change: background-position;
+}
+
+/* Optimized button styles */
+@layer components {
+  .futuristic-button {
+    @apply relative overflow-hidden transition-all duration-300 ease-out;
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary)) 100%);
+    box-shadow: 
+      0 0 20px hsla(var(--primary), 0.3),
+      inset 0 1px 0 hsla(0, 0%, 100%, 0.2);
+    will-change: transform, box-shadow;
+  }
+
+  .futuristic-button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 
+      0 10px 40px hsla(var(--primary), 0.4),
+      inset 0 1px 0 hsla(0, 0%, 100%, 0.3);
+  }
+
+  .futuristic-button-outline {
+    @apply relative overflow-hidden transition-all duration-300 ease-out;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(8px);
+    will-change: transform, border-color;
+  }
+
+  .futuristic-button-outline:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .button-glow {
+    position: relative;
+    will-change: transform;
+  }
+
+  .button-glow::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, 
+      hsla(var(--primary), 0.6),
+      hsla(var(--primary), 0.3),
+      hsla(var(--primary), 0.6)
+    );
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+    will-change: opacity;
+  }
+
+  .button-glow:hover::before {
+    opacity: 1;
+  }
+}
+
+/* Optimized theme transition */
+.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease;
+  will-change: background-color, color;
+}
+
+/* Performance optimizations for large lists */
+.virtual-scroll {
+  contain: layout style paint;
+}
+
+/* Optimized backdrop effects */
+.backdrop-blur-optimized {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  will-change: backdrop-filter;
+}
+
+/* Critical performance utilities */
 @layer utilities {
-  /* Grid patterns with better visibility for both themes */
-  .bg-grid-dark {
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-                       linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-    background-size: 24px 24px;
+  .contain-layout {
+    contain: layout;
   }
   
-  .bg-grid-light {
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-                       linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-    background-size: 24px 24px;
+  .contain-paint {
+    contain: paint;
   }
   
-  /* Add a helper class for theme transitions */
-  .theme-transition {
-    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  .contain-strict {
+    contain: strict;
+  }
+  
+  .isolate-layer {
+    isolation: isolate;
+  }
+  
+  .promote-layer {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+}
+
+/* Wallet provider popup z-index fixes */
+/* Ensure wallet provider popups appear above our modals */
+#walletconnect-wrapper,
+#walletconnect-qrcode-modal,
+.walletconnect-modal__base,
+.walletconnect-qrcode__base,
+.web3modal-modal-container,
+.web3modal-overlay,
+.web3modal-container,
+.coinbase-wallet-modal,
+.metamask-modal,
+.wallet-adapter-modal,
+.wallet-adapter-modal-overlay,
+.wallet-adapter-modal-container {
+  z-index: 999999 !important;
+  position: relative;
+}
+
+/* MetaMask specific */
+#metamask-modal,
+.metamask-extension-pointer {
+  z-index: 999999 !important;
+  position: relative;
+}
+
+/* WalletConnect specific */
+.walletconnect-connect__buttons__wrapper,
+.walletconnect-modal__mobile__toggle,
+.walletconnect-qrcode__image {
+  z-index: 999999 !important;
+  position: relative;
+}
+
+/* Coinbase Wallet specific */
+.coinbase-wallet-modal-container,
+.coinbase-wallet-modal-backdrop {
+  z-index: 999999 !important;
+  position: relative;
+}
+
+/* Generic wallet modal selectors */
+[data-testid="wallet-modal"],
+[data-testid="connect-wallet-modal"],
+.wallet-modal,
+.connect-wallet-modal {
+  z-index: 999999 !important;
+  position: relative;
+}
+
+/* Create a new stacking context for wallet modals */
+.wallet-modal-portal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999999;
+  pointer-events: none;
+}
+
+.wallet-modal-portal > * {
+  pointer-events: auto;
+}
+
+/* Hide scrollbar while maintaining functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Optimized selection styles */
+::selection {
+  background-color: hsla(var(--primary), 0.3);
+}
+
+/* Print optimizations */
+@media print {
+  * {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-gradient-x {
+    animation: none;
+  }
+}
+
+/* Focus management for better accessibility and performance */
+.focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Optimized loading states */
+.loading-skeleton {
+  background: linear-gradient(90deg, 
+    hsla(var(--muted), 0.3) 0%, 
+    hsla(var(--muted), 0.5) 50%, 
+    hsla(var(--muted), 0.3) 100%
+  );
+  background-size: 200% 100%;
+  animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    backdrop-position: 200% 0;
   }
 }
 
@@ -117,46 +452,7 @@
   100% { transform: translate(0%, 0%) scale(1); }
 }
 
-.glass {
-  @apply backdrop-blur-lg relative z-10 transition-colors duration-300;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background-clip: padding-box;
-  position: relative;
-}
-
-.dark .glass {
-  @apply bg-black/70;
-}
-
-.light .glass {
-  @apply bg-white/90;
-}
-
-.glass::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(225deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-.glass-hover {
-  @apply transition-all duration-300;
-}
-
-.dark .glass-hover:hover {
-  @apply bg-white/10;
-}
-
-.light .glass-hover:hover {
-  @apply bg-black/5;
-}
+/* Glass classes are now defined in design-system/styles/globals.css */
 
 .text-gradient {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-[#22c55e];
@@ -196,4 +492,562 @@
 
 .light ::-webkit-scrollbar-thumb:hover {
   background: rgba(100, 100, 100, 0.3);
+}
+
+/* Enhanced Scrollbar Styles for Chat Interface */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.scrollbar-thumb-border::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.scrollbar-thumb-border-secondary::-webkit-scrollbar-thumb {
+  background: hsl(var(--border)) !important;
+}
+
+.scrollbar-thumb-primary\/50::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.5) !important;
+}
+
+.scrollbar-track-transparent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.7);
+}
+
+.scrollbar-thin::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Smooth scroll behavior enhancement */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+/* Chat-specific scroll enhancements */
+.chat-scroll-container {
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+  scroll-padding-bottom: 20px;
+  /* Ensure smooth scrolling on all devices */
+  -webkit-overflow-scrolling: touch;
+  /* Prevent scroll momentum issues */
+  overflow-anchor: auto;
+}
+
+/* Sidebar Anti-Underline Rules */
+.sidebar a,
+.sidebar a *,
+.sidebar-content a,
+.sidebar-content a *,
+aside a,
+aside a *,
+nav a,
+nav a * {
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+  text-underline-offset: unset !important;
+}
+
+.sidebar a:hover,
+.sidebar a:hover *,
+.sidebar-content a:hover,
+.sidebar-content a:hover *,
+aside a:hover,
+aside a:hover *,
+nav a:hover,
+nav a:hover * {
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+  text-underline-offset: unset !important;
+}
+
+/* Futuristic Button Styles */
+.futuristic-button {
+  background: linear-gradient(135deg, var(--primary, #7c3aed) 0%, var(--secondary, #db2777) 100%); 
+  border: none;
+  color: white;
+  transition: all 0.3s ease-in-out;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.futuristic-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15), 0 0 15px var(--secondary, #db2777);
+}
+
+.futuristic-button-outline {
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.futuristic-button-outline:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08); 
+}
+
+/* Animated Gradient for Text */
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 10s ease infinite;
+}
+
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Performance Optimization CSS */
+.is-scrolling .animation-paused,
+.is-scrolling .cosmic-background {
+  animation-play-state: paused !important;
+  transition: none !important;
+}
+
+.is-scrolling .reduce-during-scroll {
+  opacity: 0.7;
+  transform: none !important;
+  transition: opacity 0.1s ease !important;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Fix for Safari GPU rendering issues */
+@supports (-webkit-overflow-scrolling: touch) {
+  .safari-fix {
+    transform: translateZ(0);
+  }
+}
+
+/* Force hardware acceleration for smoother scrolling */
+html, body {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  overscroll-behavior: none;
+}
+
+/* Optimize images that might cause Cumulative Layout Shift */
+img {
+  content-visibility: auto;
+}
+
+/* Add content-visibility to improve rendering performance */
+.offscreen-content {
+  content-visibility: auto;
+  contain: layout style paint;
+}
+
+/* Gradient conic for futuristic effects */
+.bg-gradient-conic {
+  background: conic-gradient(from 0deg at 50% 50%, 
+    var(--tw-gradient-stops, 
+      #7c3aed 0deg, 
+      #3b82f6 90deg, 
+      #06b6d4 180deg, 
+      #7c3aed 270deg, 
+      #7c3aed 360deg
+    )
+  );
+}
+
+/* Ensure proper height inheritance for chat */
+.dashboard-chat-view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fix for dashboard sidebar offset */
+@media (min-width: 768px) {
+  .dashboard-content-area {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Smooth scroll behavior for chat only */
+.chat-messages-container {
+  scroll-behavior: smooth;
+  overscroll-behavior-y: contain;
+}
+
+/* Fix any potential overflow issues */
+html, body {
+  overflow-x: hidden;
+  height: 100%;
+  min-height: 100vh;
+  background-color: hsl(var(--background));
+}
+
+#root {
+  height: 100%;
+  min-height: 100vh;
+  background-color: hsl(var(--background));
+}
+
+/* Enhanced Typing Indicator Animations */
+@keyframes typing-wave {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes typing-glow {
+  0%, 100% {
+    opacity: 0.4;
+    filter: blur(1px);
+  }
+  50% {
+    opacity: 0.8;
+    filter: blur(2px);
+  }
+}
+
+@keyframes typing-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Smooth wave pattern for typing dots */
+.typing-dot-wave {
+  animation: typing-wave 2.4s cubic-bezier(0.36, 0, 0.66, -0.56) infinite;
+}
+
+.typing-dot-glow {
+  animation: typing-glow 2.4s ease-in-out infinite;
+}
+
+.typing-dot-pulse {
+  animation: typing-pulse 2.4s ease-in-out infinite;
+}
+
+/* Stagger the animation delays */
+.typing-dot-delay-1 {
+  animation-delay: 0.15s;
+}
+
+.typing-dot-delay-2 {
+  animation-delay: 0.3s;
+}
+
+.typing-dot-delay-3 {
+  animation-delay: 0.45s;
+}
+
+/* Enhance the sparkle rotation */
+@keyframes sparkle-rotate {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(90deg) scale(1.1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1);
+  }
+  75% {
+    transform: rotate(270deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+.sparkle-animation {
+  animation: sparkle-rotate 8s linear infinite;
+}
+
+/* Portfolio page specific optimizations */
+.portfolio-layout {
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: hsl(var(--background));
+  /* Performance optimizations */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.portfolio-sidebar {
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+  scroll-padding-top: 1rem;
+}
+
+.portfolio-content {
+  scroll-behavior: smooth;
+  overscroll-behavior-y: contain;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: hsl(var(--background));
+}
+
+/* Improved sticky positioning for portfolio sidebars */
+.portfolio-sticky {
+  position: sticky;
+  top: 6rem;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border)) transparent;
+}
+
+.portfolio-sticky::-webkit-scrollbar {
+  width: 6px;
+}
+
+.portfolio-sticky::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.portfolio-sticky::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+
+.portfolio-sticky::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.7);
+}
+
+/* Enhanced card hover effects for portfolio */
+.portfolio-card {
+  transition: all 0.2s ease-in-out;
+  will-change: transform, box-shadow;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dark .portfolio-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Smooth transitions for portfolio layout changes */
+.portfolio-grid {
+  transition: grid-template-columns 0.3s ease;
+  min-height: 100%;
+  display: grid;
+  align-content: start;
+  background-color: hsl(var(--background));
+}
+
+/* Extended width for portfolio sections */
+.portfolio-section-extended {
+  width: 100%;
+  max-width: none;
+}
+
+/* Better responsive behavior for extended sections */
+@media (min-width: 1024px) {
+  .portfolio-content {
+    max-width: none;
+  }
+  
+  .portfolio-section-extended {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* Performance optimizations for portfolio cards */
+.portfolio-card {
+  /* GPU acceleration for smooth animations */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  /* Optimize repaints */
+  contain: layout style paint;
+}
+
+/* Optimize table performance */
+.portfolio-table-container {
+  /* Enable hardware acceleration */
+  transform: translateZ(0);
+  /* Optimize scrolling */
+  -webkit-overflow-scrolling: touch;
+  /* Contain layout changes */
+  contain: layout style;
+}
+
+/* Optimize wallet actions panel */
+.wallet-actions-horizontal {
+  /* GPU acceleration */
+  transform: translateZ(0);
+  /* Contain layout changes */
+  contain: layout style paint;
+}
+
+/* Optimize lazy loading transitions */
+.lazy-loading {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.lazy-loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Optimize skeleton loading animations */
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.skeleton-animate {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+/* Ensure footer stays at bottom */
+.portfolio-layout > *:last-child {
+  margin-top: auto;
+}
+
+/* Better spacing for portfolio content */
+.portfolio-content > div:first-child {
+  padding-bottom: 2rem;
+}
+
+/* Optimized scrolling for portfolio tables */
+.portfolio-table-container {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border)) transparent;
+  width: 100%;
+}
+
+.portfolio-table-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.portfolio-table-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.portfolio-table-container::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+
+.portfolio-table-container::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.7);
+}
+
+/* Extended sections styling */
+.portfolio-section-extended .portfolio-table-container {
+  min-width: 100%;
+}
+
+.portfolio-section-extended table {
+  width: 100%;
+  min-width: 100%;
+}
+
+/* Horizontal wallet actions panel styles */
+.wallet-actions-horizontal {
+  min-height: 400px;
+  width: 100%;
+}
+
+/* Ensure proper spacing for wallet action widgets in horizontal layout */
+.wallet-actions-horizontal .send-crypto-widget,
+.wallet-actions-horizontal .receive-crypto-widget {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.wallet-actions-horizontal .send-crypto-widget > *,
+.wallet-actions-horizontal .receive-crypto-widget > * {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Optimize widget card content for horizontal layout */
+.wallet-actions-horizontal .send-crypto-widget .card-content,
+.wallet-actions-horizontal .receive-crypto-widget .card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Ensure form elements are properly sized in horizontal layout */
+.wallet-actions-horizontal .grid.md\\:grid-cols-2 > * {
+  min-width: 0;
+}
+
+.wallet-actions-horizontal .grid.lg\\:grid-cols-2 > * {
+  min-width: 0;
+}
+
+/* Better responsive behavior for horizontal wallet actions */
+@media (max-width: 1024px) {
+  .wallet-actions-horizontal {
+    min-height: auto;
+  }
+  
+  .wallet-actions-horizontal .grid.lg\\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .wallet-actions-horizontal .grid.md\\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
 }

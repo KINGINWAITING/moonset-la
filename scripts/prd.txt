@@ -1,0 +1,330 @@
+# Moonset Dashboard Redesign PRD
+
+## Project Overview
+Transform the Moonset dashboard into a modern, professional, and futuristic interface that provides an exceptional user experience for crypto portfolio management and MOONSET token interactions.
+
+## Objectives
+- Create a comprehensive design system with reusable components
+- Implement modern, futuristic UI design with glass morphism effects
+- Ensure consistent spacing, alignment, and typography across all pages
+- Optimize for both dark and light themes with smooth transitions
+- Achieve professional-grade performance and accessibility standards
+- Maintain modular, well-documented code architecture
+
+## Technical Requirements
+
+### Design System Foundation
+- Create design tokens for colors, typography, spacing, and shadows
+- Implement 8px base unit spacing system (8, 16, 24, 32, 48, 64, 96px)
+- Professional typography scale using Inter font (12px-48px)
+- Primary color: #7c3aed (purple), Secondary: #06b6d4 (cyan)
+- Advanced glass morphism with subtle gradients and transparency
+
+### Component Architecture
+- Base components: Button, Card, Input, Badge, Container, Grid, Stack
+- Layout components for consistent page structures
+- Composite components: DataCard, StatsWidget, ActionPanel
+- Each component with TypeScript interfaces and comprehensive documentation
+
+### Sidebar Redesign
+- Enhanced visual hierarchy with improved iconography
+- Smooth hover animations with subtle glow effects
+- Professional glass morphism background
+- Mobile-optimized slide transitions
+- Theme-aware color system integration
+
+### Dashboard Pages Enhancement
+- Portfolio page with modern data visualization cards
+- MOONSET token page with enhanced trading interface
+- Community page with modern discussion threads
+- Settings page with organized sections and smooth toggles
+- Consistent page headers with breadcrumbs
+- Responsive grid layouts
+
+### Performance & Accessibility
+- 60fps animations using optimized transforms and opacity
+- Lighthouse performance score >90
+- WCAG 2.1 AA accessibility compliance
+- Cross-browser compatibility
+- Mobile-responsive design for all breakpoints
+
+### Animation System
+- Framer Motion for complex state transitions
+- CSS transitions for simple hover effects
+- Respect prefers-reduced-motion settings
+- Performance-optimized animations
+
+## Implementation Phases
+
+### Phase 1: Foundation
+- Create design system tokens and base CSS
+- Implement core base components (Button, Card, Input)
+- Redesign sidebar with new design system
+- Create layout components (Container, Grid, Stack)
+
+### Phase 2: Core Pages
+- Update Dashboard main page layout
+- Enhance Portfolio page with new components
+- Improve MOONSET token page design
+- Redesign Settings page organization
+
+### Phase 3: Advanced Features
+- Add micro-interactions and animations
+- Create composite dashboard widgets
+- Implement advanced data visualizations
+- Add loading states and error boundaries
+
+### Phase 4: Polish & Optimization
+- Performance optimizations and monitoring
+- Accessibility improvements and testing
+- Mobile responsiveness refinements
+- Cross-browser testing and fixes
+
+## Success Criteria
+- Consistent 8px-based spacing across all components
+- Smooth theme transitions under 300ms
+- Zero accessibility violations in automated testing
+- 100% mobile responsiveness on all breakpoints
+- Comprehensive component documentation
+- Maintainable, modular code architecture
+
+## Technology Stack
+- React 18 with TypeScript
+- Tailwind CSS with custom design tokens
+- Framer Motion for animations
+- CSS Modules for component-specific styles
+- Lucide React for consistent iconography
+
+## File Structure
+```
+src/
+├── design-system/
+│   ├── tokens/ (colors, typography, spacing, shadows)
+│   ├── components/ (base, layout, composite)
+│   └── styles/ (globals, components, utilities)
+├── components/dashboard/ (updated with new design system)
+└── pages/ (redesigned with consistent layouts)
+```
+
+## Quality Standards
+- TypeScript strict mode compliance
+- Comprehensive JSDoc comments
+- Component prop validation
+- Performance monitoring
+- Accessibility testing
+- Cross-browser validation 
+
+# Sophisticated Wallet Connection System - Product Requirements Document
+
+## Project Overview
+Implement a sophisticated, production-ready wallet connection system for the portfolio page that supports the 5 most popular crypto wallets with seamless user experience, proper error handling, and modern best practices.
+
+## Current State Analysis
+The current wallet connection implementation has several issues:
+- Only supports MetaMask through a basic Web3Context
+- Limited error handling and user feedback
+- No support for mobile wallets or WalletConnect protocol
+- Basic UI without proper loading states
+- No wallet detection or fallback mechanisms
+- Missing network switching capabilities for multiple chains
+
+## Target Wallets (Top 5 Most Popular)
+1. **MetaMask** - Browser extension and mobile app (most popular)
+2. **WalletConnect** - Protocol for connecting mobile wallets via QR codes
+3. **Coinbase Wallet** - Popular mobile and browser wallet
+4. **Trust Wallet** - Popular mobile wallet with browser extension
+5. **Phantom Wallet** - Popular for Solana but also supports Ethereum
+
+## Technical Requirements
+
+### Core Technology Stack
+- **Wagmi v2** - Modern React hooks for Ethereum (latest version)
+- **Viem** - TypeScript interface for Ethereum (replaces ethers.js)
+- **TanStack Query** - For caching and state management
+- **WalletConnect v2** - For mobile wallet connections
+- **React** - Frontend framework (existing)
+- **TypeScript** - Type safety (existing)
+
+### Architecture Requirements
+1. **Modular Design**: Each wallet connector should be independently configurable
+2. **Provider Pattern**: Use React Context for global wallet state management
+3. **Hook-based API**: Provide custom hooks for wallet operations
+4. **Error Boundaries**: Implement proper error handling and recovery
+5. **Responsive Design**: Work seamlessly on desktop and mobile
+6. **Accessibility**: Full keyboard navigation and screen reader support
+
+### Functional Requirements
+
+#### Wallet Detection & Connection
+- Automatically detect installed wallet extensions
+- Display available wallet options with proper branding
+- Handle wallet installation prompts for missing wallets
+- Support both browser extension and mobile app connections
+- Implement QR code scanning for mobile wallet connections
+- Provide deep linking for mobile wallet apps
+
+#### User Experience
+- Modern, intuitive wallet selection modal
+- Clear connection status indicators
+- Smooth loading states and animations
+- Proper error messages with actionable solutions
+- One-click disconnect functionality
+- Persistent connection state across page refreshes
+
+#### Network Management
+- Support multiple blockchain networks (Ethereum, Polygon, BSC, Arbitrum)
+- Automatic network switching when required
+- Network mismatch warnings and resolution
+- Gas fee estimation and optimization
+- Transaction status tracking
+
+#### Security Features
+- Secure message signing for authentication
+- Transaction simulation before execution
+- Phishing protection warnings
+- Secure storage of connection preferences
+- Session management and timeout handling
+
+### Technical Implementation Details
+
+#### Wallet Connectors Configuration
+```typescript
+// Support for 5 major wallets
+const connectors = [
+  injected(), // MetaMask and other injected wallets
+  walletConnect({ projectId: 'YOUR_PROJECT_ID' }), // Mobile wallets
+  coinbaseWallet({ appName: 'Axis Mundi' }), // Coinbase Wallet
+  metaMask(), // Dedicated MetaMask connector
+  // Custom Trust Wallet connector
+]
+```
+
+#### Supported Networks
+- Ethereum Mainnet (Chain ID: 1)
+- Polygon (Chain ID: 137)
+- Binance Smart Chain (Chain ID: 56)
+- Arbitrum One (Chain ID: 42161)
+- Base (Chain ID: 8453)
+
+#### State Management
+- Global wallet connection state
+- Account information and balances
+- Network status and switching
+- Transaction history and pending states
+- Error states and recovery mechanisms
+
+### UI/UX Requirements
+
+#### Wallet Selection Modal
+- Grid layout showing all available wallets
+- Wallet logos and names
+- Installation status indicators
+- QR code for mobile connections
+- Recent connections list
+- Help and troubleshooting links
+
+#### Connection Status Display
+- Connected wallet indicator with address
+- Network badge with switching option
+- Balance display (ETH and tokens)
+- Disconnect button
+- Account menu with additional options
+
+#### Error Handling UI
+- Clear error messages with solutions
+- Retry mechanisms for failed connections
+- Network mismatch warnings
+- Transaction failure notifications
+- Offline state handling
+
+### Performance Requirements
+- Initial connection time < 2 seconds
+- Wallet detection < 500ms
+- Network switching < 3 seconds
+- Bundle size impact < 100KB additional
+- Mobile responsiveness on all devices
+
+### Security Requirements
+- No private key storage in application
+- Secure communication with wallet providers
+- Protection against common attack vectors
+- Audit trail for all wallet interactions
+- Compliance with wallet security best practices
+
+### Testing Requirements
+- Unit tests for all wallet connectors
+- Integration tests for connection flows
+- E2E tests for complete user journeys
+- Mobile device testing across platforms
+- Cross-browser compatibility testing
+- Performance testing under load
+
+### Documentation Requirements
+- Developer integration guide
+- User troubleshooting documentation
+- API reference for wallet hooks
+- Security best practices guide
+- Migration guide from current implementation
+
+### Success Metrics
+- 95%+ successful connection rate
+- < 3 second average connection time
+- Support for 99% of users' preferred wallets
+- Zero security incidents
+- Positive user feedback on connection experience
+
+### Implementation Phases
+
+#### Phase 1: Foundation (Week 1)
+- Set up Wagmi v2 and Viem
+- Implement basic wallet detection
+- Create wallet selection modal
+- Basic MetaMask and WalletConnect support
+
+#### Phase 2: Multi-Wallet Support (Week 2)
+- Add Coinbase Wallet connector
+- Implement Trust Wallet support
+- Add Phantom Wallet connector
+- Network switching functionality
+
+#### Phase 3: Enhanced UX (Week 3)
+- Improve error handling and messaging
+- Add loading states and animations
+- Implement persistent connections
+- Mobile optimization
+
+#### Phase 4: Advanced Features (Week 4)
+- Transaction simulation
+- Gas optimization
+- Security enhancements
+- Performance optimization
+
+#### Phase 5: Testing & Documentation (Week 5)
+- Comprehensive testing suite
+- Documentation creation
+- Security audit
+- Performance benchmarking
+
+### Risk Mitigation
+- Fallback mechanisms for wallet failures
+- Graceful degradation for unsupported features
+- Regular security updates and patches
+- Monitoring and alerting for connection issues
+- User education and support resources
+
+### Maintenance & Updates
+- Regular updates to wallet connector libraries
+- Monitoring of new wallet releases
+- Performance optimization based on usage data
+- Security patches and vulnerability fixes
+- User feedback integration and improvements
+
+## Acceptance Criteria
+1. All 5 target wallets connect successfully
+2. Mobile and desktop compatibility verified
+3. Network switching works across all supported chains
+4. Error handling provides clear user guidance
+5. Performance meets specified benchmarks
+6. Security audit passes with no critical issues
+7. Documentation is complete and accurate
+8. User testing shows 90%+ satisfaction rate 

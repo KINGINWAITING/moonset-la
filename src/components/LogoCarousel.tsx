@@ -1,6 +1,7 @@
 
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { CosmicBackground } from "@/components/ui/cosmic-background";
 
 const LogoCarousel = () => {
   // Replace logos with avatar images using unsplash placeholder images
@@ -71,7 +72,15 @@ const LogoCarousel = () => {
   const extendedAvatars = [...avatars, ...avatars, ...avatars];
 
   return (
-    <div className="w-full overflow-hidden bg-background/50 backdrop-blur-sm py-12 mt-20">
+    <div className="w-full overflow-hidden bg-transparent backdrop-blur-sm py-12 mt-20 relative">
+      {/* Subtle Cosmic Background */}
+      <CosmicBackground 
+        intensity="subtle" 
+        showOrbs={false}
+        showParticles={true}
+        showGrid={false}
+        showScanning={false}
+      />
       <motion.div 
         className="flex space-x-16"
         initial={{ opacity: 0, x: "0%" }}

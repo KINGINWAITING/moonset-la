@@ -1,53 +1,69 @@
-
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { useWeb3 } from "@/context/Web3Context";
-import { Loader2, Wallet } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useTheme } from "@/context/ThemeContext";
+import React from 'react';
+import { Wallet, ChevronDown } from 'lucide-react';
+import { Button } from '@/design-system/components/base';
+import { useAccount, useConnect, useDisconnect } from '@/context/WagmiProvider';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export const WalletConnectButton = () => {
-  const { account, connecting, connected, connectWallet, disconnectWallet, chainId } = useWeb3();
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const { address, isConnected } = useAccount();
+  const { connect, connectors } = useConnect();
+  const { disconnect } = useDisconnect();
 
   const formatAddress = (address: string) => {
-    return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
-  if (!connected) {
+  if (isConnected && address) {
     return (
-      <Button 
-        onClick={connectWallet}
-        className={`rounded-full flex items-center gap-2 ${
-          isDark 
-            ? "bg-white text-black hover:bg-white/90" 
-            : "bg-black text-white hover:bg-black/90"
-        } transition-colors`}
-        disabled={connecting}
-      >
-        {connecting ? (
-          <>
-            <Loader2 className="mr-1 h-4 w-4 animate-spin" />
-            Connecting...
-          </>
-        ) : (
-          <>
-            <Wallet className="mr-1 h-4 w-4" />
-            Connect Wallet
-          </>
-        )}
-      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="sm" className="gap-2">
+            <Wallet className="h-4 w-4" />
+            {formatAddress(address)}
+            <ChevronDown className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-48">
+          <DropdownMenuItem onClick={() => navigator.clipboard.writeText(address)}>
+            Copy Address
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            View on Explorer
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => disconnect()}>
+            Disconnect
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     );
   }
 
   return (
-    <Button 
-      variant="outline" 
-      className={`rounded-full flex items-center gap-1 glass ${isDark ? "text-white" : "text-black"}`}
-      onClick={disconnectWallet}
-    >
-      <span>{formatAddress(account as string)}</span>
-    </Button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button size="sm" className="gap-2">
+          <Wallet className="h-4 w-4" />
+          Connect Wallet
+          <ChevronDown className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-48">
+        {connectors.map((connector) => (
+          <DropdownMenuItem
+            key={connector.id}
+            onClick={() => connect({ connector })}
+          >
+            {connector.name}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };

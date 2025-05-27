@@ -57,6 +57,15 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Glass morphism colors
+        "glass-bg": "var(--color-glass-bg)",
+        "glass-bg-elevated": "var(--color-glass-bg-hover)",
+        "glass-border": "var(--color-glass-border)",
+        "glass-border-hover": "var(--color-glass-border-hover)",
+        // Design system text colors
+        "text-primary": "var(--color-text-primary)",
+        "text-secondary": "var(--color-text-secondary)",
+        "text-tertiary": "var(--color-text-tertiary)",
       },
       keyframes: {
         marquee: {

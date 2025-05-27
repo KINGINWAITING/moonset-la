@@ -1,0 +1,502 @@
+/**
+ * Global Styles for Moonset Dashboard
+ * 
+ * This file provides the foundational styling including:
+ * - Design token application
+ * - Base element styling
+ * - Theme management
+ * - Global utilities
+ */
+
+/* Import Inter font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ===== ROOT VARIABLES & THEME MANAGEMENT ===== */
+
+/* Default theme (light) CSS variables */
+:root {
+  /* Base Colors */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f8fafc;
+  --color-bg-tertiary: #f1f5f9;
+  --color-bg-inverse: #0f172a;
+  
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #334155;
+  --color-text-tertiary: #64748b;
+  --color-text-inverse: #ffffff;
+  --color-text-disabled: #94a3b8;
+  
+  --color-border-primary: #e2e8f0;
+  --color-border-secondary: #cbd5e1;
+  --color-border-focus: #7c3aed;
+  --color-border-error: #ef4444;
+  
+  --color-interactive-primary: #7c3aed;
+  --color-interactive-primary-hover: #6d28d9;
+  --color-interactive-primary-active: #5b21b6;
+  --color-interactive-secondary: #06b6d4;
+  --color-interactive-secondary-hover: #0891b2;
+  --color-interactive-secondary-active: #0e7490;
+  
+  --color-status-success: #22c55e;
+  --color-status-warning: #f59e0b;
+  --color-status-error: #ef4444;
+  --color-status-info: #06b6d4;
+  
+  /* Glass Morphism Colors */
+  --color-glass-bg: rgba(255, 255, 255, 0.9);
+  --color-glass-bg-hover: rgba(255, 255, 255, 0.95);
+  --color-glass-border: rgba(255, 255, 255, 0.2);
+  --color-glass-border-hover: rgba(255, 255, 255, 0.3);
+  --color-glass-shadow: rgba(0, 0, 0, 0.1);
+  
+  /* Brand Colors */
+  --color-primary-50: #f3f0ff;
+  --color-primary-500: #7c3aed;
+  --color-primary-600: #6d28d9;
+  --color-secondary-50: #f0fdff;
+  --color-secondary-500: #06b6d4;
+  --color-secondary-600: #0891b2;
+  
+  /* Typography */
+  --font-family-primary: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', Monaco, Consolas, 'Courier New', monospace;
+  --font-family-display: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2rem;
+  --font-size-5xl: 2.25rem;
+  --font-size-6xl: 3rem;
+  
+  /* Spacing */
+  --spacing-0: 0px;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-24: 6rem;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.06);
+  --shadow-glass-subtle: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.08);
+  --shadow-glass-glow: 0 0 20px rgba(124, 58, 237, 0.15), 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+  
+  /* Animations */
+  --animation-duration-fast: 150ms;
+  --animation-duration-normal: 250ms;
+  --animation-duration-slow: 350ms;
+  --animation-easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --animation-easing-snappy: cubic-bezier(0.4, 0, 0.6, 1);
+  
+  /* Border Radius */
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.375rem;
+  --border-radius-lg: 0.5rem;
+  --border-radius-xl: 0.75rem;
+  --border-radius-2xl: 1rem;
+  
+  /* Z-Index Scale */
+  --z-index-dropdown: 100;
+  --z-index-sticky: 200;
+  --z-index-overlay: 300;
+  --z-index-modal: 400;
+  --z-index-popover: 500;
+  --z-index-tooltip: 600;
+}
+
+/* Dark theme overrides */
+:root[data-theme="dark"],
+.dark {
+  --color-bg-primary: #0f172a;
+  --color-bg-secondary: #1e293b;
+  --color-bg-tertiary: #334155;
+  --color-bg-inverse: #ffffff;
+  
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #e2e8f0;
+  --color-text-tertiary: #94a3b8;
+  --color-text-inverse: #0f172a;
+  --color-text-disabled: #475569;
+  
+  --color-border-primary: #334155;
+  --color-border-secondary: #475569;
+  --color-border-focus: #9670ff;
+  --color-border-error: #f87171;
+  
+  --color-interactive-primary: #9670ff;
+  --color-interactive-primary-hover: #b8a3ff;
+  --color-interactive-primary-active: #d6ccff;
+  --color-interactive-secondary: #06d6f7;
+  --color-interactive-secondary-hover: #4ceaff;
+  --color-interactive-secondary-active: #99f6ff;
+  
+  --color-status-success: #4ade80;
+  --color-status-warning: #fbbf24;
+  --color-status-error: #f87171;
+  --color-status-info: #06d6f7;
+  
+  /* Dark Glass Morphism */
+  --color-glass-bg: rgba(15, 23, 42, 0.8);
+  --color-glass-bg-hover: rgba(15, 23, 42, 0.9);
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+  --color-glass-border-hover: rgba(255, 255, 255, 0.2);
+  --color-glass-shadow: rgba(0, 0, 0, 0.3);
+  
+  /* Dark Shadows */
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+  --shadow-glass-subtle: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  --shadow-glass-glow: 0 0 20px rgba(124, 58, 237, 0.25), 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== BASE ELEMENT STYLES ===== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-base);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  transition: color var(--animation-duration-normal) var(--animation-easing-smooth),
+              background-color var(--animation-duration-normal) var(--animation-easing-smooth);
+  
+  /* Prevent horizontal scroll */
+  overflow-x: hidden;
+  
+  /* Better text rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus management for accessibility */
+:focus {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ===== TYPOGRAPHY STYLES ===== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--font-size-4xl);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-size: var(--font-size-3xl);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+h3 {
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+}
+
+h4 {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+}
+
+h5 {
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+}
+
+h6 {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+}
+
+p {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+a {
+  color: var(--color-interactive-primary);
+  text-decoration: none;
+  transition: color var(--animation-duration-fast) var(--animation-easing-smooth);
+}
+
+a:hover {
+  color: var(--color-interactive-primary-hover);
+  text-decoration: underline;
+}
+
+code {
+  font-family: var(--font-family-mono);
+  font-size: 0.875em;
+  padding: 0.125rem 0.25rem;
+  background-color: var(--color-bg-tertiary);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-text-primary);
+}
+
+pre {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  line-height: 1.625;
+  padding: var(--spacing-4);
+  background-color: var(--color-bg-tertiary);
+  border-radius: var(--border-radius-lg);
+  overflow-x: auto;
+  color: var(--color-text-primary);
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+/* Glass morphism utility */
+.glass {
+  background: var(--color-glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-glass-border);
+  box-shadow: var(--shadow-glass-subtle);
+  transition: all var(--animation-duration-normal) var(--animation-easing-smooth);
+}
+
+.glass:hover {
+  background: var(--color-glass-bg-hover);
+  border-color: var(--color-glass-border-hover);
+  box-shadow: var(--shadow-glass-glow);
+}
+
+/* Enhanced glass morphism utilities */
+.glass-elevated {
+  background: var(--color-glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-glass-border);
+  box-shadow: var(--shadow-glass-glow);
+  transition: all var(--animation-duration-normal) var(--animation-easing-smooth);
+}
+
+/* Glass background utilities */
+.bg-glass-bg {
+  background-color: var(--color-glass-bg);
+}
+
+.bg-glass-bg-elevated {
+  background-color: var(--color-glass-bg-hover);
+}
+
+/* Opacity variations handled by Tailwind arbitrary values (e.g., bg-glass-bg/30) */
+
+/* Glass border utilities */
+.border-glass-border {
+  border-color: var(--color-glass-border);
+}
+
+.border-glass-border-hover {
+  border-color: var(--color-glass-border-hover);
+}
+
+/* Glass shadow utilities */
+.shadow-glass-subtle {
+  box-shadow: var(--shadow-glass-subtle);
+}
+
+.shadow-glass-glow {
+  box-shadow: var(--shadow-glass-glow);
+}
+
+/* Container utility */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: var(--spacing-6);
+    padding-right: var(--spacing-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: var(--spacing-8);
+    padding-right: var(--spacing-8);
+  }
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ===== ANIMATIONS & TRANSITIONS ===== */
+
+/* Smooth theme transitions */
+* {
+  transition-property: color, background-color, border-color, box-shadow;
+  transition-duration: var(--animation-duration-normal);
+  transition-timing-function: var(--animation-easing-smooth);
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-primary);
+  border-radius: var(--border-radius-xl);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-secondary);
+}
+
+/* Firefox scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-primary) var(--color-bg-secondary);
+}
+
+/* ===== SELECTION STYLING ===== */
+
+::selection {
+  background-color: var(--color-interactive-primary);
+  color: var(--color-text-inverse);
+}
+
+::-moz-selection {
+  background-color: var(--color-interactive-primary);
+  color: var(--color-text-inverse);
+}
+
+/* ===== FORM ELEMENT BASE STYLES ===== */
+
+input, textarea, select, button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled,
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===== RESPONSIVE IMPROVEMENTS ===== */
+
+/* Prevent zoom on iOS */
+@media screen and (max-width: 768px) {
+  input[type="color"],
+  input[type="date"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="email"],
+  input[type="month"],
+  input[type="number"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="text"],
+  input[type="time"],
+  input[type="url"],
+  input[type="week"],
+  select:focus,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+  
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+} 

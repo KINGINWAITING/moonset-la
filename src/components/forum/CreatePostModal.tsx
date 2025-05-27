@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -6,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, AlertCircle } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { ForumCategory } from "@/types/forum";
@@ -50,18 +51,20 @@ export const CreatePostModal = ({
       const { error: insertError } = await supabase
         .from('forum_posts')
         .insert({
-          title,
-          content,
+          title: title.trim(),
+          content: content.trim(),
           category_id: categoryId,
           user_id: session.user.id
         });
 
       if (insertError) throw insertError;
       
+      // Reset form
       setTitle('');
       setContent('');
       setCategoryId('');
       onPostCreated();
+      onClose();
     } catch (err: any) {
       console.error('Error creating post:', err);
       setError(err.message || 'Failed to create post');
@@ -70,27 +73,54 @@ export const CreatePostModal = ({
     }
   };
 
+  const handleClose = () => {
+    if (!isSubmitting) {
+      setTitle('');
+      setContent('');
+      setCategoryId('');
+      setError('');
+      onClose();
+    }
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[550px] bg-[#121212] border-gray-800">
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Create New Discussion</DialogTitle>
+          <DialogTitle className="text-xl font-semibold">Create New Discussion</DialogTitle>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
-            <div className="bg-red-900/30 border border-red-900 text-red-300 px-4 py-2 rounded-md text-sm">
-              {error}
-            </div>
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
           )}
-          
+
           <div className="space-y-2">
-            <Label htmlFor="category">Category</Label>
-            <Select value={categoryId} onValueChange={setCategoryId}>
-              <SelectTrigger className="bg-[#1A1A1A] border-gray-800">
+            <Label htmlFor="title" className="text-sm font-medium">
+              Title
+            </Label>
+            <Input
+              id="title"
+              placeholder="What would you like to discuss?"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              disabled={isSubmitting}
+              className="text-base"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="category" className="text-sm font-medium">
+              Category
+            </Label>
+            <Select value={categoryId} onValueChange={setCategoryId} disabled={isSubmitting}>
+              <SelectTrigger>
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
-              <SelectContent className="bg-[#1A1A1A] border-gray-800">
+              <SelectContent>
                 {categories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
                     {category.name}
@@ -99,35 +129,40 @@ export const CreatePostModal = ({
               </SelectContent>
             </Select>
           </div>
-          
+
           <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
-            <Input
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Discussion title"
-              className="bg-[#1A1A1A] border-gray-800"
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="content">Content</Label>
+            <Label htmlFor="content" className="text-sm font-medium">
+              Content
+            </Label>
             <Textarea
               id="content"
+              placeholder="Share your thoughts, ask questions, or start a discussion..."
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="Write your post..."
-              className="min-h-[150px] bg-[#1A1A1A] border-gray-800"
+              disabled={isSubmitting}
+              rows={8}
+              className="text-base resize-none"
             />
+            <p className="text-xs text-muted-foreground">
+              {content.length}/2000 characters
+            </p>
           </div>
-          
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
+
+          <DialogFooter className="gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleClose}
+              disabled={isSubmitting}
+            >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Posting...' : 'Post Discussion'}
+            <Button
+              type="submit"
+              disabled={isSubmitting || !title.trim() || !content.trim() || !categoryId}
+            >
+              {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isSubmitting ? 'Creating...' : 'Create Discussion'}
             </Button>
           </DialogFooter>
         </form>

@@ -1,44 +1,49 @@
-
 import { useState, useEffect } from "react";
-import { ethers } from "ethers";
 import { supabase } from "@/integrations/supabase/client";
 import { CryptoPortfolio } from "@/types/supabase";
-import { useWeb3 } from "@/context/Web3Context";
+import { useAccount, useBalance } from "@/context/WagmiProvider";
 
 export const usePortfolioData = (userId: string | undefined) => {
-  const { account, connected, provider } = useWeb3();
+  const { address, isConnected } = useAccount();
+  const { data: balance } = useBalance({ address });
   const [portfolio, setPortfolio] = useState<CryptoPortfolio[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [walletBalance, setWalletBalance] = useState<string>("0");
+  const [error, setError] = useState<string | null>(null);
 
   // Fetch portfolio data
   useEffect(() => {
     const fetchPortfolio = async () => {
-      if (!userId) return;
+      if (!userId) {
+        setIsLoading(false);
+        return;
+      }
       
       try {
-        const { data, error } = await supabase
+        setError(null);
+        const { data, error: fetchError } = await supabase
           .from('crypto_portfolio')
           .select('*')
           .eq('user_id', userId);
           
-        if (error) {
-          throw error;
+        if (fetchError) {
+          throw fetchError;
         }
         
         // Convert database rows to CryptoPortfolio type
-        const portfolioData = data.map(item => ({
+        const portfolioData = data?.map(item => ({
           id: item.id,
           cryptocurrency: item.cryptocurrency,
           amount: item.amount.toString(),
           purchase_price: item.purchase_price.toString(),
           user_id: item.user_id,
-          purchase_date: item.purchase_date || undefined
-        }));
+          purchase_date: item.purchase_date || undefined,
+          change24h: 0 // Default value for 24h change
+        })) || [];
         
         setPortfolio(portfolioData);
       } catch (error) {
         console.error("Error fetching portfolio:", error);
+        setError(error instanceof Error ? error.message : "Failed to fetch portfolio data");
       } finally {
         setIsLoading(false);
       }
@@ -48,31 +53,19 @@ export const usePortfolioData = (userId: string | undefined) => {
   }, [userId]);
 
   // Fetch wallet balance
-  useEffect(() => {
-    const fetchWalletBalance = async () => {
-      if (connected && provider && account) {
-        try {
-          const balance = await provider.getBalance(account);
-          setWalletBalance(ethers.utils.formatEther(balance));
-        } catch (error) {
-          console.error("Error fetching wallet balance:", error);
-        }
-      }
-    };
-
-    fetchWalletBalance();
-  }, [connected, provider, account]);
+  // Wallet balance is now handled by the useBalance hook
 
   // Create wallet-based portfolio data
-  const walletPortfolio: CryptoPortfolio[] = connected && account 
+  const walletPortfolio: CryptoPortfolio[] = isConnected && address 
     ? [
         {
           id: "wallet-eth",
           cryptocurrency: "ETH",
-          amount: walletBalance,
+          amount: balance ? balance.formatted : "0",
           purchase_price: "1",
           user_id: userId || "",
           purchase_date: new Date().toISOString(),
+          change24h: 0 // Default value for 24h change
         },
         ...portfolio
       ] 
@@ -80,13 +73,15 @@ export const usePortfolioData = (userId: string | undefined) => {
   
   // Calculate portfolio statistics from wallet data
   const totalValue = walletPortfolio.reduce((sum, item) => {
-    return sum + (Number(item.amount) * Number(item.purchase_price));
+    const amount = Number(item.amount) || 0;
+    const price = Number(item.purchase_price) || 0;
+    return sum + (amount * price);
   }, 0);
   
   // Chart data from wallet
   const chartData = walletPortfolio.map(crypto => ({
     name: crypto.cryptocurrency,
-    value: Number(crypto.amount) * Number(crypto.purchase_price)
+    value: (Number(crypto.amount) || 0) * (Number(crypto.purchase_price) || 0)
   }));
   
   // Recent transactions using wallet data
@@ -95,6 +90,7 @@ export const usePortfolioData = (userId: string | undefined) => {
   return {
     portfolio,
     isLoading,
+    error,
     walletPortfolio,
     totalValue,
     chartData,

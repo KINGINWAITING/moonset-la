@@ -1,8 +1,6 @@
-
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { NavigationItems } from "./NavigationItems";
-import { useNavigate } from "react-router-dom";
 
 interface DesktopMenuProps {
   handleDashboardClick: (e: React.MouseEvent) => void;
@@ -11,6 +9,7 @@ interface DesktopMenuProps {
   isLoggedIn: boolean;
   isScrolled?: boolean;
   onOpenAuthModal: () => void;
+  theme: string;
 }
 
 export const DesktopMenu = ({
@@ -20,43 +19,38 @@ export const DesktopMenu = ({
   isLoggedIn,
   isScrolled = false,
   onOpenAuthModal,
+  theme,
 }: DesktopMenuProps) => {
-  const navigate = useNavigate();
 
   return (
-    <div className="hidden md:flex items-center gap-6">
+    <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
       <NavigationItems 
         scrollToSection={scrollToSection} 
         isScrolled={isScrolled}
       />
       
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 lg:gap-3">
         <ThemeToggle />
         
-        <Button 
-          size="sm" 
-          variant="outline" 
-          className="mr-2" 
-          onClick={handleDashboardClick}
-        >
-          Dashboard
-        </Button>
+        {!isLoggedIn && (
+          <Button 
+            size="sm" 
+            variant={isScrolled ? "ghost" : "outline"} 
+            className={`transition-colors duration-200 ${isScrolled ? (theme === "dark" ? "hover:bg-slate-700" : "hover:bg-gray-200") : "futuristic-button-outline"}`}
+            onClick={onOpenAuthModal}
+          >
+            Sign In
+          </Button>
+        )}
         
-        {isLoggedIn ? (
+        {isLoggedIn && (
           <Button 
             onClick={handleSignOut}
             size="sm"
-            variant="destructive"
+            variant={isScrolled ? "ghost" : "outline"}
+            className={`transition-colors duration-200 ${isScrolled ? (theme === "dark" ? "text-red-400 hover:bg-red-500/20" : "text-red-500 hover:bg-red-100") : (theme === "dark" ? "border-red-500/50 text-red-400 hover:bg-red-500/20" : "border-red-500/50 text-red-500 hover:bg-red-100")}`}
           >
             Sign Out
-          </Button>
-        ) : (
-          <Button 
-            onClick={onOpenAuthModal}
-            size="sm"
-            className="button-gradient"
-          >
-            Sign In
           </Button>
         )}
       </div>

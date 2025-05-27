@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { User, Session } from "@/types/supabase";
@@ -7,8 +6,11 @@ import { useToast } from "@/hooks/use-toast";
 interface AuthContextType {
   session: Session;
   signUp: (email: string, password: string) => Promise<void>;
-  signIn: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string, rememberMe?: boolean) => Promise<void>;
   signOut: () => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
+  updatePassword: (newPassword: string) => Promise<void>;
+  isResettingPassword: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -37,12 +39,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isLoggedIn: false,
     isLoading: true,
   });
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
     // First, set up the auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, supabaseSession) => {
+      async (event, supabaseSession) => {
         if (supabaseSession) {
           const user: User = {
             id: supabaseSession.user.id,
@@ -55,11 +58,51 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             isLoading: false,
           });
           
+          // Handle password reset completion
+          if (event === 'PASSWORD_RECOVERY') {
+            setIsResettingPassword(true);
+          }
+
           // Defer data fetching to prevent deadlocks
           if (event === 'SIGNED_IN') {
-            setTimeout(() => {
-              // Here you could fetch additional user data if needed
-              console.log('User signed in, session established');
+            setTimeout(async () => {
+              try {
+                // Fetch user profile
+                const { data: profile, error: profileError } = await supabase
+                  .from('profiles')
+                  .select('*')
+                  .eq('id', user.id)
+                  .single();
+
+                if (profileError) throw profileError;
+
+                // Update session with profile data
+                if (profile) {
+                  setSession(prev => ({
+                    ...prev,
+                    user: {
+                      ...prev.user!,
+                      username: profile.username || prev.user!.email,
+                      avatarUrl: profile.avatar_url,
+                    }
+                  }));
+                } else {
+                  // Create profile if it doesn't exist
+                  const { error: insertError } = await supabase
+                    .from('profiles')
+                    .insert([
+                      {
+                        id: user.id,
+                        username: user.email,
+                        created_at: new Date().toISOString(),
+                      }
+                    ]);
+
+                  if (insertError) throw insertError;
+                }
+              } catch (error) {
+                console.error('Error fetching/creating user profile:', error);
+              }
             }, 0);
           }
         } else {
@@ -108,15 +151,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         await supabase.auth.signOut({ scope: 'global' });
       } catch (error) {
-        // Continue even if this fails
+        console.log('Pre-signout failed (non-critical):', error);
       }
       
-      const { error } = await supabase.auth.signUp({
+      console.log('Attempting sign up with email:', email);
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth`,
+        }
       });
       
       if (error) {
+        console.error('Sign up error:', error);
         toast({
           title: "Sign up failed",
           description: error.message,
@@ -124,18 +172,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
         throw error;
       }
+
+      console.log('Sign up response:', data);
       
-      toast({
-        title: "Sign up successful",
-        description: "Please check your email for verification instructions.",
-      });
+      // Check if email confirmation is required
+      if (data.session === null && data.user?.identities?.length === 0) {
+        toast({
+          title: "Email verification required",
+          description: "Please check your email for verification instructions.",
+        });
+      } else {
+        toast({
+          title: "Sign up successful",
+          description: "Your account has been created successfully.",
+        });
+      }
     } catch (error: any) {
-      console.error("Sign up error:", error);
+      console.error("Sign up error details:", {
+        message: error.message,
+        status: error.status,
+        stack: error.stack,
+      });
       throw error;
     }
   };
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (email: string, password: string, rememberMe: boolean = false) => {
     try {
       // Clean up existing auth state
       cleanupAuthState();
@@ -144,15 +206,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         await supabase.auth.signOut({ scope: 'global' });
       } catch (error) {
-        // Continue even if this fails
+        console.log('Pre-signout failed (non-critical):', error);
       }
       
-      const { error } = await supabase.auth.signInWithPassword({
+      console.log('Attempting sign in with email:', email);
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
+        options: {
+          // Set session duration based on remember me
+          // 1 hour if not remembered, 30 days if remembered
+          persistSession: rememberMe,
+        }
       });
       
       if (error) {
+        console.error('Sign in error:', error);
         toast({
           title: "Sign in failed",
           description: error.message,
@@ -160,11 +229,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
         throw error;
       }
+
+      console.log('Sign in successful, session:', data.session);
       
-      // Consider using a page refresh for a clean state
-      // window.location.href = '/dashboard';
+      // Update local session immediately
+      if (data.session) {
+        const user: User = {
+          id: data.session.user.id,
+          email: data.session.user.email,
+          username: data.session.user.email,
+        };
+        setSession({
+          user,
+          isLoggedIn: true,
+          isLoading: false,
+        });
+      }
     } catch (error: any) {
-      console.error("Sign in error:", error);
+      console.error("Sign in error details:", {
+        message: error.message,
+        status: error.status,
+        stack: error.stack,
+      });
       throw error;
     }
   };
@@ -181,9 +267,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         title: "Signed out",
         description: "You've been successfully signed out.",
       });
-      
-      // Consider using a page refresh for a clean state
-      // window.location.href = '/auth';
     } catch (error: any) {
       console.error("Sign out error:", error);
       toast({
@@ -194,8 +277,69 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const resetPassword = async (email: string) => {
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+
+      if (error) {
+        toast({
+          title: "Password reset failed",
+          description: error.message,
+          variant: "destructive",
+        });
+        throw error;
+      }
+
+      toast({
+        title: "Password reset email sent",
+        description: "Please check your email for password reset instructions.",
+      });
+    } catch (error: any) {
+      console.error("Password reset error:", error);
+      throw error;
+    }
+  };
+
+  const updatePassword = async (newPassword: string) => {
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (error) {
+        toast({
+          title: "Password update failed",
+          description: error.message,
+          variant: "destructive",
+        });
+        throw error;
+      }
+
+      setIsResettingPassword(false);
+      toast({
+        title: "Password updated",
+        description: "Your password has been successfully updated.",
+      });
+    } catch (error: any) {
+      console.error("Password update error:", error);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ session, signUp, signIn, signOut }}>
+    <AuthContext.Provider 
+      value={{ 
+        session, 
+        signUp, 
+        signIn, 
+        signOut,
+        resetPassword,
+        updatePassword,
+        isResettingPassword,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

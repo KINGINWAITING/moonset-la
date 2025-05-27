@@ -1,103 +1,119 @@
-
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, AlertCircle, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { Session } from "@/types/supabase";
+import { AuthSession } from "@/types/auth";
 
 interface CommentFormProps {
   postId: string;
-  session: Session;
+  session: AuthSession;
   onCommentAdded: () => void;
 }
 
 export const CommentForm = ({ postId, session, onCommentAdded }: CommentFormProps) => {
-  const [newComment, setNewComment] = useState('');
-  const [isSubmittingComment, setIsSubmittingComment] = useState(false);
-  const { toast } = useToast();
+  const [content, setContent] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmitComment = async () => {
-    if (!newComment.trim()) return;
-    if (!session.isLoggedIn || !session.user) {
-      toast({
-        title: "Authentication Required",
-        description: "You must be logged in to comment",
-        variant: "destructive",
-      });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    
+    if (!content.trim()) {
+      setError('Please enter a comment');
       return;
     }
 
-    setIsSubmittingComment(true);
+    if (!session.isLoggedIn || !session.user) {
+      setError('You must be logged in to comment');
+      return;
+    }
+
+    setIsSubmitting(true);
+
     try {
-      const { error } = await supabase
+      const { error: insertError } = await supabase
         .from('forum_comments')
         .insert({
-          content: newComment,
+          content: content.trim(),
           post_id: postId,
           user_id: session.user.id
         });
 
-      if (error) throw error;
+      if (insertError) throw insertError;
       
-      setNewComment('');
+      setContent('');
       onCommentAdded();
-      toast({
-        title: "Comment Added",
-        description: "Your comment has been added successfully",
-      });
-    } catch (error) {
-      console.error('Error adding comment:', error);
-      toast({
-        title: "Error",
-        description: "Failed to add your comment",
-        variant: "destructive",
-      });
+    } catch (err: any) {
+      console.error('Error creating comment:', err);
+      setError(err.message || 'Failed to post comment');
     } finally {
-      setIsSubmittingComment(false);
+      setIsSubmitting(false);
     }
   };
 
   if (!session.isLoggedIn) {
     return (
-      <Card className="bg-[#121212] border-gray-800">
-        <CardContent className="py-4">
-          <div className="text-center">
-            <p className="mb-2">You need to be logged in to comment</p>
-            <Button asChild>
-              <Link to="/">
-                Sign In
-              </Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="text-center py-6 border border-border rounded-lg bg-muted/30">
+        <p className="text-muted-foreground mb-4">
+          Please log in to join the discussion
+        </p>
+        <Button variant="outline" size="sm">
+          Sign In
+        </Button>
+      </div>
     );
   }
 
   return (
-    <Card className="bg-[#121212] border-gray-800">
-      <CardHeader>
-        <CardTitle className="text-lg">Add a comment</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Textarea
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Write your comment..."
-          className="min-h-[100px] bg-[#1A1A1A] border-gray-800"
-        />
-      </CardContent>
-      <CardFooter className="flex justify-end">
-        <Button 
-          onClick={handleSubmitComment}
-          disabled={isSubmittingComment || !newComment.trim()}
-        >
-          {isSubmittingComment ? 'Submitting...' : 'Post Comment'}
-        </Button>
-      </CardFooter>
-    </Card>
+    <div className="border border-border rounded-lg p-4 bg-background">
+      <div className="flex gap-4">
+        <Avatar className="h-8 w-8 flex-shrink-0">
+          <AvatarImage src={session.user?.avatarUrl || ''} />
+          <AvatarFallback className="text-xs">
+            {session.user?.username?.charAt(0).toUpperCase() || 
+             session.user?.email?.charAt(0).toUpperCase() || 'U'}
+          </AvatarFallback>
+        </Avatar>
+        
+        <form onSubmit={handleSubmit} className="flex-1 space-y-3">
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+          
+          <Textarea
+            placeholder="Share your thoughts..."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            disabled={isSubmitting}
+            rows={3}
+            className="resize-none border-muted-foreground/20 focus:border-primary/50"
+          />
+          
+          <div className="flex items-center justify-between">
+            <p className="text-xs text-muted-foreground">
+              {content.length}/1000 characters
+            </p>
+            
+            <Button
+              type="submit"
+              size="sm"
+              disabled={isSubmitting || !content.trim()}
+              className="gap-2"
+            >
+              {isSubmitting && <Loader2 className="h-3 w-3 animate-spin" />}
+              {!isSubmitting && <Send className="h-3 w-3" />}
+              {isSubmitting ? 'Posting...' : 'Reply'}
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };

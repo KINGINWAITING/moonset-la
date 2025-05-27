@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "dark" | "light";
@@ -27,9 +26,6 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     
     // Apply transition class for smooth theme changes
     root.classList.add("theme-transition");
-    
-    // Update background color
-    root.style.backgroundColor = theme === "dark" ? "#060606" : "#ffffff";
     
     // Save the theme in localStorage
     localStorage.setItem("theme", theme);

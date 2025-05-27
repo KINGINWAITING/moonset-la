@@ -1,0 +1,177 @@
+# MoonSet IDO Page Refactoring - Product Requirements Document
+
+## Project Overview
+Refactor the MoonSet Token page to match the Portfolio page's professional, minimalistic design aesthetic while creating an intuitive IDO (Initial Decentralized Exchange Offering) interface for users to participate in the MOONSET token launch.
+
+## Design Philosophy & Requirements
+- **Professional Minimalism**: Clean lines, ample whitespace, sophisticated typography (matching Portfolio page)
+- **Content-First**: Focus on clear IDO steps and user guidance
+- **Modern Dashboard UX**: Inspired by platforms like Linear, GitHub, and professional trading interfaces
+- **Step-by-Step UX**: Clear numbered steps with progress indicators
+- **Responsive Design**: Works seamlessly across all devices
+- **Accessibility**: WCAG compliant with proper focus states and high contrast
+
+## Core Features & Requirements
+
+### 1. Layout Architecture (Portfolio-Style)
+- **Three-Column Layout System**:
+  - Left: IDO Navigation and Progress Sidebar (280px)
+  - Center: Main IDO Content with step-by-step interface (fluid)
+  - Right: Token Stats and Activity Sidebar (240px)
+- **Clean Header**: Breadcrumb navigation, essential actions, wallet connection status
+- **Table-Style Data Display**: Replace card-heavy design with clean tables
+- **Minimal Design**: Subtle borders, no heavy gradients or glass effects
+
+### 2. IDO Step-by-Step Interface
+- **Step 1: Wallet Connection**
+  - Clear instructions for connecting wallet
+  - Supported wallet list
+  - Connection status indicator
+  - Network verification (ensure correct chain)
+
+- **Step 2: Token Information**
+  - MOONSET token details table
+  - Tokenomics breakdown
+  - Launch timeline
+  - Contract address verification
+
+- **Step 3: Purchase Interface**
+  - Integrated Uniswap widget (default UI/UX)
+  - Clear swap interface (ETH/USDC to MOONSET)
+  - Transaction preview
+  - Gas fee estimation
+  - Slippage settings
+
+- **Step 4: Transaction Confirmation**
+  - Transaction status tracking
+  - Success/failure states
+  - Transaction hash display
+  - Next steps guidance
+
+### 3. Component Structure
+- **IDOLayout.tsx**: Main layout wrapper (based on PortfolioLayout)
+- **IDOHeader.tsx**: Clean header with breadcrumbs and actions
+- **IDOSidebar.tsx**: Left sidebar with progress and navigation
+- **IDOStepGuide.tsx**: Step-by-step interface component
+- **TokenInfoTable.tsx**: Professional token details table
+- **UniswapIntegration.tsx**: Uniswap widget integration
+- **IDOActivitySidebar.tsx**: Right sidebar with stats and activity
+- **TransactionTracker.tsx**: Transaction status component
+
+### 4. Information Architecture
+- **Token Details Section**:
+  - Token name, symbol, total supply
+  - Contract address with copy function
+  - Decimals, network information
+  - Launch date and time
+  - Initial price and market cap
+
+- **How to Buy Section**:
+  - Step-by-step instructions
+  - Visual progress indicators
+  - Required wallet setup
+  - Minimum/maximum purchase amounts
+
+- **Tokenomics Section**:
+  - Token distribution breakdown
+  - Vesting schedules
+  - Utility and use cases
+  - Roadmap highlights
+
+- **FAQ Section**:
+  - Common questions about IDO
+  - Technical requirements
+  - Troubleshooting guide
+  - Support contact information
+
+### 5. Uniswap Integration Requirements
+- **Default Uniswap Widget**: Use official Uniswap widget with default styling
+- **Token Configuration**: Pre-configure MOONSET token address
+- **Supported Pairs**: ETH/MOONSET, USDC/MOONSET
+- **Widget Placement**: Integrated into Step 3 of the IDO process
+- **Responsive Design**: Widget adapts to container size
+- **Error Handling**: Clear error messages for failed transactions
+
+### 6. User Experience Flow
+1. **Landing**: User arrives at IDO page, sees clear overview
+2. **Education**: User reads token information and instructions
+3. **Preparation**: User connects wallet and verifies network
+4. **Purchase**: User uses Uniswap widget to swap for MOONSET
+5. **Confirmation**: User sees transaction status and next steps
+6. **Follow-up**: User can track their purchase and get support
+
+### 7. Technical Requirements
+- **Framework**: React with TypeScript
+- **Styling**: Tailwind CSS with design system tokens
+- **State Management**: React hooks and context
+- **Wallet Integration**: Wagmi for wallet connections
+- **Uniswap Integration**: Official Uniswap widget
+- **Performance**: Lazy loading for heavy components
+- **Error Handling**: Comprehensive error boundaries
+- **Accessibility**: ARIA labels and keyboard navigation
+
+### 8. Design System Alignment
+- **Typography**: Consistent with Portfolio page font weights and sizes
+- **Colors**: Minimal palette with subtle accents, high contrast
+- **Spacing**: 4px base unit with 8px increments (using spacing tokens)
+- **Components**: Reuse existing UI components where possible
+- **Animations**: Subtle CSS transitions, no heavy animations
+
+### 9. Content Requirements
+- **Professional Copy**: Clear, concise, and professional language
+- **Legal Disclaimers**: Appropriate risk warnings and disclaimers
+- **Technical Documentation**: Clear instructions for technical users
+- **Support Information**: Contact details and help resources
+- **Social Links**: Links to official social media and community
+
+### 10. Performance & Optimization
+- **Code Splitting**: Lazy load components for better performance
+- **Image Optimization**: Optimized token logos and graphics
+- **Bundle Size**: Minimize JavaScript bundle size
+- **Loading States**: Smooth loading experiences
+- **Error Recovery**: Graceful error handling and recovery
+
+### 11. Security Considerations
+- **Contract Verification**: Display verified contract information
+- **Phishing Protection**: Clear warnings about official contract
+- **Transaction Security**: Secure transaction handling
+- **User Education**: Security best practices information
+
+### 12. Mobile Responsiveness
+- **Mobile-First Design**: Optimized for mobile devices
+- **Touch Interactions**: Touch-friendly interface elements
+- **Responsive Layout**: Adapts to all screen sizes
+- **Performance**: Fast loading on mobile networks
+
+## Success Criteria
+- Professional, clean design matching Portfolio page aesthetic
+- Intuitive step-by-step IDO process
+- Successful Uniswap widget integration
+- High accessibility scores (WCAG AA compliance)
+- Fast loading times (<3 seconds)
+- Zero critical bugs or security issues
+- Positive user feedback on ease of use
+
+## Technical Stack
+- React 18+ with TypeScript
+- Tailwind CSS with design system
+- Wagmi for wallet integration
+- Uniswap Widget for trading
+- Framer Motion for subtle animations
+- React Error Boundary for error handling
+- React Suspense for lazy loading
+
+## Timeline & Milestones
+1. **Planning & Design** (Day 1): Component architecture and design planning
+2. **Layout Implementation** (Day 1-2): Create layout components and structure
+3. **Step Interface** (Day 2-3): Implement step-by-step IDO interface
+4. **Uniswap Integration** (Day 3-4): Integrate and configure Uniswap widget
+5. **Content & Polish** (Day 4-5): Add content, polish design, test functionality
+6. **Testing & Deployment** (Day 5): Final testing and deployment
+
+## Dependencies
+- Existing Portfolio page components (for design reference)
+- Uniswap Widget package
+- MOONSET token configuration
+- Wallet connection infrastructure
+- Design system tokens and components 

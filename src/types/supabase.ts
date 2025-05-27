@@ -1,4 +1,3 @@
-
 import { Database } from "@/integrations/supabase/types";
 
 // Define types based on the generated Database type
@@ -43,4 +42,5 @@ export interface CryptoPortfolio {
   purchase_price: string | number;
   user_id: string;
   purchase_date?: string;
+  change24h?: number; // 24-hour price change percentage
 }

@@ -29,13 +29,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
       {session.isLoggedIn ? (
         children
       ) : (
-        <div className="flex items-center justify-center min-h-screen bg-black text-white">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold mb-4">Authentication Required</h1>
-            <p className="mb-6">You need to sign in to access this page.</p>
-            <Navigate to="/" replace />
-          </div>
-        </div>
+        <Navigate to="/" replace />
       )}
       
       <AuthModal 

@@ -1,8 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { motion } from "framer-motion";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -10,8 +8,36 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
+import { 
+  Container, 
+  DashboardPageHeader, 
+  Grid, 
+  VStack, 
+  HStack,
+  Card, 
+  CardContent, 
+  CardHeader, 
+  CardTitle,
+  Button,
+  Input,
+  Badge
+} from "@/design-system";
+import { 
+  Loader2, 
+  Settings, 
+  User, 
+  Shield, 
+  Bell, 
+  Mail, 
+  Lock, 
+  Camera, 
+  AlertTriangle,
+  LogOut,
+  Save,
+  Edit
+} from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
+import { DashboardFooter } from "./DashboardFooter";
 
 export const SettingsView = () => {
   const { session, signOut } = useAuth();
@@ -333,49 +359,117 @@ export const SettingsView = () => {
 
   if (!session.isLoggedIn) {
     return (
-      <div className="p-6">
-        <Card className={isDark ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"}>
-          <CardContent className="pt-6">
-            <div className="text-center py-12">
-              <h3 className="text-xl font-medium mb-2">Authentication Required</h3>
-              <p className={isDark ? "text-gray-400" : "text-gray-600"} mb-6>Please sign in to access your settings</p>
-              <Button asChild>
-                <a href="/">
-                  Sign In
-                </a>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="min-h-screen"
+      >
+        <Container size="md" spacing="lg">
+          <Card variant="glass" size="default">
+            <CardContent className="text-center py-16">
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                <Shield className="w-16 h-16 mx-auto text-primary mb-6" />
+                <CardTitle as="h2" className="mb-4">
+                  Authentication Required
+                </CardTitle>
+                <p className="text-text-secondary mb-8 max-w-md mx-auto">
+                  Please sign in to access your account settings and manage your profile
+                </p>
+                <Button variant="primary" size="lg" asChild>
+                  <a href="/">
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign In
+                  </a>
+                </Button>
+              </motion.div>
+            </CardContent>
+          </Card>
+        </Container>
+      </motion.div>
     );
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">
-        Account <span className="text-primary">Settings</span>
-      </h1>
-      
-      <Tabs defaultValue="profile">
-        <TabsList className="mb-6">
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
-        </TabsList>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="min-h-screen flex flex-col"
+    >
+      <DashboardPageHeader
+        title={
+          <HStack spacing="default" align="center">
+            <Settings className="w-8 h-8 text-primary" />
+            <span>Account Settings</span>
+            <Badge variant="secondary" size="lg">
+              {session.user?.email?.split('@')[0] || 'User'}
+            </Badge>
+          </HStack>
+        }
+        description="Manage your account preferences, security settings, and profile information."
+        section="Settings"
+      />
+
+      <Container size="xl" spacing="lg" className="flex-1">
         
-        <TabsContent value="profile">
-          <div className="grid grid-cols-1 gap-6">
-            <Card className={isDark ? "bg-[#121212] border-gray-800" : "bg-white border-gray-200"}>
-              <CardHeader>
-                <CardTitle>Profile Settings</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {isLoadingProfile ? (
-                  <div className="flex justify-center py-6">
-                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                  </div>
-                ) : (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <Tabs defaultValue="profile">
+            <Card variant="glass" className="mb-6">
+              <CardContent className="p-2">
+                <TabsList className="w-full grid grid-cols-3">
+                  <TabsTrigger value="profile" className="flex items-center gap-2">
+                    <User className="w-4 h-4" />
+                    Profile
+                  </TabsTrigger>
+                  <TabsTrigger value="account" className="flex items-center gap-2">
+                    <Shield className="w-4 h-4" />
+                    Account
+                  </TabsTrigger>
+                  <TabsTrigger value="notifications" className="flex items-center gap-2">
+                    <Bell className="w-4 h-4" />
+                    Notifications
+                  </TabsTrigger>
+                </TabsList>
+              </CardContent>
+            </Card>
+            
+            <TabsContent value="profile">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Card variant="elevated" size="default">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-3">
+                      <User className="w-6 h-6 text-primary" />
+                      Profile Settings
+                    </CardTitle>
+                    <p className="text-text-secondary">
+                      Manage your personal information and avatar
+                    </p>
+                  </CardHeader>
+                  <CardContent>
+                    {isLoadingProfile ? (
+                      <VStack spacing="lg" align="center" className="py-12">
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        >
+                          <Loader2 className="h-12 w-12 text-primary" />
+                        </motion.div>
+                        <p className="text-text-secondary">Loading profile...</p>
+                      </VStack>
+                    ) : (
                   <>
                     <div className="flex flex-col sm:flex-row gap-6 items-center">
                       <div className="flex flex-col items-center gap-4">
@@ -459,8 +553,8 @@ export const SettingsView = () => {
                 )}
               </CardContent>
             </Card>
-          </div>
-        </TabsContent>
+                  </motion.div>
+                </TabsContent>
         
         <TabsContent value="account">
           <div className="grid grid-cols-1 gap-6">
@@ -609,7 +703,11 @@ export const SettingsView = () => {
             </CardContent>
           </Card>
         </TabsContent>
-      </Tabs>
-    </div>
+          </Tabs>
+        </motion.div>
+      </Container>
+      
+      <DashboardFooter />
+    </motion.div>
   );
 };
